@@ -1153,6 +1153,8 @@ export default function App() {
           {/* Background particles for depth */}
           <MoleculesOverlay count={4} />
 
+          
+
           {/* Floating skill/facts overlay (classic flow with fade) */}
           <div className="absolute inset-0 z-30">
             {(() => {
@@ -1179,11 +1181,23 @@ export default function App() {
 
         {/* Intro split: Left (name + buttons), Right (photo above About) */}
         <div className="mx-auto w-full px-4 sm:px-6 mt-8 sm:mt-10 relative z-20 grid md:grid-cols-2 gap-8 items-start">
+          {/* Constellation background behind name → to start of Skills */}
+          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+            <img
+              src="/constellation.png"
+              alt="Constellation of math/CS/AI icons"
+              className="w-full h-full object-cover opacity-80 sm:opacity-90 mix-blend-screen dark:mix-blend-normal select-none"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
           <div>
-            <h1 className={`font-hand text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText}`}>Hemen — AI/ML, CS, Math, Bioinformatics</h1>
-            <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-              <a href="#projects"><Button className="btn-primary-purple w-full sm:w-auto">See Projects</Button></a>
-              <a href="#contact"><Button className="btn-outline-purple w-full sm:w-auto">Contact Me</Button></a>
+            <div className="surface-panel inline-block px-4 py-4 sm:px-5 sm:py-5">
+              <h1 className={`font-hand text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText}`}>Hemen — AI/ML, CS, Math, Bioinformatics</h1>
+              <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <a href="#projects"><Button className="btn-primary-purple w-full sm:w-auto">See Projects</Button></a>
+                <a href="#contact"><Button className="btn-outline-purple w-full sm:w-auto">Contact Me</Button></a>
+              </div>
             </div>
             {/* removed floating keywords per revert */}
           </div>

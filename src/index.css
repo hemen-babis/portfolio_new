@@ -321,6 +321,14 @@ code, pre, kbd, samp { font-family: 'Roboto Mono', ui-monospace, SFMono-Regular,
 }
 .glass-card:hover { transform: translateY(-4px); box-shadow: var(--glass-hover-shadow); }
 
+/* Surface panel matching background color */
+.surface-panel {
+  background: var(--background);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+}
+
 @keyframes glassFlow {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
