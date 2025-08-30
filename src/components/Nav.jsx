@@ -31,8 +31,8 @@ export default function Nav() {
         <nav className={`relative w-full px-4 sm:px-8 py-3 ${glass} flex items-center gap-6`}> 
           {/* Left: Neon-glow logo only (no name in logo) */}
           <Link to="/" className="relative flex items-center" aria-label="Home">
-            <span className="absolute -left-2 -top-2 w-14 h-14 rounded-xl bg-gradient-to-tr from-[#9B59B6]/30 via-[#E74C3C]/30 to-[#F1C40F]/30 blur-lg" />
-            <img src="/logo.svg" alt="HB" className="relative w-10 h-10 drop-shadow-[0_0_20px_rgba(255,105,180,0.45)]" />
+            <span className="absolute -left-2 -top-2 w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-gradient-to-tr from-[#9B59B6]/30 via-[#E74C3C]/30 to-[#F1C40F]/30 blur-lg" />
+            <img src="/logo.svg" alt="HB" className="relative w-14 h-14 sm:w-16 sm:h-16 drop-shadow-[0_0_28px_rgba(255,105,180,0.45)]" />
           </Link>
 
           {/* Right: Theme toggle + Nav links */}
@@ -40,11 +40,12 @@ export default function Nav() {
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
-              className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 transition"
+              title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="nav-link inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 transition"
             >
-              {dark ? <Sun className="w-5 h-5"/> : <Moon className="w-5 h-5"/>}
+              {dark ? <Moon className="w-5 h-5"/> : <Sun className="w-5 h-5"/>}
             </button>
-            {[{to:'/experience',label:'Experience'},{to:'/projects',label:'Projects'},{to:'/contact',label:'Contact'}].map(({to,label}) => (
+            {[{to:'/about',label:'About'},{to:'/experience',label:'Experience'},{to:'/projects',label:'Projects'},{to:'/contact',label:'Contact'}].map(({to,label}) => (
               <Link key={to} to={to} className={`nav-link ${isActive(to)}`}>{label}</Link>
             ))}
           </div>
@@ -59,9 +60,10 @@ export default function Nav() {
         {open && (
           <div className={`md:hidden px-4 sm:px-8 py-3 ${glass}`}>
             <div className="flex flex-col text-sm">
-              <button onClick={()=>{ toggleTheme(); setOpen(false) }} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 mb-2">
-                {dark ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>} Theme
+              <button onClick={()=>{ toggleTheme(); setOpen(false) }} className="nav-link flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 mb-2">
+                {dark ? <Moon className="w-4 h-4"/> : <Sun className="w-4 h-4"/>} Theme
               </button>
+              <Link onClick={()=>setOpen(false)} to="/about" className={`px-3 py-2 rounded-lg nav-link hover:bg-white/10 ${isActive('/about')}`}>About</Link>
               <Link onClick={()=>setOpen(false)} to="/experience" className={`px-3 py-2 rounded-lg nav-link hover:bg-white/10 ${isActive('/experience')}`}>Experience</Link>
               <Link onClick={()=>setOpen(false)} to="/projects" className={`px-3 py-2 rounded-lg nav-link hover:bg-white/10 ${isActive('/projects')}`}>Projects</Link>
               <Link onClick={()=>setOpen(false)} to="/contact" className={`px-3 py-2 rounded-lg nav-link hover:bg-white/10 ${isActive('/contact')}`}>Contact</Link>
