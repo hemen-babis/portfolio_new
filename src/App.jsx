@@ -387,7 +387,7 @@ function OrbitSkillsFreeFlow({ groups, total = 18, speed = 0.18, maxVisible = 4 
         const palettes = [
           'from-pink-500/30 to-fuchsia-500/30 ring-pink-400/30',
           'from-amber-500/30 to-orange-500/30 ring-amber-400/30',
-          'from-violet-500/30 to-indigo-500/30 ring-violet-400/30',
+      'from-violet-500/30 to-fuchsia-500/30 ring-violet-400/30',
           'from-emerald-500/30 to-teal-500/30 ring-emerald-400/30',
         ];
         const pc = palettes[f.g % palettes.length];
@@ -404,10 +404,10 @@ function OrbitSkillsFreeFlow({ groups, total = 18, speed = 0.18, maxVisible = 4 
             }}
           >
             {frontVis && (
-              <div className={`pointer-events-auto transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3.5 py-2.5 rounded-2xl w-[260px] border border-white/10 shadow-[0_0_20px_rgba(255,105,180,0.25)] text-white`}
+              <div className={`pointer-events-auto transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3.5 py-2.5 rounded-2xl w-[260px] border border-white/10 shadow-[0_0_20px_rgba(255,105,180,0.25)] text-slate-900 dark:text-white`}
                    title={f.item.cat}>
                 <div className="flex items-center gap-2.5" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
-                  {Icon ? React.createElement(Icon, { className: 'w-5 h-5 text-white/90' }) : null}
+                  {Icon ? React.createElement(Icon, { className: 'w-5 h-5 text-slate-800 dark:text-white/90' }) : null}
                   <span className="text-[15px] font-extrabold truncate tracking-tight">{f.item.title}</span>
                 </div>
               </div>
@@ -512,24 +512,24 @@ function AIStudio() {
                 </Select>
                 <Badge variant="outline" className="ml-auto">{demoMode ? "Demo" : "Live"}</Badge>
               </div>
-              <div className={`rounded-2xl p-4 h-64 sm:h-72 md:h-80 overflow-auto space-y-3 ${glass}`}>
+              <div className={`rounded-2xl p-4 h-64 sm:h-72 md:h-80 overflow-auto space-y-3 glass-card`}>
                 {messages.map((m, i) => (
                   <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                    <div className={`px-3 py-2 rounded-xl max-w-[80%] ${m.role === "user" ? "bg-white/80 text-slate-900" : "bg-purple-950/40"}`}>
-                      <p className="whitespace-pre-wrap text-sm">{m.content}</p>
+                    <div className={`px-3 py-2 rounded-xl max-w-[80%] border ${m.role === "user" ? "bg-white/90 text-slate-900 border-black/10 dark:bg-white/80" : "bg-black/5 dark:bg-purple-950/40 border-black/10 dark:border-white/10"}`}>
+                      <p className="whitespace-pre-wrap text-sm text-foreground">{m.content}</p>
                     </div>
                   </div>
                 ))}
                 {thinking && (
                   <div className="flex justify-start">
-                    <div className={`px-3 py-2 rounded-xl max-w-[80%] bg-purple-950/40`}> 
+                    <div className={`px-3 py-2 rounded-xl max-w-[80%] bg-black/5 dark:bg-purple-950/40 border border-black/10 dark:border-white/10`}> 
                       <ThinkingVisualizer />
                     </div>
                   </div>
                 )}
               </div>
               <div className="mt-4 flex gap-2">
-                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask about code, math, or biology…" className={`${glass} text-white placeholder:text-white/60`} />
+                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Ask about code, math, or biology…" className={`glass-card text-foreground placeholder:text-slate-500 dark:placeholder:text-white/60`} />
                 <Button onClick={handleChatSend} className="btn-primary-purple">Send</Button>
               </div>
               <div className="mt-2 text-xs text-muted-foreground">Tip: toggle demo/live by hitting the Chat endpoint.</div>
@@ -805,7 +805,9 @@ export function Projects() {
     <section id="projects" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
         <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Projects</h2>
-        {renderCards(aiItems)}
+        {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5} }, (
+          renderCards(aiItems)
+        ))}
       </div>
     </section>
   );
@@ -828,7 +830,8 @@ export function Experience() {
             style: { background: `linear-gradient(${accent}, rgba(169,112,255,0.0))` }
           })}
 
-          <div className="pl-10 sm:pl-12">
+          {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
+            <div className="pl-10 sm:pl-12">
             {xp.map((e, i) => (
               <div key={i} className="relative mb-10 last:mb-0">
                 <div className="absolute left-3.5 sm:left-5 top-2 w-3.5 h-3.5 rounded-full" style={{ background: accent, boxShadow: '0 0 18px rgba(169,112,255,0.6)' }} />
@@ -854,7 +857,8 @@ export function Experience() {
                 ))}
               </div>
             ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -892,23 +896,30 @@ export function Education() {
     <section id="education" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
         <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Education</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 [perspective:1200px]">
-          {items.map((it, i)=> (
-            <div key={i} className="group relative h-56 [transform-style:preserve-3d] transition-transform duration-500">
-              <div className="absolute inset-0 rounded-[16px] glass-card p-7 grid place-content-center backface-hidden transition duration-300 group-hover:[transform:rotateY(180deg)]">
-                <div className="flex flex-col items-center gap-3">
-                  {React.createElement(it.icon, { className: 'w-8 h-8 neon-icon' })}
-                  <h3 className="text-lg font-semibold text-center heading">{it.title}</h3>
-                  <p className="text-base text-foreground text-center">{it.subtitle}</p>
+        {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5} }, (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 [perspective:1200px]">
+            {items.map((it, i)=> (
+              <div key={i} className="group relative h-56 [transform-style:preserve-3d] [will-change:transform] transition-transform duration-600">
+                {/* rotate the card container on hover to avoid face glitches */}
+                <div className="absolute inset-0 [transform:rotateY(0deg)] group-hover:[transform:rotateY(180deg)] transition-transform duration-600">
+                  {/* front face */}
+                  <div className="absolute inset-0 rounded-[16px] glass-card p-7 grid place-content-center [backface-visibility:hidden]">
+                    <div className="flex flex-col items-center gap-3">
+                      {React.createElement(it.icon, { className: 'w-8 h-8 neon-icon' })}
+                      <h3 className="text-lg font-semibold text-center heading">{it.title}</h3>
+                      <p className="text-base text-foreground text-center">{it.subtitle}</p>
+                    </div>
+                  </div>
+                  {/* back face */}
+                  <div className="absolute inset-0 rounded-[16px] glass-card p-7 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
+                    <p className="text-base text-foreground text-center font-semibold mb-2">{it.year}</p>
+                    <p className="text-sm text-foreground text-center">{it.details}</p>
+                  </div>
                 </div>
               </div>
-              <div className="absolute inset-0 rounded-[16px] glass-card p-7 [transform:rotateY(180deg)] backface-hidden transition duration-300 group-hover:[transform:rotateY(360deg)] overflow-hidden">
-                <p className="text-base text-foreground text-center font-semibold mb-2">{it.year}</p>
-                <p className="text-sm text-foreground text-center">{it.details}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ))}
       </div>
     </section>
   )
@@ -945,8 +956,12 @@ export function Coursework() {
     <section id="coursework" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
         <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Relevant Coursework</h2>
-        <CourseBox title="Computer Science" items={cs} />
-        <CourseBox title="Mathematics" items={math} className="mt-4" />
+        {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
+          <>
+            <CourseBox title="Computer Science" items={cs} />
+            <CourseBox title="Mathematics" items={math} className="mt-4" />
+          </>
+        ))}
       </div>
     </section>
   )
@@ -965,7 +980,7 @@ export function Awards() {
     <section id="awards" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
         <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-6`}>Awards</h2>
-        {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
+        {React.createElement(motion.div, { initial:{opacity:0,y:24}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {items.map(({t, org, date, desc, icon:Icon}, idx)=> (
               <div key={`${t}-${idx}`} className="flex flex-col items-center text-center p-8 glass-card min-h-[280px]">
@@ -1055,8 +1070,8 @@ function CourseBox({ title, items, className }){
   return (
     <div className={`glass-card p-5 ${className||''}`}>
       <div className="flex items-center justify-between cursor-pointer" onClick={()=>setOpen(v=>!v)}>
-        <h3 className="font-semibold text-[#f5f2ff]">{title}</h3>
-        <span className="text-sm text-muted-foreground">{open ? 'Hide' : 'Show'}</span>
+        <h3 className="font-semibold heading">{title}</h3>
+        <span className="text-sm text-foreground">{open ? 'Hide' : 'Show'}</span>
       </div>
       {React.createElement(motion.div, {
         initial: { height: 0, opacity: 0 },
@@ -1138,16 +1153,22 @@ export default function App() {
           {/* Background particles for depth */}
           <MoleculesOverlay count={4} />
 
-          {/* Floating skill cards overlay (independent flow) */}
+          {/* Floating skill/facts overlay (classic flow with fade) */}
           <div className="absolute inset-0 z-30">
             {(() => {
+              const facts = [
+                'Born in Ethiopia',
+                'Speak 3 languages',
+                'Neuroscience + Bioinformatics fan',
+                'I build ML apps for fun',
+                'Coffee connoisseur',
+                'Runner • Hiking lover',
+                'Always sketching ideas',
+              ]
               const groups = [
-                { label: 'Framework', icon: Boxes, items: skillData.frameworks },
-                { label: 'Language', icon: Code2, items: skillData.languages },
-                { label: 'Tool', icon: Wrench, items: skillData.tools },
-                { label: 'Subject', icon: Sparkles, items: skillData.subjects },
+                { label: 'About me', icon: Sparkles, items: facts },
               ];
-              return <HeroSkillsFlowLanes groups={groups} lanes={3} perLane={2} speed={0.08} />;
+              return <HeroSkillsFlowLanes groups={groups} lanes={2} perLane={2} speed={0.08} />;
             })()}
           </div>
 
@@ -1357,7 +1378,7 @@ function HeroSkillsTicker({ groups, visible = 3, stepMs = 1600 }) {
             const palettes = [
               'from-pink-500/30 to-fuchsia-500/30 ring-pink-400/30',
               'from-amber-500/30 to-orange-500/30 ring-amber-400/30',
-              'from-violet-500/30 to-indigo-500/30 ring-violet-400/30',
+      'from-violet-500/30 to-fuchsia-500/30 ring-violet-400/30',
               'from-emerald-500/30 to-teal-500/30 ring-emerald-400/30',
             ];
             const pc = palettes[i % palettes.length];
@@ -1369,11 +1390,11 @@ function HeroSkillsTicker({ groups, visible = 3, stepMs = 1600 }) {
                 exit={{ opacity: 0, y: -14, filter: 'blur(10px)' }}
                 transition={{ duration: 0.35, ease: 'easeOut' }}
               >
-                <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3.5 py-2.5 rounded-2xl w-[240px] border border-white/10 shadow-[0_0_20px_rgba(255,105,180,0.25)] text-white`}
+                <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3.5 py-2.5 rounded-2xl w-[240px] border border-white/10 shadow-[0_0_20px_rgba(255,105,180,0.25)] text-slate-900 dark:text-white`}
                      title={it.cat}
                 >
                   <div className="flex items-center gap-2.5" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
-                    {Icon ? React.createElement(Icon, { className: 'w-5 h-5 text-white/90' }) : null}
+                    {Icon ? React.createElement(Icon, { className: 'w-5 h-5 text-slate-800 dark:text-white/90' }) : null}
                     <span className="text-[15px] font-extrabold truncate tracking-tight">{it.title}</span>
                   </div>
                 </div>
@@ -1544,30 +1565,32 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
 
   const renderItem = (li, it) => {
     const W = Math.max(800, dims.current.w)
-    const laneY = (li - (lanes-1)/2) * 110 // consistent separation between lanes
-    // path: gentle arc across hero
-    const x = (it.t - 0.5) * (W * 0.8)
-    const arc = Math.sin(it.t * Math.PI) * 22 + Math.sin(it.t * 6.28 + li * 0.6) * 6
+    const sep = 140
+    const offsetY = -120 // lift lanes so some cross near top of image
+    const laneY = offsetY + (li - (lanes-1)/2) * sep
+    // path: larger arc across hero to reach further sides
+    const x = (it.t - 0.5) * (W * 0.9)
+    const arc = Math.sin(it.t * Math.PI) * 28 + Math.sin(it.t * 6.28 + li * 0.6) * 8
     const y = laneY + arc
     const phase = it.dir>0 ? it.t : 1 - it.t
-    const clarity = phase < 0.2 ? (phase/0.2) : phase > 0.8 ? (1 - (phase-0.8)/0.2) : 1
-    const scale = 0.98 + Math.sin(it.t * Math.PI) * 0.06
+    const clarity = phase < 0.15 ? (phase/0.15) : phase > 0.85 ? (1 - (phase-0.85)/0.15) : 1
+    const scale = 1.05 + Math.sin(it.t * Math.PI) * 0.08
     const Icon = it.item.icon
     const palettes = [
       'from-pink-500/30 to-fuchsia-500/30 ring-pink-400/30',
       'from-amber-500/30 to-orange-500/30 ring-amber-400/30',
-      'from-violet-500/30 to-indigo-500/30 ring-violet-400/30',
+      'from-violet-500/30 to-fuchsia-500/30 ring-violet-400/30',
       'from-emerald-500/30 to-teal-500/30 ring-emerald-400/30',
     ]
     const pc = palettes[li % palettes.length]
     return (
       <div key={it.key} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
            style={{ transform:`translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale.toFixed(3)})`, opacity: clarity }}>
-        <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3.5 py-2.5 rounded-2xl w-[240px] border border-white/10 shadow-[0_0_20px_rgba(255,105,180,0.25)] text-white neon-breath hue-cycle`}
+        <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-4 py-3 rounded-2xl w-[280px] border border-white/10 shadow-[0_0_24px_rgba(169,112,255,0.3)] text-slate-900 dark:text-white neon-breath hue-cycle`}
              title={it.item.cat}>
-          <div className="flex items-center gap-2.5" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
-            {Icon ? React.createElement(Icon, { className: 'w-5 h-5 text-white/90' }) : null}
-            <span className="text-[15px] font-extrabold truncate tracking-tight">{it.item.title}</span>
+          <div className="flex items-center gap-3" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
+            {Icon ? React.createElement(Icon, { className: 'w-6 h-6 text-slate-800 dark:text-white/90' }) : null}
+            <span className="text-[16px] font-extrabold truncate tracking-tight">{it.item.title}</span>
           </div>
         </div>
       </div>
@@ -1581,7 +1604,7 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
   )
 }
 
-function HeroSkillsDrops({ groups, maxActive = 8, spawnMs = 700, riseSpeed = 0.2 }) {
+function HeroSkillsDrops({ groups, maxActive = 10, spawnMs = 650, riseSpeed = 0.25 }) {
   const pool = useMemo(() => {
     const out = []
     groups.forEach(g => (g.items || []).forEach(t => out.push({ title: t, icon: g.icon, cat: g.label })))
@@ -1605,17 +1628,21 @@ function HeroSkillsDrops({ groups, maxActive = 8, spawnMs = 700, riseSpeed = 0.2
       }
       if (!pick) pick = pool[Math.floor(Math.random() * pool.length)]
       const now = Date.now()
-      // choose a column offset for drop source
-      const columns = [-180, -60, 60, 180]
+      // choose a source: top, bottom, left, right
+      const sources = ['bottom','top','left','right']
+      const source = sources[Math.floor(Math.random()*sources.length)]
+      const columns = [-220, -120, 0, 120, 220]
       const col = columns[Math.floor(Math.random() * columns.length)]
+      const rand = (a,b)=> a + Math.random()*(b-a)
       activeRef.current.push({
         key: `${now}-${Math.random().toString(36).slice(2)}`,
         item: pick,
         t: 0,
-        x0: col + (Math.random()-0.5)*20,
-        y0: 180 + Math.random()*40, // below center
+        source,
+        x0: source==='left' ? -280 + rand(-20,20) : source==='right' ? 280 + rand(-20,20) : col + rand(-18,18),
+        y0: source==='top' ? -220 + rand(-30,30) : source==='bottom' ? 200 + rand(-30,30) : rand(-120,120),
         jitter: (Math.random()-0.5)*0.5,
-        s: riseSpeed * (0.9 + Math.random()*0.2),
+        s: riseSpeed * (0.9 + Math.random()*0.3),
       })
     }, spawnMs)
     return () => clearInterval(id)
@@ -1639,28 +1666,36 @@ function HeroSkillsDrops({ groups, maxActive = 8, spawnMs = 700, riseSpeed = 0.2
   }, [])
 
   const renderDrop = (d, idx) => {
-    // path: rise upward with slight outward arc and tiny horizontal wiggle
-    const px = d.x0 + Math.sin(d.t * Math.PI) * 24 + Math.sin(d.t * 6.28 + d.jitter) * 6
-    const py = d.y0 - d.t * 360
+    // paths by source
+    let px, py
+    if (d.source === 'top' || d.source === 'bottom') {
+      const dirY = d.source === 'top' ? 1 : -1
+      px = d.x0 + Math.sin(d.t * Math.PI) * 28 + Math.sin(d.t * 6.28 + d.jitter) * 8
+      py = d.y0 + dirY * d.t * 380
+    } else {
+      const dirX = d.source === 'left' ? 1 : -1
+      px = d.x0 + dirX * d.t * 520 + Math.sin(d.t * 6.28 + d.jitter) * 8
+      py = d.y0 + Math.sin(d.t * Math.PI) * 20
+    }
     const phase = d.t
-    const opacity = phase < 0.12 ? (phase/0.12) : phase > 0.85 ? 1 - (phase-0.85)/0.15 : 1
-    const scale = 0.98 + Math.min(1, phase*1.2) * 0.06
+    const opacity = phase < 0.15 ? (phase/0.15) : phase > 0.85 ? 1 - (phase-0.85)/0.15 : 1
+    const scale = 1.03 + Math.min(1, phase*1.2) * 0.08
     const Icon = d.item.icon
     const palettes = [
       'from-pink-500/30 to-fuchsia-500/30 ring-pink-400/30',
       'from-amber-500/30 to-orange-500/30 ring-amber-400/30',
-      'from-violet-500/30 to-indigo-500/30 ring-violet-400/30',
+      'from-violet-500/30 to-fuchsia-500/30 ring-violet-400/30',
       'from-emerald-500/30 to-teal-500/30 ring-emerald-400/30',
     ]
     const pc = palettes[idx % palettes.length]
     return (
       <div key={d.key} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
            style={{ transform:`translate(calc(-50% + ${px}px), calc(-50% + ${py}px)) scale(${scale})`, opacity }}>
-        <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3.5 py-2.5 rounded-2xl w-[240px] border border-white/10 shadow-[0_0_20px_rgba(255,105,180,0.25)] text-white`}
+        <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-4 py-3 rounded-2xl w-[280px] border border-white/10 shadow-[0_0_24px_rgba(169,112,255,0.3)] text-slate-900 dark:text-white`}
              title={d.item.cat}>
-          <div className="flex items-center gap-2.5" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
-            {Icon ? React.createElement(Icon, { className: 'w-5 h-5 text-white/90' }) : null}
-            <span className="text-[15px] font-extrabold truncate tracking-tight">{d.item.title}</span>
+          <div className="flex items-center gap-3" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
+            {Icon ? React.createElement(Icon, { className: 'w-6 h-6 text-slate-800 dark:text-white/90' }) : null}
+            <span className="text-[16px] font-extrabold truncate tracking-tight">{d.item.title}</span>
           </div>
         </div>
       </div>
@@ -1670,6 +1705,54 @@ function HeroSkillsDrops({ groups, maxActive = 8, spawnMs = 700, riseSpeed = 0.2
   return (
     <div className="pointer-events-none absolute inset-0 z-30">
       {activeRef.current.map((d, idx) => renderDrop(d, idx))}
+    </div>
+  )
+}
+
+// Clean fade carousel for skills — 1-2 visible, center aligned
+function HeroSkillsFadeCarousel({ groups, concurrent = 2, duration = 3000 }) {
+  const pool = useMemo(() => {
+    const out = []
+    groups.forEach(g => (g.items || []).forEach(t => out.push({ title: t, icon: g.icon, cat: g.label })))
+    return out
+  }, [groups])
+
+  const [i, setI] = useState(0)
+  useEffect(() => {
+    if (!pool.length) return
+    const id = setInterval(() => setI(v => (v + concurrent) % pool.length), duration)
+    return () => clearInterval(id)
+  }, [pool.length, concurrent, duration])
+
+  const visible = []
+  for (let k = 0; k < Math.min(concurrent, pool.length); k++) {
+    visible.push(pool[(i + k) % pool.length])
+  }
+
+  return (
+    <div className="pointer-events-none absolute inset-0 grid place-items-center">
+      <div className="flex flex-col items-center gap-3">
+        <AnimatePresence>
+          {visible.map((it, idx) => {
+            const Icon = it.icon
+            return (
+              <motion.div key={`${it.title}-${i}-${idx}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ ease: 'easeInOut', duration: 0.6 }}
+                className="pointer-events-auto">
+                <div className="rounded-2xl border border-black/10 dark:border-white/20 bg-white/70 dark:bg-white/10 backdrop-blur-sm text-slate-900 dark:text-white px-4 py-2 shadow-[0_0_18px_rgba(169,112,255,0.25)]">
+                  <div className="flex items-center gap-2.5" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
+                    {Icon ? React.createElement(Icon, { className: 'w-5 h-5 text-slate-800 dark:text-white/90' }) : null}
+                    <span className="text-[15px] font-extrabold tracking-tight">{it.title}</span>
+                  </div>
+                </div>
+              </motion.div>
+            )
+          })}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }

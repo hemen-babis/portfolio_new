@@ -7,7 +7,7 @@ const glass = "navbar-glass shadow-[0_8px_25px_rgba(0,0,0,0.5)]"
 
 export default function Nav() {
   const { pathname } = useLocation()
-  const isActive = (p) => (pathname === p ? 'text-[#a970ff]' : '')
+  const isActive = (p) => (pathname === p ? 'nav-link-active' : '')
   const [open, setOpen] = useState(false)
   const [dark, setDark] = useState(false)
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Nav() {
           </Link>
 
           {/* Right: Theme toggle + Nav links */}
-          <div className="hidden md:flex ml-auto items-center gap-4 text-lg font-bold tracking-tight text-[#e0d9ff]">
+          <div className="hidden md:flex ml-auto items-center gap-4 text-lg font-bold tracking-tight">
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
@@ -45,7 +45,7 @@ export default function Nav() {
               {dark ? <Sun className="w-5 h-5"/> : <Moon className="w-5 h-5"/>}
             </button>
             {[{to:'/experience',label:'Experience'},{to:'/projects',label:'Projects'},{to:'/contact',label:'Contact'}].map(({to,label}) => (
-              <Link key={to} to={to} className={`transition-colors hover:text-[#a970ff] ${isActive(to)}`}>{label}</Link>
+              <Link key={to} to={to} className={`nav-link ${isActive(to)}`}>{label}</Link>
             ))}
           </div>
 
@@ -62,9 +62,9 @@ export default function Nav() {
               <button onClick={()=>{ toggleTheme(); setOpen(false) }} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 mb-2">
                 {dark ? <Sun className="w-4 h-4"/> : <Moon className="w-4 h-4"/>} Theme
               </button>
-              <Link onClick={()=>setOpen(false)} to="/experience" className={`px-3 py-2 rounded-lg text-[#e0d9ff] hover:text-[#a970ff] hover:bg-white/10 ${isActive('/experience')}`}>Experience</Link>
-              <Link onClick={()=>setOpen(false)} to="/projects" className={`px-3 py-2 rounded-lg text-[#e0d9ff] hover:text-[#a970ff] hover:bg-white/10 ${isActive('/projects')}`}>Projects</Link>
-              <Link onClick={()=>setOpen(false)} to="/contact" className={`px-3 py-2 rounded-lg text-[#e0d9ff] hover:text-[#a970ff] hover:bg-white/10 ${isActive('/contact')}`}>Contact</Link>
+              <Link onClick={()=>setOpen(false)} to="/experience" className={`px-3 py-2 rounded-lg nav-link hover:bg-white/10 ${isActive('/experience')}`}>Experience</Link>
+              <Link onClick={()=>setOpen(false)} to="/projects" className={`px-3 py-2 rounded-lg nav-link hover:bg-white/10 ${isActive('/projects')}`}>Projects</Link>
+              <Link onClick={()=>setOpen(false)} to="/contact" className={`px-3 py-2 rounded-lg nav-link hover:bg-white/10 ${isActive('/contact')}`}>Contact</Link>
               
             </div>
           </div>

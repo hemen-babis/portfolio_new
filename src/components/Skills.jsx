@@ -12,7 +12,7 @@ function ChipCloud({ items }) {
   const palettes = [
     'from-pink-500/15 to-fuchsia-500/15 border-pink-500/20',
     'from-amber-500/15 to-orange-500/15 border-amber-500/20',
-    'from-violet-500/15 to-indigo-500/15 border-violet-500/20',
+    'from-violet-500/15 to-fuchsia-500/15 border-violet-500/20',
     'from-emerald-500/15 to-teal-500/15 border-emerald-500/20',
   ]
   return (
@@ -34,7 +34,7 @@ function SkillCard({ title, icon: Icon, desc, items }) {
           </div>
           <CardTitle className="text-lg font-semibold heading">{title}</CardTitle>
         </div>
-        {desc && <CardDescription className="text-[#e0e0e0] text-base">{desc}</CardDescription>}
+        {desc && <CardDescription className="text-foreground text-base">{desc}</CardDescription>}
       </CardHeader>
       <CardContent className="pb-6">
         <ChipCloud items={items} />
@@ -51,21 +51,20 @@ export default function Skills() {
         <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold heading mb-4`}>Skills</h2>
         <p className="text-sm sm:text-base text-foreground mb-6">Languages, frameworks, tools, and domains I work with.</p>
 
-        {/* Highlight chip cloud removed to avoid duplicates */}
-
-        {/* Category grid with animated cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {title:'Languages', icon:Code2, desc:'Core languages and query dialects', items:skills.languages},
-            {title:'Frameworks & Libraries', icon:Boxes, desc:'Web, AI/ML, and backend ecosystems', items:skills.frameworks},
-            {title:'Tools & Platforms', icon:Wrench, desc:'Dev tooling, hosting, and design', items:skills.tools},
-            {title:'Domains & Subjects', icon:Sparkles, desc:'Where I focus and explore deeply', items:skills.subjects},
-          ].map((c, idx)=> (
-            <motion.div key={c.title} initial={{opacity:0, y:18}} whileInView={{opacity:1, y:0}} viewport={{once:true}} transition={{duration:0.45, delay: idx*0.06}}>
-              <SkillCard title={c.title} icon={c.icon} desc={c.desc} items={c.items} />
-            </motion.div>
-          ))}
-        </div>
+        {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {title:'Languages', icon:Code2, desc:'Core languages and query dialects', items:skills.languages},
+              {title:'Frameworks & Libraries', icon:Boxes, desc:'Web, AI/ML, and backend ecosystems', items:skills.frameworks},
+              {title:'Tools & Platforms', icon:Wrench, desc:'Dev tooling, hosting, and design', items:skills.tools},
+              {title:'Domains & Subjects', icon:Sparkles, desc:'Where I focus and explore deeply', items:skills.subjects},
+            ].map((c, idx)=> (
+              <motion.div key={c.title} initial={{opacity:0, y:18}} whileInView={{opacity:1, y:0}} viewport={{once:true}} transition={{duration:0.45, delay: idx*0.06}}>
+                <SkillCard title={c.title} icon={c.icon} desc={c.desc} items={c.items} />
+              </motion.div>
+            ))}
+          </div>
+        ))}
       </div>
     </section>
   )
