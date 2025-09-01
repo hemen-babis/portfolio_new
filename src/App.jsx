@@ -1,9 +1,10 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import { IcosahedronGeometry, MeshStandardMaterial } from "three";
 import * as THREE from "three";
 // drei helpers not needed for 2D overlay
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { Brain, Atom, Dna, FunctionSquare, Cpu, LineChart, FlaskConical, Github, Linkedin, Mail, Share2, Code2, Boxes, Wrench, Sparkles, Laptop, Megaphone, GraduationCap, School, Medal, Trophy, BadgeCheck, Star, FileText, CheckSquare, Lightbulb, User } from "lucide-react";
 // shadcn/ui primitives
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
-import { about, experience as xp, projects as projData, skills as skillData } from "@/content/profile";
+import { about, experience as xp, projects as projData, skills as skillData, topSkills, languagesList, certifications } from "@/content/profile";
 import Skills from "@/components/Skills";
 
 /**
@@ -37,7 +38,7 @@ import Skills from "@/components/Skills";
 
 // ===== Utility styles =====
 const glass = "";
-const neonText = "bg-clip-text text-transparent bg-gradient-to-r from-[#9B59B6] via-[#E74C3C] to-[#F1C40F]";
+const neonText = "bg-clip-text text-transparent bg-gradient-to-r from-[#9B59B6] via-[#FF6EC7] to-[#E0AA3E]";
 // Site background handled globally via CSS gradient; keep transparent here
 const nebula = "bg-transparent";
 
@@ -494,7 +495,7 @@ function AIStudio() {
             <div className="grid lg:grid-cols-2 gap-8 items-stretch">
               <Card className={`h-full ${glass}`}> 
             <CardHeader>
-              <CardTitle>AI Studio</CardTitle>
+              <CardTitle className="title-gradient">AI Studio</CardTitle>
               <CardDescription className="text-muted-foreground">Chat across code, math, and bio. (Wire to your model later.)</CardDescription>
             </CardHeader>
             <CardContent>
@@ -538,7 +539,7 @@ function AIStudio() {
 
           <Card className={`h-full ${glass}`}>
             <CardHeader>
-              <CardTitle>Embeddings Toy</CardTitle>
+              <CardTitle className="title-gradient">Embeddings Toy</CardTitle>
               <CardDescription className="text-muted-foreground">Paste notes; I’ll compute cosine similarity locally.</CardDescription>
             </CardHeader>
             <CardContent>
@@ -605,7 +606,7 @@ function MathLab() {
         <div className="grid lg:grid-cols-3 gap-8">
           <Card className={`${glass} col-span-2`}>
             <CardHeader>
-              <CardTitle>Math Lab — Signal Builder</CardTitle>
+              <CardTitle className="title-gradient">Math Lab — Signal Builder</CardTitle>
               <CardDescription className="text-muted-foreground">y = a·sin(f·x) + b·cos(0.5x)</CardDescription>
             </CardHeader>
             <CardContent>
@@ -614,7 +615,7 @@ function MathLab() {
           </Card>
           <Card className={`${glass}`}>
             <CardHeader>
-              <CardTitle>Parameters</CardTitle>
+              <CardTitle className="title-gradient">Parameters</CardTitle>
               <CardDescription className="text-muted-foreground">Drag sliders to explore dynamics.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -691,7 +692,7 @@ function BioLab() {
       <div className="mx-auto w-full px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
         <Card className={`${glass}`}>
           <CardHeader>
-            <CardTitle>Bio Lab — Quick Tools</CardTitle>
+            <CardTitle className="title-gradient">Bio Lab — Quick Tools</CardTitle>
             <CardDescription className="text-muted-foreground">Compute GC% and translate DNA → protein.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -708,7 +709,7 @@ function BioLab() {
         </Card>
         <Card className="glass-card">
           <CardHeader>
-            <CardTitle className="heading">Ideas</CardTitle>
+            <CardTitle className="title-gradient">Ideas</CardTitle>
             <CardDescription className="text-foreground">Future: BLAST mini, motif finder, microscopy VLM demo.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-[#e0e0e0]">
@@ -775,7 +776,7 @@ export function Projects() {
                 </div>
                  <div className="flex items-center gap-4 mb-3">
                    {React.createElement(Icon, { className: "w-7 h-7 neon-icon" })}
-                   <h3 className="text-2xl font-extrabold heading">{title}</h3>
+                   <h3 className="text-2xl font-extrabold"><span className="title-gradient">{title}</span></h3>
                  </div>
                 <p className="text-lg text-foreground">{blurb}</p>
                 <div className="mt-5 flex gap-3 flex-wrap">
@@ -804,7 +805,7 @@ export function Projects() {
   return (
     <section id="projects" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
-        <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Projects</h2>
+        <h2 className={`title-bounce-anchor font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Projects</h2>
         {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5} }, (
           renderCards(aiItems)
         ))}
@@ -819,7 +820,7 @@ export function Experience() {
   return (
     <section id="experience" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
-        <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Experience</h2>
+        <h2 className={`title-bounce-anchor font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Experience</h2>
         <div className="relative">
           {React.createElement(motion.div, {
             initial: { height: 0, opacity: 0 },
@@ -844,9 +845,9 @@ export function Experience() {
                 }, (
                   <>
                     <div className="flex flex-wrap items-baseline justify-between gap-3">
-                      <h3 className="text-2xl font-extrabold flex items-center gap-4 heading">
+                      <h3 className="text-2xl font-extrabold flex items-center gap-4">
                         {e.role.toLowerCase().includes('ai/ml') ? <Brain className="w-6 h-6 neon-icon"/> : e.role.toLowerCase().includes('engineer') ? <Laptop className="w-6 h-6 neon-icon"/> : <Megaphone className="w-6 h-6 neon-icon"/>}
-                        {e.role} · {e.company}
+                        <span className="title-gradient">{e.role} · {e.company}</span>
                       </h3>
                       <span className="text-base text-foreground">{e.period}</span>
                     </div>
@@ -869,7 +870,8 @@ export function Education() {
   const items = [
     {
       title: "Bachelor's Degree",
-      subtitle: 'Mathematics & Computer Science — PSU Honors College',
+      subtitle: 'Mathematics & Computer Science',
+      org: 'Portland State University Honors College',
       year: 'Expected Graduation: Dec 2025',
       details:
         'I am pursuing a double major in Mathematics and Computer Science at the prestigious Portland State University.',
@@ -877,7 +879,8 @@ export function Education() {
     },
     {
       title: "Associate's Degree",
-      subtitle: 'Computer Science — Portland Community College',
+      subtitle: 'Computer Science',
+      org: 'Portland Community College',
       year: '2022 – 2023',
       details:
         'Through the Early College High School Program at PCC, I’ve achieved sophomore standing at university level while still in high school.',
@@ -886,6 +889,7 @@ export function Education() {
     {
       title: 'High School Diploma',
       subtitle: 'Southridge High School',
+      org: 'Southridge High School',
       year: '2021 – 2023',
       details:
         'Graduated with honors, completing a rigorous academic program that prepared me for advanced studies in mathematics and computer science.',
@@ -895,25 +899,26 @@ export function Education() {
   return (
     <section id="education" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
-        <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Education</h2>
+        <h2 className={`title-bounce-anchor font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Education</h2>
         {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5} }, (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 [perspective:1200px]">
             {items.map((it, i)=> (
-              <div key={i} className="group relative h-56 [transform-style:preserve-3d] [will-change:transform] transition-transform duration-600">
-                {/* rotate the card container on hover to avoid face glitches */}
-                <div className="absolute inset-0 [transform:rotateY(0deg)] group-hover:[transform:rotateY(180deg)] transition-transform duration-600">
+              <div key={i} className="group relative h-72 md:h-64 select-none [perspective:1200px]">
+                <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0.2,0.2,1)] [transform-style:preserve-3d] transform-gpu will-change-transform [transform:rotateY(0deg)] group-hover:[transform:rotateY(180deg)]">
                   {/* front face */}
-                  <div className="absolute inset-0 rounded-[16px] glass-card p-7 grid place-content-center [backface-visibility:hidden]">
-                    <div className="flex flex-col items-center gap-3">
+                  <div className="absolute inset-0 rounded-[16px] glass-card p-7 grid place-content-center [backface-visibility:hidden] transform-gpu">
+                    <div className="flex flex-col items-center gap-2 text-center">
                       {React.createElement(it.icon, { className: 'w-8 h-8 neon-icon' })}
-                      <h3 className="text-lg font-semibold text-center heading">{it.title}</h3>
-                      <p className="text-base text-foreground text-center">{it.subtitle}</p>
+                      <h3 className="text-lg font-semibold title-gradient">{it.title}</h3>
+                      <p className="text-base text-foreground">{it.subtitle}</p>
+                      {it.org && <p className="text-sm text-foreground/80">{it.org}</p>}
                     </div>
                   </div>
-                  {/* back face */}
-                  <div className="absolute inset-0 rounded-[16px] glass-card p-7 [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
-                    <p className="text-base text-foreground text-center font-semibold mb-2">{it.year}</p>
-                    <p className="text-sm text-foreground text-center">{it.details}</p>
+                  {/* back face — details only */}
+                  <div className="absolute inset-0 rounded-[16px] glass-card p-7 [transform:rotateY(180deg)] [backface-visibility:hidden] transform-gpu">
+                    <div className="h-full w-full flex items-center justify-center text-center">
+                      <p className="text-base text-foreground leading-relaxed">{it.details}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -924,6 +929,254 @@ export function Education() {
     </section>
   )
 }
+
+function HelixScene() {
+  // Detect Tailwind dark mode by observing the <html> class list
+  const useThemeMode = () => {
+    const getDark = () => {
+      if (typeof document === 'undefined') return false
+      const saved = localStorage.getItem('theme')
+      if (saved) return saved === 'dark'
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) return true
+      return document.documentElement.classList.contains('dark')
+    }
+    const [mode, setMode] = React.useState(getDark() ? 'dark' : 'light')
+    React.useEffect(() => {
+      const root = document.documentElement
+      const obs = new MutationObserver(() => setMode(root.classList.contains('dark') ? 'dark' : 'light'))
+      obs.observe(root, { attributes: true, attributeFilter: ['class'] })
+      return () => obs.disconnect()
+    }, [])
+    return mode
+  }
+  const HelixPoints = ({ mode }) => {
+    // two strands as points
+    const count = 1000;
+    const radius = 1.6;
+    const length = Math.PI * 10; // ~5 turns
+    const positionsA = new Float32Array(count * 3);
+    const positionsB = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const t = (i / count) * length;
+      const x1 = Math.cos(t) * radius;
+      const y1 = Math.sin(t) * radius;
+      const z = (i / count) * 10 - 5; // height ~10 units
+      const x2 = Math.cos(t + Math.PI) * radius;
+      const y2 = Math.sin(t + Math.PI) * radius;
+      positionsA.set([x1, y1, z], i * 3);
+      positionsB.set([x2, y2, z], i * 3);
+    }
+    return (
+      <group>
+        <points>
+          <bufferGeometry>
+            <bufferAttribute attach="attributes-position" count={count} array={positionsA} itemSize={3} />
+          </bufferGeometry>
+          <pointsMaterial size={0.06} sizeAttenuation color="#ff6ec7" transparent opacity={0.95} depthWrite={false} />
+        </points>
+        <points>
+          <bufferGeometry>
+            <bufferAttribute attach="attributes-position" count={count} array={positionsB} itemSize={3} />
+          </bufferGeometry>
+          <pointsMaterial size={0.06} sizeAttenuation color="#c299ff" transparent opacity={0.95} depthWrite={false} />
+        </points>
+        {/* rungs */}
+        <lineSegments>
+          <bufferGeometry>
+            {(() => {
+              const step = 24;
+              const segs = [];
+              for (let i = 0; i < count - step; i += step) {
+                const t = (i / count) * length;
+                const z = (i / count) * 10 - 5;
+                segs.push(
+                  Math.cos(t) * radius, Math.sin(t) * radius, z,
+                  Math.cos(t + Math.PI) * radius, Math.sin(t + Math.PI) * radius, z
+                );
+              }
+              return <bufferAttribute attach="attributes-position" array={new Float32Array(segs)} count={segs.length / 3} itemSize={3} />
+            })()}
+          </bufferGeometry>
+          <lineBasicMaterial attach="material" color={mode === 'light' ? '#000000' : '#ffffff'} transparent opacity={0.35} />
+        </lineSegments>
+      </group>
+    );
+  };
+
+  const Sparkles = ({ mode }) => {
+    const ref = React.useRef()
+    const N = 600;
+    const arr = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = 2.4 + Math.random() * 1.1;
+      const x = Math.cos(a) * r;
+      const y = Math.sin(a) * r;
+      const z = (Math.random() - 0.5) * 12;
+      arr.set([x, y, z], i * 3);
+    }
+    React.useEffect(() => {
+      if (ref.current && ref.current.material) {
+        ref.current.material.color = new THREE.Color(mode === 'light' ? '#000000' : '#ffffff')
+        ref.current.material.needsUpdate = true
+      }
+    }, [mode])
+    return (
+      <points ref={ref}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" array={arr} count={N} itemSize={3} />
+        </bufferGeometry>
+        <pointsMaterial size={0.04} transparent opacity={0.8} depthWrite={false} color={mode === 'light' ? '#000000' : '#ffffff'} />
+      </points>
+    );
+  };
+
+  const Orbiters = () => {
+    const ref = React.useRef();
+    useFrame(({ clock }) => {
+      const t = clock.getElapsedTime();
+      if (!ref.current) return;
+      ref.current.children.forEach((m, i) => {
+        const a = t * (0.4 + i * 0.08) + i;
+        const r = 2.8 + i * 0.18;
+        m.position.set(Math.cos(a) * r, Math.sin(a) * r, Math.sin(a * 0.7) * 2.5);
+        m.rotation.x = a; m.rotation.y = a * 0.5;
+      });
+    });
+    return (
+      <group ref={ref}>
+        {Array.from({ length: 6 }).map((_, i) => (
+          <mesh key={i}>
+            <icosahedronGeometry args={[0.12, 0]} />
+            <meshStandardMaterial color="#ff8de1" emissive="#ff8de1" emissiveIntensity={0.4} metalness={0.2} roughness={0.4} />
+          </mesh>
+        ))}
+      </group>
+    );
+  };
+
+  const Rotator = ({ children }) => {
+    const g = React.useRef();
+    useFrame(() => { if (g.current) g.current.rotation.y += 0.002; });
+    return <group ref={g}>{children}</group>;
+  };
+
+  const mode = useThemeMode()
+  return (
+    <Canvas camera={{ position: [0, 0, 9], fov: 50 }}>
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[4, 6, 3]} intensity={0.6} color="#ffb6f2" />
+      <Rotator>
+        <HelixPoints mode={mode} />
+        <Sparkles mode={mode} />
+        <Orbiters />
+      </Rotator>
+      <EffectComposer>
+        <Bloom intensity={0.8} luminanceThreshold={0.2} luminanceSmoothing={0.9} radius={0.8} />
+      </EffectComposer>
+    </Canvas>
+  );
+}
+
+// FloatingSymbols removed per request
+/*function FloatingSymbols({ count = 16 }) {
+  const SYMBOLS = ['∑','π','∫','√','{}','λ','<>','A','T','G','C','⚛️','🧪']
+  const rand = (a,b)=> a + Math.random()*(b-a)
+  const containerRef = React.useRef(null)
+  const [anchors, setAnchors] = React.useState([])
+
+  const measureAnchors = React.useCallback(() => {
+    const cont = containerRef.current
+    if (!cont) return
+    const contRect = cont.getBoundingClientRect()
+    const els = Array.from(document.querySelectorAll('.hero-box'))
+    const pts = els.map(el => {
+      const r = el.getBoundingClientRect()
+      const cx = r.left + r.width/2 - contRect.left
+      const cy = r.top + r.height/2 - contRect.top
+      return { x: cx, y: cy }
+    })
+    if (pts.length) setAnchors(pts)
+  }, [])
+
+  React.useEffect(() => {
+    measureAnchors()
+    window.addEventListener('resize', measureAnchors)
+    const id = setTimeout(measureAnchors, 50)
+    return () => { window.removeEventListener('resize', measureAnchors); clearTimeout(id) }
+  }, [measureAnchors])
+
+  const items = React.useMemo(() => (
+    Array.from({ length: count }).map((_, i) => ({
+      id: i,
+      s: SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)],
+      size: rand(16, 22),
+      depth: rand(0.7, 1.0),
+      delay: rand(0, 1.5),
+    }))
+  ), [count])
+
+  const [offY, setOffY] = React.useState(0)
+  React.useEffect(() => {
+    const onScroll = () => {
+      const sy = window.scrollY || 0
+      const y = Math.max(-18, Math.min(18, sy * 0.03))
+      setOffY(y)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const Symbol = ({ s, size, depth, delay }) => {
+    const controls = useAnimation()
+    const elRef = React.useRef(null)
+    const run = React.useCallback(async () => {
+      if (!anchors.length || !containerRef.current) return
+      const rect = containerRef.current.getBoundingClientRect()
+      // pick two different anchors to bounce between
+      let a = Math.floor(Math.random()*anchors.length)
+      let b = (a + 1) % anchors.length
+      for (;;) {
+        const jx = rand(-18, 18), jy = rand(-12, 12)
+        await controls.start({
+          x: anchors[a].x + jx - rect.width*0.02,
+          y: anchors[a].y + jy,
+          scale: [1, 1.12, 1],
+          rotate: [0, rand(-20,20), 0],
+          opacity: [0.85*depth, 1*depth, 0.9*depth],
+          transition: { type:'spring', stiffness: 220, damping: 18 }
+        })
+        ;[a,b] = [b,a]
+      }
+    }, [anchors, controls])
+
+    React.useEffect(() => {
+      const id = setTimeout(run, delay*1000)
+      return () => clearTimeout(id)
+    }, [run, delay])
+
+    return (
+      <motion.div
+        ref={elRef}
+        initial={{ x: rand(40, 140), y: rand(40, 140), opacity: 0.9*depth }}
+        animate={controls}
+        style={{ fontSize: size*depth, filter:`blur(${(1-depth)*0.8}px)` }}
+        className="symbol-theme absolute"
+      >
+        {s}
+      </motion.div>
+    )
+  }
+
+  return (
+    <div ref={containerRef} className="pointer-events-none absolute inset-0 z-25" style={{ transform:`translateY(${offY}px)` }}>
+      {items.map(({ id, s, size, depth, delay }) => (
+        <Symbol key={id} s={s} size={size} depth={depth} delay={delay} />
+      ))}
+    </div>
+  )
+}*/
 
 export function Coursework() {
   const cs = [
@@ -955,7 +1208,7 @@ export function Coursework() {
   return (
     <section id="coursework" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
-        <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Relevant Coursework</h2>
+        <h2 className={`title-bounce-anchor font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Relevant Coursework</h2>
         {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
           <>
             <CourseBox title="Computer Science" items={cs} />
@@ -979,7 +1232,7 @@ export function Awards() {
   return (
     <section id="awards" className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
-        <h2 className={`font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-6`}>Awards</h2>
+        <h2 className={`title-bounce-anchor font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-6`}>Awards</h2>
         {React.createElement(motion.div, { initial:{opacity:0,y:24}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {items.map(({t, org, date, desc, icon:Icon}, idx)=> (
@@ -987,7 +1240,7 @@ export function Awards() {
                 <div className="mb-4">
                   {React.createElement(Icon, { className: 'w-10 h-10 neon-icon' })}
                 </div>
-                <h3 className="text-2xl font-bold leading-tight mb-1 heading">{t}</h3>
+                <h3 className="text-2xl font-bold leading-tight mb-1 title-gradient">{t}</h3>
                 <div className="text-base font-medium mb-2 text-foreground">{org} · {date}</div>
                 <p className="text-base text-foreground">{desc}</p>
               </div>
@@ -1007,17 +1260,16 @@ export function Contact() {
           {/* Ambient glow ring */}
           <div className="pointer-events-none absolute -inset-24 opacity-30 blur-3xl" style={{ background:'radial-gradient(600px 400px at 80% 20%, rgba(231,76,60,0.15), transparent 60%), radial-gradient(500px 300px at 20% 80%, rgba(155,89,182,0.18), transparent 60%)' }} />
           <CardHeader className="relative">
-            <CardTitle className="font-hand text-3xl">Let’s build together</CardTitle>
+            <CardTitle className="font-hand text-3xl title-gradient">Let’s build together</CardTitle>
             <CardDescription className="text-muted-foreground">Email, phone, and links — quick and simple.</CardDescription>
           </CardHeader>
           <CardContent className="relative">
             {React.createElement(motion.div, { initial:{opacity:0,y:18}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  {label:'Email', value:'hemenbabis@gmail.com', href:'mailto:hemenbabis@gmail.com', copy:true, icon:Mail, glow:'rgba(231,76,60,0.6)'},
-                  {label:'Phone', value:'971-330-9398', href:'tel:+19713309398', copy:true, icon:PhoneIcon, glow:'rgba(155,89,182,0.55)'},
-                  {label:'GitHub', value:'github.com', href:'https://github.com/', copy:false, icon:Github, glow:'rgba(155,89,182,0.6)'},
+                  {label:'Email', value:'hemenly@gmail.com', href:'mailto:hemenly@gmail.com', copy:true, icon:Mail, glow:'rgba(231,76,60,0.6)'},
                   {label:'LinkedIn', value:'linkedin.com/in/hemen-babis', href:'https://www.linkedin.com/in/hemen-babis', copy:false, icon:Linkedin, glow:'rgba(10,102,194,0.7)'},
+                  {label:'Personal', value:'hemen-babis.github.io/hemenportfolio/', href:'https://hemen-babis.github.io/hemenportfolio/', copy:false, icon:Github, glow:'rgba(155,89,182,0.6)'},
                 ].map(({label,value,href,copy,icon:Icon,glow}, idx) => (
                   React.createElement(motion.a, {
                     key: label,
@@ -1053,7 +1305,8 @@ export function Contact() {
                 ))}
               </div>
             ))}
-            <div className="mt-4 flex items-center gap-3">
+            
+            <div className="mt-6 flex items-center gap-3">
               <a className={`inline-flex items-center gap-2 px-4 py-2 btn-outline-purple`} href="/Hemen_Babis_Resume.pdf" download><Share2 className="w-4 h-4"/> Resume</a>
             </div>
           </CardContent>
@@ -1070,7 +1323,7 @@ function CourseBox({ title, items, className }){
   return (
     <div className={`glass-card p-5 ${className||''}`}>
       <div className="flex items-center justify-between cursor-pointer" onClick={()=>setOpen(v=>!v)}>
-        <h3 className="font-semibold heading">{title}</h3>
+        <h3 className="font-semibold title-gradient">{title}</h3>
         <span className="text-sm text-foreground">{open ? 'Hide' : 'Show'}</span>
       </div>
       {React.createElement(motion.div, {
@@ -1131,20 +1384,11 @@ export default function App() {
 
       {/* Hero */}
       <section className="relative pt-0">
-        {/* DNA Helix image layered in front of skills */}
+        {/* DNA Helix 3D Canvas layered in front of background */}
         <div className="relative w-full h-screen min-h-[520px] overflow-hidden">
-          <img
-            ref={helixRef}
-            src="/helix.png"
-            alt="DNA Helix"
-            className="absolute inset-0 z-10 w-full h-full object-cover will-change-transform"
-            loading="eager"
-            style={{
-              filter:
-                "brightness(0.72) saturate(0.9) drop-shadow(0 0 28px rgba(168,85,247,0.28)) drop-shadow(0 18px 28px rgba(0,0,0,0.38)) drop-shadow(0 0 48px rgba(0,0,0,0.28))",
-              transform: "translateY(0px)",
-            }}
-          />
+          <div ref={helixRef} className="absolute inset-0 z-10 will-change-transform">
+            <HelixScene />
+          </div>
           {/* Subtle halo + vignette to improve helix readability without overpowering */}
           <div ref={haloRef} className="pointer-events-none absolute inset-0 z-[15] will-change-transform" style={{ transform: "translateY(0px)" }}>
             <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_45%,rgba(168,85,247,0.18),transparent_60%)]" />
@@ -1181,19 +1425,12 @@ export default function App() {
 
         {/* Intro split: Left (name + buttons), Right (photo above About) */}
         <div className="mx-auto w-full px-4 sm:px-6 mt-8 sm:mt-10 relative z-20 grid md:grid-cols-2 gap-8 items-start">
-          {/* Constellation background behind name → to start of Skills */}
-          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-            <img
-              src="/constellation.png"
-              alt="Constellation of math/CS/AI icons"
-              className="w-full h-full object-cover opacity-80 sm:opacity-90 mix-blend-screen dark:mix-blend-normal select-none"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div>
-            <div className="surface-panel inline-block px-4 py-4 sm:px-5 sm:py-5">
-              <h1 className={`font-hand text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText}`}>Hemen — AI/ML, CS, Math, Bioinformatics</h1>
+          {/* Floating symbols removed per request */}
+          <div className="relative">
+            {/* Subtle dots background just behind the name area */}
+            <div className="absolute inset-0 -z-10 dots-bg opacity-70" />
+            <div className="inline-block rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-lg px-4 py-4 sm:px-5 sm:py-5 shadow-[0_6px_24px_rgba(0,0,0,0.15)] border border-white/60 dark:border-white/20">
+              <h1 className={`font-hand font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText} title-stroke`} style={{ textShadow: '0 1px 8px rgba(0,0,0,0.45), 0 0 18px rgba(169,112,255,0.35)' }}>Hemen — AI/ML, CS, Math, Bioinformatics</h1>
               <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <a href="#projects"><Button className="btn-primary-purple w-full sm:w-auto">See Projects</Button></a>
                 <a href="#contact"><Button className="btn-outline-purple w-full sm:w-auto">Contact Me</Button></a>
@@ -1212,7 +1449,7 @@ export default function App() {
             {/* In-hero About to the right (under photo) */}
             <div className="relative">
               <div className="p-5 glass-card">
-               <h2 className={`font-hand text-2xl mb-2 heading`}>About</h2>
+               <h2 className={`title-bounce-anchor font-hand text-2xl mb-2 title-gradient`}>About</h2>
                <p className="text-base text-foreground whitespace-pre-wrap">{about}</p>
               </div>
             </div>
@@ -1222,11 +1459,11 @@ export default function App() {
             <div className="flex items-center justify-center gap-5 text-center">
               <a href="/articles" className="group flex flex-col items-center justify-center px-4 py-3 rounded-md hover:bg-white/10 transition">
                 <FileText className="w-9 h-9 neon-icon transition-transform group-hover:scale-110" />
-                <span className="mt-1 text-sm font-semibold heading">Articles</span>
+                <span className="mt-1 text-sm font-semibold title-gradient">Articles</span>
               </a>
               <a href="/about" className="group flex flex-col items-center justify-center px-4 py-3 rounded-md hover:bg-white/10 transition">
                 <User className="w-9 h-9 neon-icon transition-transform group-hover:scale-110" />
-                <span className="mt-1 text-sm font-semibold heading">About Me</span>
+                <span className="mt-1 text-sm font-semibold title-gradient">About Me</span>
               </a>
             </div>
           </div>

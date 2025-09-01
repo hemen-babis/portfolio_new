@@ -6,7 +6,7 @@ import { Code2, Boxes, Wrench, Sparkles } from 'lucide-react'
 import { skills } from '@/content/profile'
 
 const glass = "glass-card"
-const neonText = "bg-clip-text text-transparent bg-gradient-to-r from-[#9B59B6] via-[#E74C3C] to-[#F1C40F]"
+const neonText = "bg-clip-text text-transparent bg-gradient-to-r from-[#9B59B6] via-[#FF6EC7] to-[#E0AA3E]"
 
 function ChipCloud({ items }) {
   const palettes = [
@@ -32,7 +32,7 @@ function SkillCard({ title, icon: Icon, desc, items }) {
           <div className="p-3 rounded-xl bg-white/10">
             <Icon className="w-6 h-6 neon-icon" />
           </div>
-          <CardTitle className="text-lg font-semibold heading">{title}</CardTitle>
+          <CardTitle className="text-lg font-extrabold title-gradient">{title}</CardTitle>
         </div>
         {desc && <CardDescription className="text-foreground text-base">{desc}</CardDescription>}
       </CardHeader>
@@ -48,7 +48,7 @@ export default function Skills() {
   return (
     <section id="skills" className="relative py-20">
       <div className="mx-auto w-full px-4 sm:px-6">
-        <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold heading mb-4`}>Skills</h2>
+        <h2 className={`title-bounce-anchor font-hand text-2xl sm:text-3xl md:text-4xl font-extrabold title-gradient mb-4`}>Skills</h2>
         <p className="text-sm sm:text-base text-foreground mb-6">Languages, frameworks, tools, and domains I work with.</p>
 
         {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5}}, (

@@ -17,7 +17,7 @@ export default function ProjectsConstellation() {
   return (
     <section className="relative py-24">
       <div className="mx-auto w-full px-4 sm:px-6">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#9B59B6] via-[#E74C3C] to-[#F1C40F] mb-6">Projects</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold title-gradient mb-6">Projects</h2>
         <div className="relative hidden lg:block h-[70vh] rounded-[16px] overflow-hidden">
           <svg className="absolute inset-0 w-full h-full">
             {nodes.slice(1).map((n, i) => (
@@ -41,7 +41,7 @@ export default function ProjectsConstellation() {
             <a key={n.id} href={n.link} className="absolute transform -translate-x-1/2 -translate-y-1/2 w-[280px]" style={{ left: `${n.x}%`, top: `${n.y}%` }}>
               <Card className="glass-card">
                 <CardHeader>
-                  <CardTitle className="heading">{n.title}</CardTitle>
+                  <CardTitle className="title-gradient">{n.title}</CardTitle>
                   <CardDescription className="text-foreground">{n.blurb}</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -58,7 +58,7 @@ export default function ProjectsConstellation() {
             <a key={n.id} href={n.link}>
               <Card className="glass-card">
                 <CardHeader>
-                  <CardTitle className="heading">{n.title}</CardTitle>
+                  <CardTitle className="title-gradient">{n.title}</CardTitle>
                   <CardDescription className="text-foreground">{n.blurb}</CardDescription>
                 </CardHeader>
                 <CardContent>
