@@ -1,7 +1,6 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { IcosahedronGeometry, MeshStandardMaterial } from "three";
 import * as THREE from "three";
 // drei helpers not needed for 2D overlay
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
@@ -20,6 +19,9 @@ import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { about, experience as xp, projects as projData, skills as skillData, topSkills, languagesList, certifications } from "@/content/profile";
 import Skills from "@/components/Skills";
+import ScrollIndicator from "@/components/ScrollIndicator.jsx";
+import Testimonials from "@/components/Testimonials.jsx";
+import FloatingThemeToggle from "@/components/FloatingThemeToggle.jsx";
 
 /**
  * Hemen — Living Narrative Portfolio
@@ -516,14 +518,14 @@ function AIStudio() {
               <div className={`rounded-2xl p-4 h-64 sm:h-72 md:h-80 overflow-auto space-y-3 glass-card`}>
                 {messages.map((m, i) => (
                   <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                    <div className={`px-3 py-2 rounded-xl max-w-[80%] border ${m.role === "user" ? "bg-white/90 text-slate-900 border-black/10 dark:bg-white/80" : "bg-black/5 dark:bg-purple-950/40 border-black/10 dark:border-white/10"}`}>
+                    <div className={`px-3 py-2 rounded-xl max-w-[80%] border ${m.role === "user" ? "bg-white/95 text-slate-900 border-[rgba(106,64,200,0.20)] dark:bg-white/80" : "bg-[rgba(106,64,200,0.06)] dark:bg-purple-950/40 border-[rgba(106,64,200,0.22)] dark:border-white/10"}`}>
                       <p className="whitespace-pre-wrap text-sm text-foreground">{m.content}</p>
                     </div>
                   </div>
                 ))}
                 {thinking && (
                   <div className="flex justify-start">
-                    <div className={`px-3 py-2 rounded-xl max-w-[80%] bg-black/5 dark:bg-purple-950/40 border border-black/10 dark:border-white/10`}> 
+                    <div className={`px-3 py-2 rounded-xl max-w-[80%] bg-[rgba(106,64,200,0.06)] dark:bg-purple-950/40 border border-[rgba(106,64,200,0.22)] dark:border-white/10`}> 
                       <ThinkingVisualizer />
                     </div>
                   </div>
@@ -779,9 +781,9 @@ export function Projects() {
                    <h3 className="text-2xl font-extrabold"><span className="title-gradient">{title}</span></h3>
                  </div>
                 <p className="text-lg text-foreground">{blurb}</p>
-                <div className="mt-5 flex gap-3 flex-wrap">
+                <div className="mt-5 flex gap-2 flex-wrap">
                   {tags.map((t) => (
-                    <span key={t} className={`inline-flex items-center px-3 py-1.5 tag-neon text-base`}>{t}</span>
+                    <span key={t} className="chip">{t}</span>
                   ))}
                 </div>
                 {expanded === i && (
@@ -796,7 +798,7 @@ export function Projects() {
             ))}
         </div>
         <div className="mt-6 flex justify-center">
-          <a href="#projects"><Button className="btn-primary-purple text-base px-6 py-3">View All Projects</Button></a>
+          <a href="/projects"><Button className="btn-primary-purple text-base px-6 py-3">View All Projects</Button></a>
         </div>
       </div>
     )
@@ -901,24 +903,22 @@ export function Education() {
       <div className="mx-auto w-full px-4 sm:px-6">
         <h2 className={`title-bounce-anchor font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Education</h2>
         {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5} }, (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 [perspective:1200px]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {items.map((it, i)=> (
-              <div key={i} className="group relative h-72 md:h-64 select-none [perspective:1200px]">
-                <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0.2,0.2,1)] [transform-style:preserve-3d] transform-gpu will-change-transform [transform:rotateY(0deg)] group-hover:[transform:rotateY(180deg)]">
-                  {/* front face */}
-                  <div className="absolute inset-0 rounded-[16px] glass-card p-7 grid place-content-center [backface-visibility:hidden] transform-gpu">
-                    <div className="flex flex-col items-center gap-2 text-center">
-                      {React.createElement(it.icon, { className: 'w-8 h-8 neon-icon' })}
-                      <h3 className="text-lg font-semibold title-gradient">{it.title}</h3>
-                      <p className="text-base text-foreground">{it.subtitle}</p>
-                      {it.org && <p className="text-sm text-foreground/80">{it.org}</p>}
-                    </div>
+              <div key={i} className="flashcard select-none">
+                {/* Front face */}
+                <div className="flashcard-front glass-card p-7 text-center">
+                  <div className="flex flex-col items-center gap-2">
+                    {React.createElement(it.icon, { className: 'w-8 h-8 neon-icon' })}
+                    <h3 className="text-lg font-semibold title-gradient">{it.title}</h3>
+                    <p className="text-base text-foreground">{it.subtitle}</p>
+                    {it.org && <p className="text-sm text-foreground/80">{it.org}</p>}
                   </div>
-                  {/* back face — details only */}
-                  <div className="absolute inset-0 rounded-[16px] glass-card p-7 [transform:rotateY(180deg)] [backface-visibility:hidden] transform-gpu">
-                    <div className="h-full w-full flex items-center justify-center text-center">
-                      <p className="text-base text-foreground leading-relaxed">{it.details}</p>
-                    </div>
+                </div>
+                {/* Back face — details only */}
+                <div className="flashcard-back glass-card p-7 text-center overflow-auto">
+                  <div className="h-full w-full flex items-center justify-center">
+                    <p className="text-base text-foreground leading-relaxed">{it.details}</p>
                   </div>
                 </div>
               </div>
@@ -949,9 +949,8 @@ function HelixScene() {
     }, [])
     return mode
   }
-  const HelixPoints = ({ mode }) => {
+  const HelixPoints = ({ mode, count }) => {
     // two strands as points
-    const count = 1000;
     const radius = 1.6;
     const length = Math.PI * 10; // ~5 turns
     const positionsA = new Float32Array(count * 3);
@@ -972,13 +971,13 @@ function HelixScene() {
           <bufferGeometry>
             <bufferAttribute attach="attributes-position" count={count} array={positionsA} itemSize={3} />
           </bufferGeometry>
-          <pointsMaterial size={0.06} sizeAttenuation color="#ff6ec7" transparent opacity={0.95} depthWrite={false} />
+          <pointsMaterial size={0.06} sizeAttenuation color="#ff6ec7" transparent opacity={mode === 'dark' ? 0.85 : 0.95} depthWrite={false} />
         </points>
         <points>
           <bufferGeometry>
             <bufferAttribute attach="attributes-position" count={count} array={positionsB} itemSize={3} />
           </bufferGeometry>
-          <pointsMaterial size={0.06} sizeAttenuation color="#c299ff" transparent opacity={0.95} depthWrite={false} />
+          <pointsMaterial size={0.06} sizeAttenuation color="#c299ff" transparent opacity={mode === 'dark' ? 0.85 : 0.95} depthWrite={false} />
         </points>
         {/* rungs */}
         <lineSegments>
@@ -1003,11 +1002,10 @@ function HelixScene() {
     );
   };
 
-  const Sparkles = ({ mode }) => {
+  const Sparkles = ({ mode, n }) => {
     const ref = React.useRef()
-    const N = 600;
-    const arr = new Float32Array(N * 3);
-    for (let i = 0; i < N; i++) {
+    const arr = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2;
       const r = 2.4 + Math.random() * 1.1;
       const x = Math.cos(a) * r;
@@ -1024,14 +1022,14 @@ function HelixScene() {
     return (
       <points ref={ref}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" array={arr} count={N} itemSize={3} />
+          <bufferAttribute attach="attributes-position" array={arr} count={n} itemSize={3} />
         </bufferGeometry>
         <pointsMaterial size={0.04} transparent opacity={0.8} depthWrite={false} color={mode === 'light' ? '#000000' : '#ffffff'} />
       </points>
     );
   };
 
-  const Orbiters = () => {
+  const Orbiters = ({ mode }) => {
     const ref = React.useRef();
     useFrame(({ clock }) => {
       const t = clock.getElapsedTime();
@@ -1062,17 +1060,20 @@ function HelixScene() {
   };
 
   const mode = useThemeMode()
+  const isSmall = typeof window !== 'undefined' ? window.innerWidth < 640 : false
+  const helixCount = isSmall ? 750 : 1000
+  const sparkCount = isSmall ? 400 : 600
   return (
     <Canvas camera={{ position: [0, 0, 9], fov: 50 }}>
       <ambientLight intensity={0.4} />
       <directionalLight position={[4, 6, 3]} intensity={0.6} color="#ffb6f2" />
       <Rotator>
-        <HelixPoints mode={mode} />
-        <Sparkles mode={mode} />
-        <Orbiters />
+        <HelixPoints mode={mode} count={helixCount} />
+        <Sparkles mode={mode} n={sparkCount} />
+        <Orbiters mode={mode} />
       </Rotator>
       <EffectComposer>
-        <Bloom intensity={0.8} luminanceThreshold={0.2} luminanceSmoothing={0.9} radius={0.8} />
+        <Bloom intensity={0.6} luminanceThreshold={0.25} luminanceSmoothing={0.9} radius={0.7} />
       </EffectComposer>
     </Canvas>
   );
@@ -1210,10 +1211,42 @@ export function Coursework() {
       <div className="mx-auto w-full px-4 sm:px-6">
         <h2 className={`title-bounce-anchor font-hand text-3xl sm:text-4xl md:text-5xl ${neonText} mb-4 sm:mb-6`}>Relevant Coursework</h2>
         {React.createElement(motion.div, { initial:{opacity:0, y:24}, whileInView:{opacity:1, y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
-          <>
-            <CourseBox title="Computer Science" items={cs} />
-            <CourseBox title="Mathematics" items={math} className="mt-4" />
-          </>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Computer Science column */}
+            <div className="glass-card p-6">
+              <h3 className="text-xl font-semibold title-gradient mb-3">Computer Science</h3>
+              <div className="flex flex-wrap gap-2">
+                {cs.map((c, idx) => (
+                  React.createElement(motion.span, {
+                    key: c,
+                    initial: { opacity: 0, y: 8, scale: 0.98 },
+                    whileInView: { opacity: 1, y: 0, scale: 1 },
+                    viewport: { once: true },
+                    transition: { duration: 0.35, delay: idx * 0.05 },
+                    className: 'course-chip chip-animate',
+                    style: { '--chip-delay': `${idx * 0.12}s` }
+                  }, <span className={`${idx % 4 === 0 ? 'chip-float' : ''}`}>{c}</span>)
+                ))}
+              </div>
+            </div>
+            {/* Mathematics column */}
+            <div className="glass-card p-6">
+              <h3 className="text-xl font-semibold title-gradient mb-3">Mathematics</h3>
+              <div className="flex flex-wrap gap-2">
+                {math.map((c, idx) => (
+                  React.createElement(motion.span, {
+                    key: c,
+                    initial: { opacity: 0, y: 8, scale: 0.98 },
+                    whileInView: { opacity: 1, y: 0, scale: 1 },
+                    viewport: { once: true },
+                    transition: { duration: 0.35, delay: idx * 0.05 },
+                    className: 'course-chip chip-animate',
+                    style: { '--chip-delay': `${idx * 0.12}s` }
+                  }, <span className={`${idx % 5 === 0 ? 'chip-float' : ''}`}>{c}</span>)
+                ))}
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </section>
@@ -1320,30 +1353,27 @@ function PhoneIcon(props){ return <svg viewBox="0 0 24 24" fill="currentColor" c
 
 function CourseBox({ title, items, className }){
   const [open, setOpen] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setOpen(true), 50) // auto-drop with animation
+    return () => clearTimeout(t)
+  }, [])
   return (
-    <div className={`glass-card p-5 ${className||''}`}>
-      <div className="flex items-center justify-between cursor-pointer" onClick={()=>setOpen(v=>!v)}>
-        <h3 className="font-semibold title-gradient">{title}</h3>
-        <span className="text-sm text-foreground">{open ? 'Hide' : 'Show'}</span>
+    <div className={`course-box ${open ? 'show' : ''} ${className || ''}`}>
+      <div
+        className="cursor-pointer"
+        onClick={()=>setOpen(v=>!v)}
+        role="button"
+        aria-expanded={open}
+        aria-label={`${open ? 'Hide' : 'Show'} ${title}`}
+      >
+        <h3 className="course-header">{title}</h3>
+        <small className="opacity-80">{open ? 'Hide' : 'Show'}</small>
       </div>
-      {React.createElement(motion.div, {
-        initial: { height: 0, opacity: 0 },
-        animate: { height: open ? 'auto' : 0, opacity: open ? 1 : 0 },
-        transition: { duration: 0.35 },
-        className: 'overflow-hidden'
-      }, (
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          {items.map((c, idx) => (
-            React.createElement(motion.div, {
-              key: c,
-              initial: { opacity: 0, y: 8 },
-              animate: { opacity: open ? 1 : 0, y: open ? 0 : 8 },
-              transition: { delay: open ? idx * 0.03 : 0 },
-              className: 'text-sm text-[#e0e0e0] rounded-lg course-item hover:scale-[1.02] p-2'
-            }, c)
-          ))}
-        </div>
-      ))}
+      <ul className="course-list">
+        {items.map((c) => (
+          <li key={c}>{c}</li>
+        ))}
+      </ul>
     </div>
   )
 }
@@ -1377,6 +1407,7 @@ export default function App() {
       <ScrollProgressBar />
       <CursorGlow />
       <GlobalParticles />
+      <FloatingThemeToggle />
       <Toaster richColors position="top-center" />
       {/* Background gradient handled globally; removed extra blobs for consistency */}
 
@@ -1430,10 +1461,10 @@ export default function App() {
             {/* Subtle dots background just behind the name area */}
             <div className="absolute inset-0 -z-10 dots-bg opacity-70" />
             <div className="inline-block rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-lg px-4 py-4 sm:px-5 sm:py-5 shadow-[0_6px_24px_rgba(0,0,0,0.15)] border border-white/60 dark:border-white/20">
-              <h1 className={`font-hand font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText} title-stroke`} style={{ textShadow: '0 1px 8px rgba(0,0,0,0.45), 0 0 18px rgba(169,112,255,0.35)' }}>Hemen — AI/ML, CS, Math, Bioinformatics</h1>
+              <h1 className={`font-hand font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText} title-stroke shimmer-text`} style={{ textShadow: '0 1px 8px rgba(0,0,0,0.45), 0 0 18px rgba(169,112,255,0.35)' }}>Hemen — AI/ML, CS, Math, Bioinformatics</h1>
               <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <a href="#projects"><Button className="btn-primary-purple w-full sm:w-auto">See Projects</Button></a>
-                <a href="#contact"><Button className="btn-outline-purple w-full sm:w-auto">Contact Me</Button></a>
+                <a href="#projects"><Button className="btn-primary-purple w-full sm:w-auto hover-ring">See Work</Button></a>
+                <a href="/hemenly-tech"><Button className="btn-outline-purple w-full sm:w-auto hover-ring">Hire Me</Button></a>
               </div>
             </div>
             {/* removed floating keywords per revert */}
@@ -1469,6 +1500,8 @@ export default function App() {
           </div>
         </div>
       </section>
+      {/* Scroll indicator */}
+      <ScrollIndicator />
 
       {/* About section removed (content shown in-hero on the right) */}
 
@@ -1483,6 +1516,7 @@ export default function App() {
       {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.05}}, <Education />)}
             {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.1}}, <Coursework />)}
             {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.15}}, <Awards />)}
+      <Testimonials />
       <Contact />
 
       {/* Footer is provided by page layout */}

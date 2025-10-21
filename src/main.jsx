@@ -1,26 +1,35 @@
-import { StrictMode } from 'react'
+import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './index.css'
-import Home from './pages/Home.jsx'
-import ExperiencePage from './pages/ExperiencePage.jsx'
-import ProjectsPage from './pages/ProjectsPage.jsx'
-import ContactPage from './pages/ContactPage.jsx'
-import ArticlesPage from './pages/ArticlesPage.jsx'
-import AboutMePage from './pages/AboutMePage.jsx'
+const Home = lazy(() => import('./pages/Home.jsx'))
+const ExperiencePage = lazy(() => import('./pages/ExperiencePage.jsx'))
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage.jsx'))
+const ProjectCase = lazy(() => import('./pages/ProjectCase.jsx'))
+const ArticlesPage = lazy(() => import('./pages/ArticlesPage.jsx'))
+const AboutMePage = lazy(() => import('./pages/AboutMePage.jsx'))
+const WorkPage = lazy(() => import('./pages/WorkPage.jsx'))
+const HireMePage = lazy(() => import('./pages/HireMePage.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/experience" element={<ExperiencePage />} />
-        <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/articles" element={<ArticlesPage />} />
-        <Route path="/about-me" element={<AboutMePage />} />
-        <Route path="/about" element={<AboutMePage />} />
-      </Routes>
+      <Suspense fallback={<div style={{padding:'2rem', textAlign:'center'}}>Loading…</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/experience" element={<ExperiencePage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:slug" element={<ProjectCase />} />
+          <Route path="/work" element={<Navigate to="/projects" replace />} />
+          <Route path="/hire" element={<HireMePage />} />
+          <Route path="/hemenly-tech" element={<HireMePage />} />
+          <Route path="/contact" element={<Navigate to="/hemenly-tech" replace />} />
+          <Route path="/articles" element={<ArticlesPage />} />
+          <Route path="/about-me" element={<AboutMePage />} />
+          <Route path="/about" element={<AboutMePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   </StrictMode>,
 )

@@ -1,8 +1,10 @@
 import React from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
+import { usePageMeta } from '@/lib/usePageMeta'
 
 export default function ArticlesPage() {
+  usePageMeta({ title: 'Articles — Hemen Babis', description: 'Essays, notes and articles by Hemen Babis.' })
   return (
     <>
       <Nav />

@@ -3,9 +3,11 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { motion } from 'framer-motion'
 import { experience as xp, achievements, volunteering, memberships } from '@/content/profile'
+import { usePageMeta } from '@/lib/usePageMeta'
 import { GraduationCap, Briefcase, Heart, Award } from 'lucide-react'
 
 export default function ExperiencePage() {
+  usePageMeta({ title: 'Experience — Hemen Babis', description: 'Professional experience, achievements, volunteering and memberships.' })
   return (
     <>
       <Nav />

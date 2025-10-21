@@ -2,9 +2,11 @@ import React from 'react'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import AboutText from '@/components/about/AboutText'
+import { usePageMeta } from '@/lib/usePageMeta'
 import FunFacts from '@/components/about/FunFacts'
 
 export default function AboutMePage(){
+  usePageMeta({ title: 'About — Hemen Babis', description: 'About Hemen Babis: background, fun facts and interests across AI/ML, CS, Math and Bioinformatics.' })
   return (
     <>
       <Nav />
