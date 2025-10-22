@@ -19,12 +19,16 @@
     <meta name="twitter:description" content="AI/ML, CS, Math, and Bioinformatics projects, experience, and services." />
     <meta name="twitter:image" content="/og/og.svg" />
     <script>
-      // Force light mode to showcase the new light background immediately.
+      // Prefer user's saved theme; default to dark on first visit (no flash)
       (function(){
         try {
-          localStorage.setItem('theme', 'light');
-        } catch (e) {}
-        document.documentElement.classList.remove('dark');
+          var saved = localStorage.getItem('theme');
+          var useDark = saved ? saved === 'dark' : true; // default dark
+          document.documentElement.classList.toggle('dark', useDark);
+          if (!saved) localStorage.setItem('theme', useDark ? 'dark' : 'light');
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
       })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">

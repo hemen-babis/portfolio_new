@@ -1,4 +1,12 @@
-export const about = `I’m an applied AI/ML generalist who designs and ships simple, elegant systems. I bridge models and product — from LLM agents and RAG to vision‑language benchmarking — with a clean, design‑forward approach. Strengths across AI/ML, Quantum Computing, Bioinformatics, and Software Development.`
+export const about = `As a little girl, I used to sit beside my mom with a notebook full of questions — “Why does the computer hum?”, “What’s inside a lightbulb?”, “Can I build something like this one day?” I didn’t just want to use technology — I wanted to understand it, shape it, and make it beautiful.
+
+That same wonder has stayed with me. Today, I’m majoring in Computer Science and Mathematics at PSU Honors College, designing AI‑powered tools, building elegant web apps, and using code as both a language and an act of care. Whether I’m creating a generative AI tutor, optimizing backend APIs, or hand‑crafting social media designs from scratch, I always ask: How can this help someone?
+
+I’ve worked with startups, churches, nonprofits, and research teams — writing clean code with Flask, React, and Python; deploying intelligent systems using TensorFlow, LangChain, and Gemini API; and designing visual content that’s not just useful, but truly felt.
+
+I love building things that are functional and thoughtful — tech that serves people, especially those who aren’t always seen in the design process. I’m currently seeking an internship where I can keep learning, creating, and contributing to something meaningful — with heart, humility, and lots of joyful curiosity.
+
+Let’s connect — I’m always excited to learn, build, and bring a little light to tech. ✨`
 
 export const projects = [
   {
@@ -138,17 +146,16 @@ export const volunteering = [
 ]
 
 export const topSkills = [
-  'Computer Vision', 'Large Language Models (LLMs)', 'Multimodal AI'
+  'Generative AI', 'Full‑Stack Development', 'Machine Learning', 'Python', 'Creative Design'
 ]
 
 export const languagesList = [
   { name:'Amharic', level:'Native/Bilingual' },
-  { name:'English', level:'Native/Bilingual' },
-  { name:'Spanish', level:'Limited Working' },
+  { name:'English', level:'Native/Bilingual' }
 ]
 
 export const certifications = [
-  'BCLP — Interview Preparation: Own Your Story Job Simulation (Forage)'
+  'BCLP — Interview Preparation: Own Your Story Job Simulation (Forage) · ID: iXG4pFrYZLhtY4kTj'
 ]
 
 export const memberships = [

@@ -22,6 +22,7 @@ import Skills from "@/components/Skills";
 import ScrollIndicator from "@/components/ScrollIndicator.jsx";
 import Testimonials from "@/components/Testimonials.jsx";
 import FloatingThemeToggle from "@/components/FloatingThemeToggle.jsx";
+import FunFactsTicker from "@/components/FunFactsTicker.jsx";
 
 /**
  * Hemen — Living Narrative Portfolio
@@ -1420,10 +1421,14 @@ export default function App() {
           <div ref={helixRef} className="absolute inset-0 z-10 will-change-transform">
             <HelixScene />
           </div>
-          {/* Subtle halo + vignette to improve helix readability without overpowering */}
+          {/* Halo + vignette + subtle center scrim to keep text readable */}
           <div ref={haloRef} className="pointer-events-none absolute inset-0 z-[15] will-change-transform" style={{ transform: "translateY(0px)" }}>
-            <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_45%,rgba(168,85,247,0.18),transparent_60%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_50%,transparent_60%,rgba(0,0,0,0.38)_100%)]" />
+            {/* gentle purple halo for atmosphere */}
+            <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_45%,rgba(168,85,247,0.14),transparent_60%)]" />
+            {/* soft center scrim (a little darker for legibility) */}
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(44% 36% at 50% 48%, rgba(0,0,0,0.26), transparent 80%)' }} />
+            {/* edge vignette to contain brightness */}
+            <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_50%,transparent_60%,rgba(0,0,0,0.42)_100%)]" />
           </div>
           {/* Background particles for depth */}
           <MoleculesOverlay count={4} />
@@ -1434,18 +1439,25 @@ export default function App() {
           <div className="absolute inset-0 z-30">
             {(() => {
               const facts = [
-                'Born in Ethiopia',
-                'Speak 3 languages',
-                'Neuroscience + Bioinformatics fan',
-                'I build ML apps for fun',
-                'Coffee connoisseur',
-                'Runner • Hiking lover',
-                'Always sketching ideas',
+                'She/Her',
+                'Applied AI/ML Intern — VLMs',
+                'Gen AI Engineer',
+                'CS + Math @ PSU Honors (GPA 3.8)',
+                'Freelancer — Web + Visual',
+                'San Francisco, CA ↔ Portland, OR',
+                '1,783 followers · 500+ connections',
+                'Open to SWE / AI / Data internships',
+                'Amharic & English',
+                'Honors Laurels Scholarship (PSU Honors)',
+                'Tuition‑Free Degree Award (PSU Honors)',
+                'Rewriting the Code member',
+                'American Red Cross — Supervisor (alum)',
+                'Social Media Manager — John’s Repentance',
               ]
               const groups = [
-                { label: 'About me', icon: Sparkles, items: facts },
+                { label: 'Fun facts', icon: Sparkles, items: facts },
               ];
-              return <HeroSkillsFlowLanes groups={groups} lanes={2} perLane={2} speed={0.08} />;
+              return <HeroSkillsFlowLanes groups={groups} lanes={3} perLane={3} speed={0.09} />;
             })()}
           </div>
 
@@ -1466,6 +1478,17 @@ export default function App() {
                 <a href="#projects"><Button className="btn-primary-purple w-full sm:w-auto hover-ring">See Work</Button></a>
                 <a href="/hemenly-tech"><Button className="btn-outline-purple w-full sm:w-auto hover-ring">Hire Me</Button></a>
               </div>
+              <FunFactsTicker facts={[
+                'She/Her',
+                'Applied AI/ML Intern',
+                'Gen AI Engineer',
+                'CS + Math @ PSU Honors (GPA 3.8)',
+                'Freelancer — Web + Visual',
+                'Amharic + English',
+                'Portland ↔ SF',
+                '1,783 followers · 500+ connections',
+                'Open to SWE/AI/Data internships',
+              ]} />
             </div>
             {/* removed floating keywords per revert */}
           </div>
@@ -1485,8 +1508,8 @@ export default function App() {
               </div>
             </div>
           </div>
-          {/* Articles/About dock aligned to content gutter (same indent) */}
-          <div className="absolute left-4 sm:left-6 md:left-10 lg:left-14 bottom-0 p-4 rounded-lg glass-card w-fit">
+          {/* Articles/About dock: inline on mobile, pinned on tablet+ */}
+          <div className="relative sm:absolute sm:left-6 md:left-10 lg:left-14 sm:bottom-0 left-0 p-4 rounded-lg glass-card w-fit mt-4 sm:mt-0">
             <div className="flex items-center justify-center gap-5 text-center">
               <a href="/articles" className="group flex flex-col items-center justify-center px-4 py-3 rounded-md hover:bg-white/10 transition">
                 <FileText className="w-9 h-9 neon-icon transition-transform group-hover:scale-110" />

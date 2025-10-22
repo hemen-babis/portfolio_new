@@ -106,22 +106,40 @@ body {
 }
 
 h1 {
-  font-size: 3.4rem; /* ~54px */
-  line-height: 1.1;
+  /* Responsive display size that doesn’t overwhelm phones */
+  font-size: clamp(1.75rem, 3.2vw + 1rem, 3.4rem);
+  line-height: 1.12;
 }
 
-h2 { font-size: 2.5rem; /* ~40px */ }
-h4 { font-size: 1.65rem; /* ~26px */ }
+h2 { font-size: clamp(1.35rem, 2.1vw + 0.9rem, 2.4rem); }
+h4 { font-size: clamp(1.05rem, 1.2vw + 0.8rem, 1.65rem); }
 
 p, li { font-weight: 400; }
 
-/* Readability scaling for Tailwind text utilities */
-.text-sm { font-size: 1.125rem !important; }
-.text-base { font-size: 1.25rem !important; }
-.text-lg { font-size: 1.4rem !important; }
-.text-xl { font-size: 1.6rem !important; }
-.text-2xl { font-size: 1.9rem !important; }
-.text-3xl { font-size: 2.2rem !important; }
+/* Readability scaling for Tailwind text utilities (avoid upscaling on phones) */
+@media (max-width: 639px) {
+  body { font-size: 16px; }
+}
+
+/* Moderate scale bump for tablets */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .text-sm { font-size: 0.95rem !important; }
+  .text-base { font-size: 1.05rem !important; }
+  .text-lg { font-size: 1.175rem !important; }
+  .text-xl { font-size: 1.3rem !important; }
+  .text-2xl { font-size: 1.5rem !important; }
+  .text-3xl { font-size: 1.75rem !important; }
+}
+
+/* Larger, desktop-friendly scale */
+@media (min-width: 1024px) {
+  .text-sm { font-size: 1rem !important; }
+  .text-base { font-size: 1.125rem !important; }
+  .text-lg { font-size: 1.25rem !important; }
+  .text-xl { font-size: 1.4rem !important; }
+  .text-2xl { font-size: 1.7rem !important; }
+  .text-3xl { font-size: 2.0rem !important; }
+}
 
   button {
     border-radius: 8px;
@@ -261,6 +279,7 @@ button:focus-visible {
   * {
     @apply border-border outline-ring/50;
   }
+  img, video { max-width: 100%; height: auto; }
   /* Layer the main gradient with a subtle dot pattern for depth */
   body {
     background-image: var(--bg-gradient), radial-gradient(var(--dot-color) 1px, transparent 2px);
@@ -270,6 +289,20 @@ button:focus-visible {
     color: var(--foreground);
   }
   .heading, h2, h3, h4 { color: var(--heading-color); }
+}
+
+/* Mobile polish: lighter blur/shadows and better tap targets */
+@media (max-width: 767px) {
+  .glass-card {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 6px 16px rgba(2,6,23,0.08);
+    border-radius: 14px;
+  }
+  button, .btn-primary-purple, .btn-outline-purple {
+    min-height: 44px; /* comfortable tap target */
+    min-width: 44px;
+  }
 }
 
 /* Animated hero gradient */
@@ -443,14 +476,15 @@ code, pre, kbd, samp { font-family: 'Roboto Mono', ui-monospace, SFMono-Regular,
 
 /* Buttons */
 .btn-primary-purple {
-  background: linear-gradient(90deg, #a970ff, #6a40c8);
+  /* Purple → Orange → Pink gradient */
+  background: linear-gradient(90deg, #9B59B6, #FFA94D, #FF6EC7);
   color: #fff;
   font-weight: 700;
   border-radius: 12px;
   box-shadow: 0 0 0 rgba(169,112,255,0.0);
   transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
-.btn-primary-purple:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 0 15px #a970ff; filter: brightness(1.05); }
+.btn-primary-purple:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 0 16px rgba(255,110,199,0.6); filter: brightness(1.05); }
 .btn-outline-purple {
   border: 1px solid #a970ff;
   color: var(--btn-outline-fg);
@@ -692,4 +726,21 @@ h3.course-header { color: #ffffff; margin-bottom: 10px; }
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .chip-animate::after, .chip-float { animation: none !important; }
+}
+/* ==== Mobile hamburger micro-animations ==== */
+.menu-line {
+  background: linear-gradient(90deg, #FF6EC7, #9B59B6, #FF6EC7);
+  background-size: 200% 100%;
+}
+@keyframes menuShimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes menuRipple {
+  0% { transform: scale(0.6); opacity: 0.18; }
+  80% { opacity: 0.08; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-line { background-size: 100% 100%; animation: none !important; }
 }
