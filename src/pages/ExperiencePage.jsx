@@ -11,7 +11,7 @@ export default function ExperiencePage() {
   return (
     <>
       <Nav />
-      <main className="relative py-20">
+      <main id="main" className="relative py-20">
         <div className="mx-auto w-full px-4 sm:px-6 max-w-5xl">
           <h1 className="font-hand text-4xl sm:text-5xl md:text-6xl title-gradient mb-10">Experience</h1>
 

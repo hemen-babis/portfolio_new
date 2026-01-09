@@ -16,23 +16,17 @@ export const WORK_CATEGORIES = [
 
 // Posters/Ads — just drop files in public/posters/ with these names
 export const posters = [
+  // Keep only files that actually exist in public/posters/
   { id: 'poster-01', title: 'Poster 01', filename: 'poster-01.jpg', caption: 'Logo', tools: ['Illustrator'] },
-  { id: 'poster-02', title: 'Poster 02', filename: 'poster-02.jpg', caption: 'Event poster', tools: ['Photoshop'] },
-  { id: 'poster-03', title: 'Poster 03', filename: 'poster-03.jpg', caption: 'Business flyer', tools: ['Canva'] },
-  { id: 'poster-04', title: 'Poster 04', filename: 'poster-04.jpg', caption: 'Offer banner', tools: ['Illustrator'] },
-  { id: 'poster-05', title: 'Poster 05', filename: 'poster-05.jpg', caption: 'Promo artwork', tools: ['Figma'] },
-  { id: 'ad-01',     title: 'Ad 01',     filename: 'ad-01.jpg',     caption: 'Ad creative', tools: ['Photoshop'] },
-  { id: 'ad-02',     title: 'Ad 02',     filename: 'ad-02.jpg',     caption: 'Ad creative', tools: ['Photoshop'] },
-  { id: 'ad-03',     title: 'Ad 03',     filename: 'ad-03.jpg',     caption: 'Ad creative', tools: ['Photoshop'] },
 ]
 
 // Websites — fill your real links here
 export const websites = [
-  { id: 'yohannesneseha', title: 'Yohannes Neseha', url: 'https://yohannesneseha.org/', caption: 'Informational site', tools: ['Webflow','SEO'] },
-  { id: 'hemenbabis', title: 'Hemen Babis — Portfolio', url: 'https://hemenbabis.com', caption: 'Personal portfolio', tools: ['React','Tailwind'] },
-  { id: 'md-tutoring', title: 'Maryland Tutoring Services', url: 'https://www.marylandtutoringservices.org/', caption: 'Tutoring business site', tools: ['Google Sites'] },
-  { id: 'stgeorge', title: 'St. George PDX EOTC', url: '', caption: 'Church website (in progress)', tools: ['React, HTML, CSS',], status: 'Not published' },
-  { id: 'lukas-art', title: 'Lukas Art', url: '', caption: 'Artist portfolio site', tools: ['React','Tailwind'], status: 'Not published' },
+  { id: 'yohannesneseha', title: 'Yohannes Neseha', url: 'https://yohannesneseha.org/', caption: 'Informational site', tools: ['Webflow','SEO'], image: 'images/work/johns.png' },
+  { id: 'hemenbabis', title: 'Hemen Babis - Portfolio', url: 'https://hemenbabis.com', caption: 'Personal portfolio', tools: ['React','Tailwind'], image: 'images/portfolio.png' },
+  { id: 'md-tutoring', title: 'Maryland Tutoring Services', url: 'https://www.marylandtutoringservices.org/', caption: 'Tutoring business site', tools: ['Google Sites'], image: 'public/images/work/mts.png' },
+  { id: 'stgeorge', title: 'St. George PDX EOTC', url: '', caption: 'Church website (in progress)', tools: ['React, HTML, CSS',], status: 'Not published', image: 'public/images/work/church.png'},
+  { id: 'lukas-art', title: 'Lukas Art', url: '', caption: 'Artist portfolio site', tools: ['React','Tailwind'], status: 'Not published', image: 'public/images/work/seble.png'},
   { id: 'hamlet-house', title: 'Hamlet House AFH', url: '', caption: 'Adult foster home', tools: ['React','Tailwind'] },
   { id: 'blessing-house', title: 'Blessing House AFH', url: '', caption: 'Adult foster home', tools: ['React','Tailwind'] },
   { id: 'blue-moon', title: 'Blue Moon Group Home', url: '', caption: 'Adult foster home', tools: ['React','Tailwind'] },
@@ -46,6 +40,8 @@ export const social = [
 ]
 
 // Build unified list for the gallery
+const normalize = (p) => (p ? p.replace(/^public\//,'/') : '')
+
 export const workItems = [
   // Posters → Posters/Advertisements category
   ...posters.map(p => ({
@@ -63,7 +59,7 @@ export const workItems = [
     id: w.id,
     title: w.title,
     category: 'Websites',
-    image: '/logo.svg', // optional: replace with a screenshot later
+    image: normalize(w.image || ''),
     caption: w.caption,
     tools: w.tools,
     links: w.url ? [{ label: 'Visit Site', href: w.url }] : [],
@@ -75,7 +71,7 @@ export const workItems = [
     id: s.id,
     title: s.title,
     category: 'Social',
-    image: '/helix.png', // optional: replace with a cover graphic
+    image: normalize(s.image || ''),
     caption: s.caption,
     tools: s.tools,
     links: s.url ? [{ label: 'View', href: s.url }] : [],

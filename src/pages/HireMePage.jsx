@@ -13,9 +13,9 @@ import { usePageMeta } from '@/lib/usePageMeta'
 // Brand + Contact (update these with your info)
 const BRAND_NAME = 'Hemenly Tech'
 const BUSINESS = {
-  email: '', // e.g. 'contact@hemenlytech.com'
-  phone: '', // e.g. '+1 (555) 555-5555'
-  website: '', // e.g. 'https://hemenlytech.com'
+  email: '', // set your preferred email to enable direct mailto
+  phone: '', // optional
+  website: 'https://t.me/hemenly', // Telegram contact until email is set
 }
 
 const SERVICES = [
@@ -135,6 +135,32 @@ export default function HireMePage() {
   const [jobType, setJobType] = React.useState('')
   const [jobLink, setJobLink] = React.useState('')
 
+  // Persist quote draft locally
+  React.useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('hire-quote')||'null')
+      if (saved) {
+        setService(saved.service||null)
+        setWebsitePkg(saved.websitePkg||'professional')
+        setTimeline(saved.timeline||'')
+        setBudget(saved.budget||'')
+        setDesc(saved.desc||'')
+        setExtras(saved.extras||[])
+        setName(saved.name||'')
+        setEmail(saved.email||'')
+        setPhone(saved.phone||'')
+        setCompany(saved.company||'')
+        setJobRole(saved.jobRole||'')
+        setJobType(saved.jobType||'')
+        setJobLink(saved.jobLink||'')
+      }
+    } catch {}
+  }, [])
+  React.useEffect(() => {
+    const data = { service, websitePkg, timeline, budget, desc, extras, name, email, phone, company, jobRole, jobType, jobLink }
+    try { localStorage.setItem('hire-quote', JSON.stringify(data)) } catch {}
+  }, [service, websitePkg, timeline, budget, desc, extras, name, email, phone, company, jobRole, jobType, jobLink])
+
   const toggleExtra = (v) => {
     setExtras((xs) => (xs.includes(v) ? xs.filter((x) => x !== v) : [...xs, v]))
   }
@@ -190,32 +216,40 @@ export default function HireMePage() {
     }
   }, [service, websitePkg, timeline, budget, desc, extras, name, email, phone, company, jobRole, jobType, jobLink])
 
+  const buildRequestText = () => (
+    `Quote Request\n\n` +
+    `Service: ${summary.service}\n` +
+    (summary.service === 'web' ? `Package: ${summary.websitePkg}\n` : '') +
+    (summary.service !== 'job' && summary.timeline ? `Timeline: ${summary.timeline}\n` : '') +
+    (summary.service !== 'job' && summary.budget ? `Budget: ${summary.budget}\n` : '') +
+    (summary.service !== 'job' && summary.extras.length ? `Extras: ${summary.extras.join(', ')}\n` : '') +
+    (summary.service === 'job' && summary.jobRole ? `Role: ${summary.jobRole}\n` : '') +
+    (summary.service === 'job' && summary.jobType ? `Employment Type: ${summary.jobType}\n` : '') +
+    (summary.service === 'job' && summary.jobLink ? `Job Link: ${summary.jobLink}\n` : '') +
+    `\nProject Description:\n${summary.desc}\n\n` +
+    `Contact:\n${summary.name}\n${summary.email}\n${summary.phone}\n${summary.company}`
+  )
+
   const handleSubmit = () => {
     if (!validate('submit')) return
-    const to = BUSINESS.email || 'your.email@example.com'
+    const to = BUSINESS.email
     const subject = service === 'job' ? 'Job Opportunity Inquiry' : 'Project Quote Request'
-    const body = encodeURIComponent(
-      `Quote Request\n\n` +
-      `Service: ${summary.service}\n` +
-      (summary.service === 'web' ? `Package: ${summary.websitePkg}\n` : '') +
-      (summary.service !== 'job' && summary.timeline ? `Timeline: ${summary.timeline}\n` : '') +
-      (summary.service !== 'job' && summary.budget ? `Budget: ${summary.budget}\n` : '') +
-      (summary.service !== 'job' && summary.extras.length ? `Extras: ${summary.extras.join(', ')}\n` : '') +
-      (summary.service === 'job' && summary.jobRole ? `Role: ${summary.jobRole}\n` : '') +
-      (summary.service === 'job' && summary.jobType ? `Employment Type: ${summary.jobType}\n` : '') +
-      (summary.service === 'job' && summary.jobLink ? `Job Link: ${summary.jobLink}\n` : '') +
-      `\nProject Description:\n${summary.desc}\n\n` +
-      `Contact:\n${summary.name}\n${summary.email}\n${summary.phone}\n${summary.company}`
-    )
-    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`
-    toast.success('Thanks! Your email client is opening with the details.')
+    const body = encodeURIComponent(buildRequestText())
+    if (to) {
+      window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`
+      toast.success('Thanks! Your email client is opening with the details.')
+    } else {
+      navigator.clipboard.writeText(buildRequestText())
+        .then(()=> toast.success('No email set. Copied request to clipboard.'))
+        .catch(()=> toast.error('No email set. Please copy your request manually.'))
+    }
   }
 
   return (
     <>
       <Nav />
       <CornerProgress step={step} total={total} service={service} />
-      <main className="relative py-12">
+      <main id="main" className="relative py-12">
         <div className="mx-auto w-full px-4 sm:px-6 max-w-6xl">
           <div className="flex items-center justify-between mb-6">
             <h1 className="font-hand text-4xl sm:text-5xl md:text-6xl title-gradient">{BRAND_NAME}</h1>
@@ -244,12 +278,12 @@ export default function HireMePage() {
                   {step===1 && (
                     <motion.div key="s1" initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}}>
                       <h2 className="text-2xl font-extrabold title-gradient mb-2">What do you need?</h2>
-                      <p className="text-foreground/80 mb-4">Select a service to start.</p>
+                      <p className="text-foreground/90 mb-4">Select a service to start.</p>
                       <div className="grid sm:grid-cols-2 gap-3">
                         {SERVICES.map(s => (
-                          <button key={s.id} onClick={()=>{ setService(s.id); setStep(2); }} className={`text-left p-4 rounded-xl border transition hover:-translate-y-0.5 ${service===s.id ? 'border-[#a970ff66] bg-white/70 dark:bg-white/10' : 'border-white/15 bg-white/5'}`}>
+                          <button key={s.id} onClick={()=>{ setService(s.id); setStep(2); }} className={`text-left p-4 rounded-xl border transition hover:-translate-y-0.5 ${service===s.id ? 'border-[#a970ff66] bg-white/90 dark:bg-white/10' : 'border-black/10 bg-white/80 hover:bg-white/90 dark:border-white/15 dark:bg-white/5'}`}>
                             <div className="font-bold">{s.label}</div>
-                            <div className="text-sm opacity-80">{s.desc}</div>
+                            <div className="text-sm opacity-90">{s.desc}</div>
                           </button>
                         ))}
                       </div>
@@ -265,10 +299,10 @@ export default function HireMePage() {
                             <div className="text-sm font-semibold mb-2">Choose Your Package</div>
                             <div className="grid md:grid-cols-3 gap-3">
                               {WEBSITE_PACKAGES.map(p => (
-                                <button key={p.id} onClick={()=>setWebsitePkg(p.id)} className={`text-left p-4 rounded-xl border transition relative ${websitePkg===p.id ? 'border-[#a970ff66] bg-white/70 dark:bg-white/10' : 'border-white/15 bg-white/5'}`}>
+                                <button key={p.id} onClick={()=>setWebsitePkg(p.id)} className={`text-left p-4 rounded-xl border transition relative ${websitePkg===p.id ? 'border-[#a970ff66] bg-white/90 dark:bg-white/10' : 'border-black/10 bg-white/80 hover:bg-white/90 dark:border-white/15 dark:bg-white/5'}`}>
                                   {p.popular && <span className="absolute top-2 right-2 text-xs px-2 py-0.5 rounded-full bg-[#a970ff] text-white">Most Popular</span>}
                                   <div className="font-bold">{p.title}</div>
-                                  <div className="text-xs opacity-80 mb-2">{p.note}</div>
+                                  <div className="text-xs opacity-90 mb-2">{p.note}</div>
                                   <ul className="text-xs space-y-1 list-disc pl-4 opacity-90">
                                     {p.bullets.map((b,i)=>(<li key={i}>{b}</li>))}
                                   </ul>
@@ -355,7 +389,7 @@ export default function HireMePage() {
                           <div className="text-sm font-semibold mb-2">Additional Options (Optional)</div>
                           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
                             {EXTRA_SERVICES.map(es => (
-                              <label key={es} className={`px-3 py-2 rounded-lg border text-sm cursor-pointer select-none ${extras.includes(es)?'bg-white/20 border-[#a970ff66]':'bg-white/5 border-white/15'}`}>
+                              <label key={es} className={`px-3 py-2 rounded-lg border text-sm cursor-pointer select-none ${extras.includes(es)?'bg-white/90 dark:bg-white/20 border-[#a970ff66]':'bg-white/80 hover:bg-white/90 dark:bg-white/5 border-black/10 dark:border-white/15'}`}>
                                 <input type="checkbox" className="mr-2" checked={extras.includes(es)} onChange={()=>toggleExtra(es)} />
                                 {es}
                               </label>
@@ -396,18 +430,24 @@ export default function HireMePage() {
                       </div>
 
                       <div className="mt-4 grid md:grid-cols-3 gap-3 text-sm">
-                        <div className="p-3 rounded-lg bg-white/5 border border-white/15"><div className="font-semibold mb-1">Service</div><div className="opacity-90">{summary.service || '-'}</div></div>
-                        {summary.service==='web' && (<div className="p-3 rounded-lg bg-white/5 border border-white/15"><div className="font-semibold mb-1">Package</div><div className="opacity-90">{summary.websitePkg}</div></div>)}
-                        {summary.service!=='job' && (<div className="p-3 rounded-lg bg-white/5 border border-white/15"><div className="font-semibold mb-1">Timeline</div><div className="opacity-90">{summary.timeline || '-'}</div></div>)}
-                        {summary.service!=='job' && (<div className="p-3 rounded-lg bg-white/5 border border-white/15"><div className="font-semibold mb-1">Budget</div><div className="opacity-90">{summary.budget || '-'}</div></div>)}
-                        {summary.service==='job' && (<div className="p-3 rounded-lg bg-white/5 border border-white/15"><div className="font-semibold mb-1">Role</div><div className="opacity-90">{summary.jobRole || '-'}</div></div>)}
-                        {summary.service==='job' && (<div className="p-3 rounded-lg bg-white/5 border border-white/15"><div className="font-semibold mb-1">Type</div><div className="opacity-90">{summary.jobType || '-'}</div></div>)}
-                        {summary.extras.length>0 && summary.service!=='job' && (<div className="p-3 rounded-lg bg-white/5 border border-white/15 md:col-span-2"><div className="font-semibold mb-1">Extras</div><div className="opacity-90">{summary.extras.join(', ')}</div></div>)}
+                        <div className="p-3 rounded-lg bg-white/90 dark:bg-white/5 border border-black/10 dark:border-white/15"><div className="font-semibold mb-1">Service</div><div className="opacity-90">{summary.service || '-'}</div></div>
+                        {summary.service==='web' && (<div className="p-3 rounded-lg bg-white/90 dark:bg-white/5 border border-black/10 dark:border-white/15"><div className="font-semibold mb-1">Package</div><div className="opacity-90">{summary.websitePkg}</div></div>)}
+                        {summary.service!=='job' && (<div className="p-3 rounded-lg bg-white/90 dark:bg-white/5 border border-black/10 dark:border-white/15"><div className="font-semibold mb-1">Timeline</div><div className="opacity-90">{summary.timeline || '-'}</div></div>)}
+                        {summary.service!=='job' && (<div className="p-3 rounded-lg bg-white/90 dark:bg-white/5 border border-black/10 dark:border-white/15"><div className="font-semibold mb-1">Budget</div><div className="opacity-90">{summary.budget || '-'}</div></div>)}
+                        {summary.service==='job' && (<div className="p-3 rounded-lg bg-white/90 dark:bg-white/5 border border-black/10 dark:border-white/15"><div className="font-semibold mb-1">Role</div><div className="opacity-90">{summary.jobRole || '-'}</div></div>)}
+                        {summary.service==='job' && (<div className="p-3 rounded-lg bg-white/90 dark:bg-white/5 border border-black/10 dark:border-white/15"><div className="font-semibold mb-1">Type</div><div className="opacity-90">{summary.jobType || '-'}</div></div>)}
+                        {summary.extras.length>0 && summary.service!=='job' && (<div className="p-3 rounded-lg bg-white/90 dark:bg-white/5 border border-black/10 dark:border-white/15 md:col-span-2"><div className="font-semibold mb-1">Extras</div><div className="opacity-90">{summary.extras.join(', ')}</div></div>)}
                       </div>
 
-                      <div className="mt-4 flex justify-between">
+                      <div className="mt-4 flex justify-between gap-2 flex-wrap">
                         <Button variant="outline" className="btn-outline-purple" onClick={prev}>Previous</Button>
-                        <Button className="btn-primary-purple" onClick={handleSubmit}>Submit Quote Request</Button>
+                        <div className="flex gap-2">
+                          <Button className="btn-outline-purple" onClick={() => {
+                            const text = buildRequestText();
+                            navigator.clipboard.writeText(text).then(()=> toast.success('Copied request to clipboard.')).catch(()=> toast.error('Copy failed.'))
+                          }}>Copy details</Button>
+                          <Button className="btn-primary-purple" onClick={handleSubmit}>Submit Quote Request</Button>
+                        </div>
                       </div>
                     </motion.div>
                   )}

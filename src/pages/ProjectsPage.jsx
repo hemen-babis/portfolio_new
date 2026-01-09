@@ -7,6 +7,7 @@ import { Github, ExternalLink, FileText } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { usePageMeta } from '@/lib/usePageMeta'
 
 const CATS = ['All','Web Development','Visual Content','AI/ML','School Projects','Other/Creative']
@@ -31,7 +32,7 @@ function ProjectCard({ p, i, onOpen }) {
       <div className="relative mb-3 rounded-lg overflow-hidden border dark:border-white/15 border-black/10">
         {p.image ? (
           <div className="aspect-[16/10] w-full relative bg-slate-100 dark:bg-white/5">
-            <img src={p.image} alt={p.title} className="absolute inset-0 w-full h-full object-cover" />
+            <img src={p.image} alt={p.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
           </div>
         ) : (
           <div className={`aspect-[16/10] w-full bg-gradient-to-br ${CAT_COLORS[p.category||'Other/Creative']?.grad||'from-pink-400/20 to-violet-500/20'} grid place-items-center dark:text-white/90 text-slate-800 group-hover:rotate-[0.5deg] transition`}>
@@ -71,13 +72,25 @@ export default function ProjectsPage() {
     title: 'Projects — Hemen Babis',
     description: 'Selected software projects, client work and case studies by Hemen Babis.'
   })
-  const [mode, setMode] = React.useState('code') // 'code' or 'work'
-  const [cat, setCat] = React.useState('All')
-  const [query, setQuery] = React.useState('')
+  const [sp, setSp] = useSearchParams()
+  const [mode, setMode] = React.useState(sp.get('mode') || 'code') // 'code' or 'work'
+  const [cat, setCat] = React.useState(sp.get('cat') || 'All')
+  const [query, setQuery] = React.useState(sp.get('q') || '')
   const [open, setOpen] = React.useState(null) // case study modal (code)
-  const [wTab, setWTab] = React.useState(WORK_TABS[0])
+  const [wTab, setWTab] = React.useState(sp.get('wtab') || WORK_TABS[0])
   const [wOpen, setWOpen] = React.useState(null)
-  const [view, setView] = React.useState('grid') // 'grid' | 'list'
+  const [view, setView] = React.useState(sp.get('view') || 'grid') // 'grid' | 'list'
+
+  // Sync state → URL
+  React.useEffect(() => {
+    const next = new URLSearchParams(sp)
+    next.set('mode', mode)
+    next.set('cat', cat)
+    query ? next.set('q', query) : next.delete('q')
+    next.set('view', view)
+    next.set('wtab', wTab)
+    setSp(next, { replace: true })
+  }, [mode, cat, query, view, wTab])
 
   const data = React.useMemo(() => {
     const pool = projData
@@ -102,7 +115,7 @@ export default function ProjectsPage() {
   return (
     <>
       <Nav />
-      <main className="relative py-16">
+      <main id="main" className="relative py-16">
         <div className="mx-auto w-full px-4 sm:px-6 max-w-6xl">
           <h1 className="font-hand text-4xl sm:text-5xl md:text-6xl title-gradient mb-4">Projects</h1>
           <div className="mb-6 inline-flex items-center rounded-lg dark:bg-white/10 bg-white/80 border border-[#a970ff33] p-1">
@@ -117,7 +130,7 @@ export default function ProjectsPage() {
               <div className="w-full md:w-1/2">
                 {featured.image ? (
                   <div className="aspect-[16/9] w-full rounded-xl overflow-hidden border dark:border-white/20 border-black/10 relative bg-slate-100 dark:bg-white/5">
-                    <img src={featured.image} alt={featured.title} className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={featured.image} alt={featured.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
                   </div>
                 ) : (
                   <div className={`aspect-[16/9] w-full rounded-xl bg-gradient-to-br ${CAT_COLORS[featured.category||'Other/Creative']?.grad||'from-pink-400/30 to-violet-500/30'} border dark:border-white/20 border-black/10 flex items-center justify-center dark:text-white/90 text-slate-800`}>
@@ -160,7 +173,7 @@ export default function ProjectsPage() {
               ))}
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <button onClick={()=>setView(v=> v==='grid'?'list':'grid')} className="px-3 py-1.5 rounded-lg border dark:border-white/20 border-black/10 text-sm">
                   {view==='grid' ? 'List View' : 'Grid View'}
                 </button>
@@ -168,8 +181,14 @@ export default function ProjectsPage() {
                 value={query}
                 onChange={(e)=>setQuery(e.target.value)}
                 placeholder="Search projects (title, tech)"
+                aria-label="Search projects"
+                role="searchbox"
                 className="glass-card lm-input px-4 py-2 rounded-xl outline-none placeholder:text-slate-500 dark:placeholder:text-slate-300"
               />
+                {query && (
+                  <button onClick={()=>setQuery('')} className="px-2 py-1 rounded-md border dark:border-white/20 border-black/10 text-xs">Clear</button>
+                )}
+                <span className="text-xs opacity-70">{data.length} result{data.length===1?'':'s'}</span>
               </div>
             </div>
           </div>
@@ -211,7 +230,7 @@ export default function ProjectsPage() {
                   <motion.article key={p.title+i} initial={{opacity:0, y:10}} animate={{opacity:1,y:0}} transition={{duration:0.25}}
                     className="glass-card p-3 flex items-center gap-4">
                     <div className="relative w-40 aspect-[16/10] rounded-lg overflow-hidden bg-gradient-to-br from-pink-400/15 to-violet-500/15 border dark:border-white/15 border-black/10">
-                      {p.image && <img src={p.image} alt={p.title} className="absolute inset-0 w-full h-full object-cover" />}
+                      {p.image && <img src={p.image} alt={p.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-lg font-extrabold title-gradient truncate">{p.title}</h3>
@@ -253,7 +272,7 @@ export default function ProjectsPage() {
                     className="glass-card p-3 flex flex-col">
                     <button onClick={()=>setWOpen(it)} className={`group relative rounded-xl border dark:border-white/20 border-black/10 overflow-hidden bg-gradient-to-br from-pink-400/15 to-violet-500/15 aspect-[4/3] grid place-items-center`}>
                       {it.image ? (
-                        <img src={it.image} alt={it.title} className="absolute inset-0 w-full h-full object-cover object-center opacity-95 group-hover:opacity-100 transition" />
+                        <img src={it.image} alt={it.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover object-center opacity-95 group-hover:opacity-100 transition" />
                       ) : (
                         <span className="opacity-80 dark:text-white/90 text-slate-800">Preview</span>
                       )}

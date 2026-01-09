@@ -12,7 +12,9 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <App />
+      <main id="main">
+        <App />
+      </main>
       <Footer />
     </>
   )

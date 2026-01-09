@@ -22,6 +22,7 @@ import Skills from "@/components/Skills";
 import ScrollIndicator from "@/components/ScrollIndicator.jsx";
 import Testimonials from "@/components/Testimonials.jsx";
 import FloatingThemeToggle from "@/components/FloatingThemeToggle.jsx";
+import Recommendations from "@/components/Recommendations.jsx";
 import FunFactsTicker from "@/components/FunFactsTicker.jsx";
 
 /**
@@ -746,7 +747,9 @@ function translate(dna) {
 
 // ===== Projects & Contact =====
 export function Projects() {
-  const aiItems = projData.map(p => ({
+  const top = projData.filter(p => p.top).slice(0, 4)
+  const pool = (top.length ? top : projData.slice(0, 4))
+  const aiItems = pool.map(p => ({
     title: p.title,
     icon: Brain,
     blurb: p.summary,
@@ -932,6 +935,20 @@ export function Education() {
 }
 
 function HelixScene() {
+  // Respect user motion preferences
+  const usePrefersReducedMotion = () => {
+    const [reduced, setReduced] = React.useState(false)
+    React.useEffect(() => {
+      if (typeof window === 'undefined' || !window.matchMedia) return
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+      const onChange = () => setReduced(mq.matches)
+      setReduced(mq.matches)
+      if (mq.addEventListener) mq.addEventListener('change', onChange)
+      else mq.addListener(onChange)
+      return () => { if (mq.removeEventListener) mq.removeEventListener('change', onChange); else mq.removeListener(onChange) }
+    }, [])
+    return reduced
+  }
   // Detect Tailwind dark mode by observing the <html> class list
   const useThemeMode = () => {
     const getDark = () => {
@@ -1061,9 +1078,11 @@ function HelixScene() {
   };
 
   const mode = useThemeMode()
+  const reduceMotion = usePrefersReducedMotion()
   const isSmall = typeof window !== 'undefined' ? window.innerWidth < 640 : false
   const helixCount = isSmall ? 750 : 1000
   const sparkCount = isSmall ? 400 : 600
+  if (reduceMotion) return null
   return (
     <Canvas camera={{ position: [0, 0, 9], fov: 50 }}>
       <ambientLight intensity={0.4} />
@@ -1341,7 +1360,18 @@ export function Contact() {
             ))}
             
             <div className="mt-6 flex items-center gap-3">
-              <a className={`inline-flex items-center gap-2 px-4 py-2 btn-outline-purple`} href="/Hemen_Babis_Resume.pdf" download><Share2 className="w-4 h-4"/> Resume</a>
+              <a
+                href="#"
+                className={`inline-flex items-center gap-2 px-4 py-2 btn-outline-purple`}
+                onClick={(e)=>{
+                  e.preventDefault();
+                  fetch('/Hemen_Babis_Resume.pdf', { method: 'HEAD' })
+                    .then(r=>{ if(r.ok) window.open('/Hemen_Babis_Resume.pdf','_blank'); else toast.error('Resume not available yet.') })
+                    .catch(()=> toast.error('Resume not available yet.'))
+                }}
+              >
+                <Share2 className="w-4 h-4"/> Resume
+              </a>
             </div>
           </CardContent>
         </div>
@@ -1423,12 +1453,11 @@ export default function App() {
           </div>
           {/* Halo + vignette + subtle center scrim to keep text readable */}
           <div ref={haloRef} className="pointer-events-none absolute inset-0 z-[15] will-change-transform" style={{ transform: "translateY(0px)" }}>
-            {/* gentle purple halo for atmosphere */}
-            <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_45%,rgba(168,85,247,0.14),transparent_60%)]" />
-            {/* soft center scrim (a little darker for legibility) */}
-            <div className="absolute inset-0" style={{ background: 'radial-gradient(44% 36% at 50% 48%, rgba(0,0,0,0.26), transparent 80%)' }} />
-            {/* edge vignette to contain brightness */}
-            <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_50%,transparent_60%,rgba(0,0,0,0.42)_100%)]" />
+            {/* Light mode: very subtle halo; Dark mode: stronger */}
+            <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_45%,rgba(168,85,247,0.06),transparent_60%)] dark:bg-[radial-gradient(60%_50%_at_50%_45%,rgba(168,85,247,0.14),transparent_60%)]" />
+            {/* Center and edge scrims only in dark mode to aid contrast */}
+            <div className="hidden dark:block absolute inset-0" style={{ background: 'radial-gradient(44% 36% at 50% 48%, rgba(0,0,0,0.26), transparent 80%)' }} />
+            <div className="hidden dark:block absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_50%,transparent_60%,rgba(0,0,0,0.42)_100%)]" />
           </div>
           {/* Background particles for depth */}
           <MoleculesOverlay count={4} />
@@ -1476,7 +1505,7 @@ export default function App() {
               <h1 className={`font-hand font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText} title-stroke shimmer-text`} style={{ textShadow: '0 1px 8px rgba(0,0,0,0.45), 0 0 18px rgba(169,112,255,0.35)' }}>Hemen — AI/ML, CS, Math, Bioinformatics</h1>
               <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <a href="#projects"><Button className="btn-primary-purple w-full sm:w-auto hover-ring">See Work</Button></a>
-                <a href="/hemenly-tech"><Button className="btn-outline-purple w-full sm:w-auto hover-ring">Hire Me</Button></a>
+                <a href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer"><Button className="btn-outline-purple w-full sm:w-auto hover-ring">Hire Me</Button></a>
               </div>
               <FunFactsTicker facts={[
                 'She/Her',
@@ -1537,8 +1566,9 @@ export default function App() {
       {/* Experience and Education (animated) */}
       {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5}}, <Experience />)}
       {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.05}}, <Education />)}
-            {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.1}}, <Coursework />)}
-            {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.15}}, <Awards />)}
+      {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.1}}, <Coursework />)}
+      {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.15}}, <Awards />)}
+      <Recommendations />
       <Testimonials />
       <Contact />
 

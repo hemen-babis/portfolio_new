@@ -9,84 +9,115 @@ I love building things that are functional and thoughtful — tech that serves p
 Let’s connect — I’m always excited to learn, build, and bring a little light to tech. ✨`
 
 export const projects = [
+  // AI/ML
   {
-    title: 'AI Project Manager',
-    summary: 'AI-powered project management tool using Gemini for task planning, prioritization, and team insights.',
-    tech: ['Python', 'Gemini API', 'Flask', 'LangChain'],
-    demo: { label: 'Demo', href: '#' },
-    links: [{ label: 'GitHub', href: '#' }],
+    title: 'Project Manager',
+    summary: 'AI-driven project manager using the Gemini API for task extraction, prioritization, and planning.',
+    tech: ['Python','Flask','Gemini API','LangChain'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/AI-Project-Manager' }],
     category: 'AI/ML',
     image: '/images/aipm.png',
     tagline: 'Automate, prioritize, and plan with GenAI.',
-    caseStudy: {
-      problem: 'Manual task planning slowed teams; priorities were unclear and context was scattered.',
-      process: 'Built a Gemini-powered planner (Flask) with LangChain tools. Iterated on prompts, ranking heuristics, and UX. Added calendar sync and Slack-style status updates.',
-      result: 'Shipped a tool that reduced planning overhead by ~30% and increased on-time delivery for small teams.',
-      images: ['/images/case-aipm-1.png','/images/case-aipm-2.png']
-    }
+    top: true,
   },
   {
-    title: 'Quantum Algorithms',
-    summary: 'Explorations in quantum algorithms to accelerate ML tasks; notes and prototype code from coursework/research.',
-    tech: ['Python', 'Quantum Computing', 'NumPy'],
-    links: [{ label: 'GitHub', href: '#' }],
-    category: 'School Projects',
-    image: '/images/quantum.png',
-    tagline: 'Quantum ideas to speed up learning.',
-    caseStudy: {
-      problem: 'Classic ML pipelines struggled on certain combinatorial tasks.',
-      process: 'Explored quantum-inspired kernels and toy circuits. Benchmarked prototypes; documented caveats and next steps.',
-      result: 'Produced a set of notes and code that inform future research directions and coursework demos.',
-      images: ['/images/case-quantum-1.png']
-    }
-  },
-  {
-    title: 'AI Research Assistant',
-    summary: 'Summarizes PDFs and answers queries with retrieval and LLMs.',
-    tech: ['Python', 'LangChain', 'OpenAI API', 'Flask'],
-    links: [{ label: 'GitHub', href: '#' }],
+    title: 'Research Assistant',
+    summary: 'RAG mini app to summarize PDFs and answer questions with citations.',
+    tech: ['Python','Flask','LangChain','OpenAI API'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/ai-research-assistant' }],
     category: 'AI/ML',
-    image: '/images/research.png',
+    image: 'public/images/image copy 2.png',
     tagline: 'Ask papers anything.',
-    caseStudy: {
-      problem: 'Researchers lost time parsing long PDFs and extracting consistent answers.',
-      process: 'Built a RAG mini with chunking, rerank, and answer synthesis. Tuned chunk sizes and citation formatting.',
-      result: 'Faster literature review and consistent, cited summaries for common questions.',
-      images: ['/images/case-research-1.png']
-    }
+    top: true,
   },
   {
-    title: 'Portfolio Websites (selected)',
-    summary: 'A collection of bespoke websites for nonprofits, churches, and small orgs with clean UX and strong performance.',
-    tech: ['React', 'Node.js', 'Next.js', 'SEO'],
-    links: [{ label: 'GitHub', href: '#' }],
+    title: 'To‑Do Manager',
+    summary: 'AI‑powered task manager built with Flask; dynamic prioritization with ML.',
+    tech: ['Python','Flask','ML'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/ai-todo-manager' }],
+    category: 'AI/ML',
+    image: 'public/images/image.png',
+    tagline: 'Stay organized with intelligent priorities.',
+  },
+  {
+    title: 'Stock Price Predictor',
+    summary: 'Time‑series modeling to forecast stock prices.',
+    tech: ['Python','Pandas','scikit-learn'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/stock-price-predictor' }],
+    category: 'AI/ML',
+    image: 'public/images/image copy.png',
+    tagline: 'Practical ML for financial series.',
+  },
+  // Web / Apps
+  {
+    title: 'TemarLije',
+    summary: 'Convert any text or URL into a study pack: flashcards, summaries, and explanations.',
+    tech: ['TypeScript','React','FastAPI','OpenAI'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/TemarLije' }],
     category: 'Web Development',
-    image: '/images/websites.png',
-    tagline: 'Clean, purposeful, fast.',
-    caseStudy: {
-      problem: 'Small orgs needed modern sites without heavy budgets.',
-      process: 'Designed component libraries, built Next.js sites with a11y, SEO, and fast hosting. Iterated with stakeholders.',
-      result: 'Cut load times ~40% and increased traffic/engagement for several orgs.',
-      images: ['/images/case-web-1.png']
-    }
+    image: 'public/images/temarlije.png',
+    tagline: 'Learn smarter from any content.',
+    top: true,
   },
   {
-    title: 'Church Social Media Campaign',
-    summary: '50+ Canva graphics and micro campaigns that boosted engagement by ~40%.',
-    tech: ['Canva', 'Branding'],
-    links: [{ label: 'Drive', href: '#' }],
-    category: 'Visual Content',
-    image: '/images/social.png',
-    tagline: 'Design that people feel.',
-    caseStudy: {
-      problem: 'Community messaging wasn’t resonating or consistent across platforms.',
-      process: 'Created 50+ original graphics (no templates), storyboards, and micro-campaigns calibrated to each audience.',
-      result: 'Improved reach and engagement by ~40% over a quarter.',
-      images: ['/images/case-social-1.png']
-    }
-  }
+    title: 'Quantum Superposition & Entanglement',
+    summary: 'Python notebooks exploring quantum computing fundamentals.',
+    tech: ['Python','Quantum Computing'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/quantum-superposition-entanglement' }],
+    category: 'School Projects',
+    image: 'public/images/quantum.png',
+    tagline: 'Hands‑on quantum concepts.',
+  },
+  {
+    title: 'Portfolio',
+    summary: 'Things I’ve built while learning how to turn curiosity into thoughtful, useful technology.',
+    tech: ['HTML','CSS','JS'],
+    demo: { label:'Live', href:'https://hemenbabis.com/' },
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/portfolio_new' }],
+    category: 'Web Development',
+    image: 'public/images/portfolio.png',
+    tagline: 'Curious mind. Thoughtful tech.',
+  },
+   {
+    title: 'Portfolio (legacy)',
+    summary: 'Previous portfolio site hosted on GitHub Pages.',
+    tech: ['HTML','CSS','JS'],
+    demo: { label:'Live', href:'https://hemen-babis.github.io/hemen-portfolio/' },
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/hemen-portfolio' }],
+    category: 'Web Development',
+    image: 'public/images/legacy.png',
+    tagline: 'Early portfolio on GH Pages.',
+  },
+  // Systems / Coursework
+  {
+    title: 'Rust Queue Simulator',
+    summary: 'Queueing system simulator implemented in Rust.',
+    tech: ['Rust'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/rustqueuesim' }],
+    category: 'School Projects',
+    image: 'public/images/rust.png',
+    tagline: 'Discrete event simulation in Rust.',
+    top: true,
+  },
+  {
+    title: 'Text Analyzer',
+    summary: 'Java app to analyze text statistics and patterns.',
+    tech: ['Java'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/TextAnalyzer' }],
+    category: 'School Projects',
+    image: 'public/images/text.png',
+    tagline: 'Classic analysis tool, clean Java.',
+  },
+  {
+    title: 'CS 302 Projects',
+    summary: 'C++ coursework: data structures and algorithms implementations.',
+    tech: ['C++'],
+    links: [{ label:'GitHub', href:'https://github.com/hemen-babis/CS-302Projects' }],
+    category: 'School Projects',
+    image: 'public/images/cs302.png',
+    tagline: 'DS&A in modern C++',
+  },
 ]
-
 export const experience = [
   {
     role: 'Applied AI/ML Intern — Vision‑Language Models',

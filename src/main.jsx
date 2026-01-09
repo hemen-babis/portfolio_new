@@ -10,6 +10,7 @@ const ArticlesPage = lazy(() => import('./pages/ArticlesPage.jsx'))
 const AboutMePage = lazy(() => import('./pages/AboutMePage.jsx'))
 const WorkPage = lazy(() => import('./pages/WorkPage.jsx'))
 const HireMePage = lazy(() => import('./pages/HireMePage.jsx'))
+const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -27,7 +28,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/about-me" element={<AboutMePage />} />
           <Route path="/about" element={<AboutMePage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

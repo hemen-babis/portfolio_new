@@ -10,7 +10,7 @@ export default function AboutMePage(){
   return (
     <>
       <Nav />
-      <main className="relative py-16">
+      <main id="main" className="relative py-16">
         <div className="mx-auto w-full px-4 sm:px-6 max-w-6xl">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <div className="md:col-span-2">

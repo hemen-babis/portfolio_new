@@ -141,22 +141,8 @@ p, li { font-weight: 400; }
   .text-3xl { font-size: 2.0rem !important; }
 }
 
-  button {
-    border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover { border-color: #a970ff; }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+/* Removed global button background rules that made buttons dark in light mode.
+   Buttons are styled via utilities/components (btn-primary-purple, btn-outline-purple, shadcn Button). */
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -164,7 +150,6 @@ button:focus-visible {
     background-color: var(--background);
   }
   a:hover { color: #747bff; }
-  button { background-color: #f9f9f9; }
 }
 
 @theme inline {

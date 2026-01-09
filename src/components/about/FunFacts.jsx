@@ -5,7 +5,7 @@ const FACTS = [
   '🧬 Double Major Life: CS + Math → I basically like pain and proofs.',
   '🎨 Tech + Design: I make things functional AND aesthetic.',
   '✈️ Global Perspective: Growing up in Ethiopia taught me to see tech as something that should serve people.',
-  '🎤 Storyteller: I love making complex things simple — from theology for kids to ML pipelines for interns.',
+  '🎤 Storyteller: I love making complex things simple.',
   '🏋️ Fun Fact: I almost became a weightlifter before realizing algorithms were lighter (most days).',
 ]
 

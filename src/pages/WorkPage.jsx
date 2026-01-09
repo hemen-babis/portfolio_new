@@ -27,8 +27,8 @@ export default function WorkPage() {
         <motion.article initial={{opacity:0, y:14}} whileInView={{opacity:1, y:0}} viewport={{once:true}} transition={{duration:0.35}}
           className="glass-card lm-card p-2">
           <button onClick={()=>setOpen(it)} className="group relative rounded-xl overflow-hidden border dark:border-white/20 border-black/10 aspect-[4/3] w-full">
-            {it.image && <img src={it.image} alt={it.title} className="absolute inset-0 w-full h-full object-cover" />}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 dark:from-black/55 to-transparent opacity-90 group-hover:opacity-100 transition" />
+            {it.image && <img src={it.image} alt={it.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 dark:from-black/55 to-transparent opacity-70 group-hover:opacity-90 transition" />
             <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between">
               <div>
                 <h4 className="text-white font-extrabold drop-shadow">{it.title}</h4>
@@ -48,7 +48,7 @@ export default function WorkPage() {
           className="glass-card lm-card p-4 flex flex-col">
           <div className="flex items-center gap-3">
             <div className="w-16 h-16 rounded-lg overflow-hidden border dark:border-white/20 border-black/10 bg-slate-100 dark:bg-white/5 grid place-items-center">
-              {it.image ? <img src={it.image} alt={it.title} className="w-full h-full object-cover"/> : <Globe className="w-6 h-6"/>}
+              {it.image ? <img src={it.image} alt={it.title} loading="lazy" decoding="async" className="w-full h-full object-cover"/> : <Globe className="w-6 h-6"/>}
             </div>
             <div className="min-w-0">
               <h3 className="text-lg font-extrabold title-gradient lm-section-title truncate">{it.title}</h3>
@@ -77,7 +77,7 @@ export default function WorkPage() {
         className="glass-card lm-card p-4 flex flex-col">
         <div className="flex items-center gap-3">
           <div className="w-16 h-16 rounded-lg overflow-hidden border dark:border-white/20 border-black/10 bg-slate-100 dark:bg-white/5 grid place-items-center">
-            {it.image ? <img src={it.image} alt={it.title} className="w-full h-full object-cover"/> : <ExternalLink className="w-6 h-6"/>}
+            {it.image ? <img src={it.image} alt={it.title} loading="lazy" decoding="async" className="w-full h-full object-cover"/> : <ExternalLink className="w-6 h-6"/>}
           </div>
           <div className="min-w-0">
             <h3 className="text-lg font-extrabold title-gradient lm-section-title truncate">{it.title}</h3>
@@ -101,11 +101,11 @@ export default function WorkPage() {
   return (
     <>
       <Nav />
-      <main className="relative py-16">
+      <main id="main" className="relative py-16">
         <div className="mx-auto w-full px-4 sm:px-6 max-w-6xl">
           <div className="flex items-center justify-between mb-6 gap-3">
             <h1 className="font-hand text-4xl sm:text-5xl md:text-6xl title-gradient">Work</h1>
-            <a href="/hemenly-tech"><Button className="btn-primary-purple">Hemenly Tech</Button></a>
+            <a href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer"><Button className="btn-primary-purple">Hire Me</Button></a>
           </div>
 
           {/* Tabs */}
@@ -153,7 +153,7 @@ export default function WorkPage() {
               <div className="grid md:grid-cols-5 gap-4">
                 <div className="md:col-span-3">
                   <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-white/15 bg-slate-100 dark:bg-white/5">
-                    {open.image && <img src={open.image} alt={open.title} className="absolute inset-0 w-full h-full object-contain" />}
+                    {open.image && <img src={open.image} alt={open.title} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-contain" />}
                   </div>
                 </div>
                 <div className="md:col-span-2 space-y-3">

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Linkedin, Github, Sun, Moon } from 'lucide-react'
+import CommandPalette from '@/components/command/CommandPalette.jsx'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const glass = 'navbar-glass shadow-[0_8px_20px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_25px_rgba(0,0,0,0.5)]'
@@ -90,13 +91,14 @@ export default function Nav() {
 
           {/* Center: social (md+) */}
           <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-3">
-            {[{ Icon: Linkedin, href: 'https://www.linkedin.com/in/hemen-babis' }, { Icon: Github, href: 'https://github.com/hemen-babis' }, { Icon: null, href: 'https://leetcode.com/u/dcjvytHjKf/' }].map(({ Icon, href }, i) => (
+            {[{ Icon: Linkedin, href: 'https://www.linkedin.com/in/hemen-babis', label: 'LinkedIn' }, { Icon: Github, href: 'https://github.com/hemen-babis', label: 'GitHub' }, { Icon: null, href: 'https://leetcode.com/u/dcjvytHjKf/', label: 'LeetCode' }].map(({ Icon, href, label }, i) => (
               <motion.a
                 key={i}
                 whileHover={{ scale: 1.08 }}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={label}
                 className="w-10 h-10 grid place-items-center rounded-full dark:bg-white/10 dark:border dark:border-white/20 dark:hover:bg-white/20 bg-white/80 border border-black/10 hover:bg-white text-slate-800 dark:text-white transition"
               >
                 {Icon ? <Icon className="w-5 h-5" /> : <span className="text-sm font-bold">LC</span>}
@@ -119,7 +121,10 @@ export default function Nav() {
                 {label}
               </Link>
             ))}
-            <Link to="/hemenly-tech" className={`btn-primary-purple px-4 py-2 rounded-lg`}>
+            <a href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer" className={`btn-primary-purple px-4 py-2 rounded-lg`}>
+              Hire Me
+            </a>
+            <Link to="/hemenly-tech" className={`btn-outline-purple px-4 py-2 rounded-lg`}>
               Hemenly Tech
             </Link>
           </div>
@@ -139,7 +144,7 @@ export default function Nav() {
                 aria-labelledby="mobile-menu-title"
                 ref={panelRef}
                 tabIndex={-1}
-                className="absolute inset-0 overflow-y-auto backdrop-blur-xl bg-white/90 dark:bg[rgba(15,7,23,0.92)] dark:bg-[rgba(15,7,23,0.92)]"
+                className="absolute inset-0 overflow-y-auto backdrop-blur-xl bg-white/90 dark:bg-[rgba(15,7,23,0.92)]"
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
@@ -176,14 +181,19 @@ export default function Nav() {
                   ))}
 
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.18 }}>
-                    <Link onClick={() => { setOpen(false); btnRef.current?.focus() }} to="/hemenly-tech" className={`btn-primary-purple mt-3 px-4 py-3 inline-flex w-max text-lg rounded-lg`}>
+                    <a onClick={() => { setOpen(false); btnRef.current?.focus() }} href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer" className={`btn-primary-purple mt-3 px-4 py-3 inline-flex w-max text-lg rounded-lg`}>
+                      Hire Me
+                    </a>
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.22 }}>
+                    <Link onClick={() => { setOpen(false); btnRef.current?.focus() }} to="/hemenly-tech" className={`btn-outline-purple mt-2 px-4 py-3 inline-flex w-max text-lg rounded-lg`}>
                       Hemenly Tech
                     </Link>
                   </motion.div>
 
                   <motion.div className="mt-5 flex items-center justify-center gap-3" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.22 }}>
-                    {[{ Icon: Linkedin, href: 'https://www.linkedin.com/in/hemen-babis' }, { Icon: Github, href: 'https://github.com/hemen-babis' }, { Icon: null, href: 'https://leetcode.com/u/dcjvytHjKf/' }].map(({ Icon, href }, i) => (
-                      <a key={i} href={href} target="_blank" rel="noreferrer" className="w-12 h-12 grid place-items-center rounded-full dark:bg-white/10 dark:border dark:border-white/20 bg-white/80 border border-black/10 hover:bg-white text-slate-800 dark:text-white transition shadow-[0_0_12px_rgba(169,112,255,0.25)]">
+                    {[{ Icon: Linkedin, href: 'https://www.linkedin.com/in/hemen-babis', label: 'LinkedIn' }, { Icon: Github, href: 'https://github.com/hemen-babis', label: 'GitHub' }, { Icon: null, href: 'https://leetcode.com/u/dcjvytHjKf/', label: 'LeetCode' }].map(({ Icon, href, label }, i) => (
+                      <a key={i} href={href} target="_blank" rel="noreferrer" aria-label={label} className="w-12 h-12 grid place-items-center rounded-full dark:bg-white/10 dark:border dark:border-white/20 bg-white/80 border border-black/10 hover:bg-white text-slate-800 dark:text-white transition shadow-[0_0_12px_rgba(169,112,255,0.25)]">
                         {Icon ? <Icon className="w-6 h-6" /> : <span className="text-base font-extrabold">LC</span>}
                       </a>
                     ))}
@@ -194,6 +204,8 @@ export default function Nav() {
           )}
         </AnimatePresence>
       </div>
+      {/* Global command palette (Cmd/Ctrl+K) */}
+      <CommandPalette />
     </header>
   )
 }
