@@ -11,6 +11,10 @@ export default function AboutText() {
     >
       <div>
         <h1 className="font-hand text-4xl sm:text-5xl title-gradient mb-3">About Me</h1>
+        <div className="mb-4">
+          <img src="/hemu.jpg" alt="Hemen Babis portrait" className="w-full max-w-xs md:max-w-sm h-auto rounded-2xl object-cover dark:hidden" loading="lazy" decoding="async" />
+          <img src="/hemu-dark.jpg" alt="Hemen Babis portrait" className="w-full max-w-xs md:max-w-sm h-auto rounded-2xl object-cover hidden dark:block" loading="lazy" decoding="async" />
+        </div>
         <p className="text-foreground leading-relaxed">
           Hi, I’m Hemen Babis — born and raised in Ethiopia, now a Computer Science + Math student at PSU Honors College focusing on AI/ML, bioinformatics, and creative coding.
         </p>
@@ -36,4 +40,3 @@ export default function AboutText() {
     </motion.div>
   )
 }
-

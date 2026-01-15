@@ -50,7 +50,7 @@ export default function Nav() {
         onClick={onClick}
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
-        className="md:hidden ml-auto inline-flex items-center justify-center w-11 h-11 rounded-xl border bg-white/80 hover:bg-white dark:bg-white/10 dark:hover:bg-white/20 border-[#a970ff33] shadow-[0_0_12px_rgba(169,112,255,0.22)] relative overflow-hidden"
+        className="lg:hidden ml-auto inline-flex items-center justify-center w-11 h-11 rounded-xl border bg-white/80 hover:bg-white dark:bg-white/10 dark:hover:bg-white/20 border-[#a970ff33] shadow-[0_0_12px_rgba(169,112,255,0.22)] relative overflow-hidden"
         whileTap={{ scale: 0.96 }}
         animate={open ? { rotate: 2 } : { rotate: 0 }}
       >
@@ -86,11 +86,12 @@ export default function Nav() {
           {/* Left: logo */}
           <Link to="/" className="relative flex items-center" aria-label="Home">
             <span className="absolute -left-2 -top-2 w-20 h-20 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-[#9B59B6]/30 via-[#E74C3C]/30 to-[#F1C40F]/30 blur-2xl" />
-            <img src="/logo.svg" alt="HB" className="relative w-14 h-14 sm:w-20 sm:h-20 drop-shadow-[0_0_28px_rgba(255,105,180,0.45)]" />
+            <img src="/logo-light.svg" alt="HB" className="relative w-16 h-16 sm:w-24 sm:h-24 drop-shadow-[0_0_28px_rgba(255,105,180,0.45)] dark:hidden" />
+            <img src="/logo.svg" alt="HB" className="relative w-16 h-16 sm:w-24 sm:h-24 drop-shadow-[0_0_28px_rgba(255,105,180,0.45)] hidden dark:block" />
           </Link>
 
-          {/* Center: social (md+) */}
-          <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-3">
+          {/* Center: social (lg+) */}
+          <div className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden lg:flex items-center gap-3">
             {[{ Icon: Linkedin, href: 'https://www.linkedin.com/in/hemen-babis', label: 'LinkedIn' }, { Icon: Github, href: 'https://github.com/hemen-babis', label: 'GitHub' }, { Icon: null, href: 'https://leetcode.com/u/dcjvytHjKf/', label: 'LeetCode' }].map(({ Icon, href, label }, i) => (
               <motion.a
                 key={i}
@@ -106,8 +107,8 @@ export default function Nav() {
             ))}
           </div>
 
-          {/* Right: theme + nav (md+) */}
-          <div className="hidden md:flex ml-auto items-center gap-4 text-lg font-bold tracking-tight">
+          {/* Right: theme + nav (lg+) */}
+          <div className="hidden lg:flex ml-auto items-center gap-4 text-lg font-bold tracking-tight">
             <div role="radiogroup" aria-label="Theme" className="inline-flex items-center rounded-full bg-white/90 dark:bg-white/10 border border-black/10 dark:border-white/20 p-1">
               <button role="radio" aria-checked={!dark} onClick={() => applyTheme(false)} aria-label="Light mode" className={`grid place-items-center w-10 h-10 rounded-full transition ${!dark ? 'bg-gradient-to-r from-[#9B59B6]/15 to-[#FF6EC7]/15 text-[#6a40c8] border border-[#a970ff33] shadow-[0_0_10px_rgba(169,112,255,0.25)]' : 'text-slate-600 hover:text-slate-900'}`}>
                 <Sun className="w-5 h-5" />
@@ -138,7 +139,7 @@ export default function Nav() {
         {/* Mobile overlay */}
         <AnimatePresence>
           {open && (
-            <motion.div className="fixed inset-0 z-50 md:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div className="fixed inset-0 z-50 lg:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <motion.div className="absolute inset-0 bg-black/60" onClick={() => { setOpen(false); btnRef.current?.focus() }} />
               <motion.div
                 role="dialog"
@@ -154,7 +155,8 @@ export default function Nav() {
               >
                 <div className="px-5 py-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <img src="/logo.svg" alt="HB" className="w-8 h-8 drop-shadow-[0_0_16px_rgba(255,105,180,0.35)]" />
+                    <img src="/logo-light.svg" alt="HB" className="w-10 h-10 drop-shadow-[0_0_16px_rgba(255,105,180,0.35)] dark:hidden" />
+                    <img src="/logo.svg" alt="HB" className="w-10 h-10 drop-shadow-[0_0_16px_rgba(255,105,180,0.35)] hidden dark:block" />
                     <span id="mobile-menu-title" className="font-extrabold text-lg title-gradient">Menu</span>
                   </div>
                   <button onClick={() => { setOpen(false); btnRef.current?.focus() }} aria-label="Close menu" className="inline-flex items-center justify-center w-11 h-11 rounded-xl border bg-white/80 hover:bg-white dark:bg-white/10 dark:hover:bg-white/20 border-[#a970ff33] shadow-[0_0_10px_rgba(169,112,255,0.22)]">
@@ -162,44 +164,50 @@ export default function Nav() {
                   </button>
                 </div>
 
-                <motion.div className="px-5 pb-8 flex flex-col items-center text-center text-base gap-2" initial="hidden" animate="show" variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}>
-                  <div className="flex items-center justify-center gap-3 mb-3">
-                    <span className="nav-link">Theme</span>
-                    <div role="radiogroup" aria-label="Theme" className="inline-flex rounded-full bg-white/90 dark:bg-white/10 border border-black/10 dark:border-white/20 p-1">
-                      {[{ on: () => applyTheme(false), checked: !dark, Icon: Sun, label: 'Light mode' }, { on: () => applyTheme(true), checked: dark, Icon: Moon, label: 'Dark mode' }].map(({ on, checked, Icon, label }, i) => (
-                        <button key={i} role="radio" aria-checked={checked} onClick={on} aria-label={label} className={`grid place-items-center w-9 h-9 rounded-full transition ${checked ? 'bg-gradient-to-r from-[#9B59B6]/15 to-[#FF6EC7]/15 text-[#6a40c8] dark:bg-white/25 dark:text-white shadow-[0_0_10px_rgba(169,112,255,0.25)]' : 'text-slate-600 hover:text-slate-900'}`}>
-                          <Icon className="w-5 h-5" />
-                        </button>
-                      ))}
+                <motion.div className="px-5 pb-10 text-base" initial="hidden" animate="show" variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}>
+                  <div className="mx-auto w-full max-w-md">
+                    <div className="flex items-center justify-end gap-3 mb-6">
+                      <div role="radiogroup" aria-label="Theme" className="inline-flex rounded-full bg-white/90 dark:bg-white/10 border border-black/10 dark:border-white/20 p-1">
+                        {[{ on: () => applyTheme(false), checked: !dark, Icon: Sun, label: 'Light mode' }, { on: () => applyTheme(true), checked: dark, Icon: Moon, label: 'Dark mode' }].map(({ on, checked, Icon, label }, i) => (
+                          <button key={i} role="radio" aria-checked={checked} onClick={on} aria-label={label} className={`grid place-items-center w-9 h-9 rounded-full transition ${checked ? 'bg-gradient-to-r from-[#9B59B6]/15 to-[#FF6EC7]/15 text-[#6a40c8] dark:bg-white/25 dark:text-white shadow-[0_0_10px_rgba(169,112,255,0.25)]' : 'text-slate-600 hover:text-slate-900'}`}>
+                            <Icon className="w-5 h-5" />
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {[{ to: '/about-me', label: 'About' }, { to: '/projects', label: 'Projects' }, { to: '/articles', label: 'Articles' }].map(({ to, label }, i) => (
-                    <motion.div key={to} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: i * 0.04 }}>
-                      <Link onClick={() => { setOpen(false); btnRef.current?.focus() }} to={to} className={`px-4 py-3 rounded-xl nav-link dark:hover:bg-white/10 hover:bg-slate-100 text-2xl font-extrabold ${isActive(to)}`}>
-                        {label}
-                      </Link>
-                    </motion.div>
-                  ))}
+                    <div className="grid grid-cols-2 gap-3">
+                      {[{ to: '/about-me', label: 'About' }, { to: '/projects', label: 'Projects' }, { to: '/articles', label: 'Articles' }].map(({ to, label }, i) => (
+                        <motion.div key={to} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: i * 0.04 }}>
+                          <Link onClick={() => { setOpen(false); btnRef.current?.focus() }} to={to} className={`block px-4 py-3 rounded-xl nav-link dark:hover:bg-white/10 hover:bg-slate-100 text-lg font-extrabold border border-black/10 dark:border-white/20 bg-white/80 dark:bg-white/10 shadow-[0_6px_14px_rgba(0,0,0,0.12)] ${isActive(to)}`}>
+                            {label}
+                          </Link>
+                        </motion.div>
+                      ))}
+                      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.12 }}>
+                        <Link onClick={() => { setOpen(false); btnRef.current?.focus() }} to="/hemenly-tech" className="block px-4 py-3 rounded-xl nav-link dark:hover:bg-white/10 hover:bg-slate-100 text-lg font-extrabold border border-black/10 dark:border-white/20 bg-white/80 dark:bg-white/10 shadow-[0_6px_14px_rgba(0,0,0,0.12)]">
+                          Hemenly Tech
+                        </Link>
+                      </motion.div>
+                    </div>
 
-                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.18 }}>
-                    <a onClick={() => { setOpen(false); btnRef.current?.focus() }} href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer" className={`btn-primary-purple mt-3 px-4 py-3 inline-flex w-max text-lg rounded-lg`}>
-                      Hire Me
-                    </a>
-                  </motion.div>
-                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.22 }}>
-                    <Link onClick={() => { setOpen(false); btnRef.current?.focus() }} to="/hemenly-tech" className={`btn-outline-purple mt-2 px-4 py-3 inline-flex w-max text-lg rounded-lg`}>
-                      Hemenly Tech
-                    </Link>
-                  </motion.div>
-
-                  <motion.div className="mt-5 flex items-center justify-center gap-3" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.22 }}>
-                    {[{ Icon: Linkedin, href: 'https://www.linkedin.com/in/hemen-babis', label: 'LinkedIn' }, { Icon: Github, href: 'https://github.com/hemen-babis', label: 'GitHub' }, { Icon: null, href: 'https://leetcode.com/u/dcjvytHjKf/', label: 'LeetCode' }].map(({ Icon, href, label }, i) => (
-                      <a key={i} href={href} target="_blank" rel="noreferrer" aria-label={label} className="w-12 h-12 grid place-items-center rounded-full dark:bg-white/10 dark:border dark:border-white/20 bg-white/80 border border-black/10 hover:bg-white text-slate-800 dark:text-white transition shadow-[0_0_12px_rgba(169,112,255,0.25)]">
-                        {Icon ? <Icon className="w-6 h-6" /> : <span className="text-base font-extrabold">LC</span>}
+                    <motion.div className="mt-5 grid grid-cols-1 gap-3" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.18 }}>
+                      <a onClick={() => { setOpen(false); btnRef.current?.focus() }} href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer" className="btn-primary-purple w-full px-4 py-3 inline-flex items-center justify-center text-lg rounded-lg">
+                        Hire Me
                       </a>
-                    ))}
-                  </motion.div>
+                      <a onClick={() => { setOpen(false); btnRef.current?.focus() }} href="/Hemen_Babis_Resume.pdf" target="_blank" rel="noreferrer" className="btn-outline-purple w-full px-4 py-3 inline-flex items-center justify-center text-lg rounded-lg">
+                        Resume
+                      </a>
+                    </motion.div>
+
+                    <motion.div className="mt-6 grid grid-cols-3 gap-3" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, delay: 0.22 }}>
+                      {[{ Icon: Linkedin, href: 'https://www.linkedin.com/in/hemen-babis', label: 'LinkedIn' }, { Icon: Github, href: 'https://github.com/hemen-babis', label: 'GitHub' }, { Icon: null, href: 'https://leetcode.com/u/dcjvytHjKf/', label: 'LeetCode' }].map(({ Icon, href, label }, i) => (
+                        <a key={i} href={href} target="_blank" rel="noreferrer" aria-label={label} className="w-full h-12 grid place-items-center rounded-xl dark:bg-white/10 dark:border dark:border-white/20 bg-white/80 border border-black/10 hover:bg-white text-slate-800 dark:text-white transition shadow-[0_0_12px_rgba(169,112,255,0.25)]">
+                          {Icon ? <Icon className="w-6 h-6" /> : <span className="text-base font-extrabold">LC</span>}
+                        </a>
+                      ))}
+                    </motion.div>
+                  </div>
                 </motion.div>
               </motion.div>
             </motion.div>

@@ -37,13 +37,16 @@ The energy she brought daily was contagious and significantly boosted the team's
     },
   ]
   return (
-    <section className="py-10">
+    <section className="py-14">
       <div className="mx-auto w-full px-4 sm:px-6 max-w-5xl">
-        <h2 className="text-2xl font-extrabold title-gradient mb-4">Recommendations</h2>
+        <div className="text-center mb-6">
+          <h2 className="text-3xl font-extrabold title-gradient">Recommendations</h2>
+          <p className="text-sm text-foreground/70 mt-2">What collaborators and mentors say</p>
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
           {items.map((r)=> (
-            <article key={r.name} className="glass-card p-4 flex items-start gap-3">
-              <Avatar src={r.img} name={r.name} size={32} />
+            <article key={r.name} className="glass-card p-5 flex items-start gap-4 border border-white/30 dark:border-white/15 shadow-[0_12px_30px_rgba(0,0,0,0.18)]">
+              <Avatar src={r.img} name={r.name} size={250} />
               <div className="min-w-0">
                 <div className="text-sm font-semibold leading-snug">{r.name}</div>
                 <div className="text-xs opacity-70 leading-snug">{r.title}</div>

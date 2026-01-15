@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
-import { about, experience as xp, projects as projData, skills as skillData, topSkills, languagesList, certifications } from "@/content/profile";
+import { about, experience as xp, projects as projData, skills as skillData, topSkills, languagesList, certifications, organizations } from "@/content/profile";
 import Skills from "@/components/Skills";
 import ScrollIndicator from "@/components/ScrollIndicator.jsx";
 import Testimonials from "@/components/Testimonials.jsx";
@@ -1569,6 +1569,7 @@ export default function App() {
       {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.05}}, <Education />)}
       {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.1}}, <Coursework />)}
       {React.createElement(motion.div, { initial:{opacity:0,y:20}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5, delay:0.15}}, <Awards />)}
+      <OrganizationsCarousel />
       <Recommendations />
       <Testimonials />
       <Contact />
@@ -1818,6 +1819,36 @@ function GlobalParticles({ count=8 }){
   )
 }
 
+function OrganizationsCarousel() {
+  const items = useMemo(() => [...organizations, ...organizations], [])
+  return (
+    <section className="relative py-14">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <h2 className="text-3xl font-extrabold title-gradient">Community & Memberships</h2>
+        </div>
+      </div>
+
+      <div className="org-marquee-wrap">
+        <div className="org-marquee-track">
+          {items.map((org, idx) => (
+            <div key={`${org.name}-${idx}`} className="org-card">
+              <img
+                src={org.logo}
+                alt={org.name}
+                className="org-logo"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="org-name">{org.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
   const dims = useRef({ w: typeof window !== 'undefined' ? window.innerWidth : 1200, h: typeof window !== 'undefined' ? window.innerHeight : 800 })
   useEffect(() => {
@@ -1867,7 +1898,7 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
       const W = Math.max(800, dims.current.w)
       // advance items along lanes with consistent timing
       lanesRef.current.forEach((lane, li) => {
-        const minGap = dims.current.w < 640 ? 0.32 : 0.22 // wider spacing on small screens
+        const minGap = dims.current.w < 1024 ? 0.32 : 0.22 // wider spacing on small/tablet screens
         lane.items.sort((a,b)=>a.t-b.t)
         for (let i=0;i<lane.items.length;i++){
           const it = lane.items[i]
@@ -1904,8 +1935,8 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
 
   const renderItem = (li, it) => {
     const W = Math.max(800, dims.current.w)
-    const sep = dims.current.w < 640 ? 170 : 140
-    const offsetY = dims.current.w < 640 ? -90 : -120 // lift lanes so some cross near top of image
+    const sep = dims.current.w < 1024 ? 170 : 140
+    const offsetY = dims.current.w < 1024 ? -90 : -120 // lift lanes so some cross near top of image
     const laneY = offsetY + (li - (lanes-1)/2) * sep
     // path: larger arc across hero to reach further sides
     const x = (it.t - 0.5) * (W * 0.9)
@@ -1913,7 +1944,7 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
     const y = laneY + arc
     const phase = it.dir>0 ? it.t : 1 - it.t
     const clarity = phase < 0.15 ? (phase/0.15) : phase > 0.85 ? (1 - (phase-0.85)/0.15) : 1
-    const scale = dims.current.w < 640 ? 1 : 1.05 + Math.sin(it.t * Math.PI) * 0.08
+    const scale = dims.current.w < 1024 ? 1 : 1.05 + Math.sin(it.t * Math.PI) * 0.08
     const Icon = it.item.icon
     const palettes = [
       'from-pink-500/30 to-fuchsia-500/30 ring-pink-400/30',
@@ -1925,11 +1956,11 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
     return (
       <div key={it.key} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
            style={{ transform:`translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale.toFixed(3)})`, opacity: clarity }}>
-        <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3 py-2 sm:px-4 sm:py-3 rounded-2xl w-[230px] sm:w-[280px] border border-white/10 shadow-[0_0_24px_rgba(169,112,255,0.3)] text-slate-900 dark:text-white neon-breath hue-cycle`}
+        <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3 py-2 lg:px-4 lg:py-3 rounded-2xl w-[230px] lg:w-[280px] border border-white/10 shadow-[0_0_24px_rgba(169,112,255,0.3)] text-slate-900 dark:text-white neon-breath hue-cycle`}
              title={it.item.cat}>
-          <div className="flex items-center gap-2 sm:gap-3" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
-            {Icon ? React.createElement(Icon, { className: 'w-5 h-5 sm:w-6 sm:h-6 text-slate-800 dark:text-white/90' }) : null}
-            <span className="text-[14px] sm:text-[16px] font-extrabold truncate tracking-tight">{it.item.title}</span>
+          <div className="flex items-center gap-2 lg:gap-3" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
+            {Icon ? React.createElement(Icon, { className: 'w-5 h-5 lg:w-6 lg:h-6 text-slate-800 dark:text-white/90' }) : null}
+            <span className="text-[14px] lg:text-[16px] font-extrabold truncate tracking-tight">{it.item.title}</span>
           </div>
         </div>
       </div>
