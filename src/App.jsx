@@ -24,6 +24,7 @@ import Testimonials from "@/components/Testimonials.jsx";
 import FloatingThemeToggle from "@/components/FloatingThemeToggle.jsx";
 import Recommendations from "@/components/Recommendations.jsx";
 import FunFactsTicker from "@/components/FunFactsTicker.jsx";
+import { Link } from "react-router-dom";
 
 /**
  * Hemen — Living Narrative Portfolio
@@ -802,7 +803,7 @@ export function Projects() {
             ))}
         </div>
         <div className="mt-6 flex justify-center">
-          <a href="/projects"><Button className="btn-primary-purple text-base px-6 py-3">View All Projects</Button></a>
+          <Link to="/projects"><Button className="btn-primary-purple text-base px-6 py-3">View All Projects</Button></Link>
         </div>
       </div>
     )
