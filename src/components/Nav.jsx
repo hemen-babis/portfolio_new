@@ -84,7 +84,7 @@ export default function Nav() {
       <div className="relative w-full">
         <nav className={`relative w-full px-3 sm:px-6 py-2 md:py-3 ${glass} flex items-center gap-5`}>
           {/* Left: logo */}
-          <Link to="/" className="relative flex items-center mx-auto md:mx-0" aria-label="Home">
+          <Link to="/" className="relative flex items-center" aria-label="Home">
             <span className="absolute -left-2 -top-2 w-20 h-20 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-[#9B59B6]/30 via-[#E74C3C]/30 to-[#F1C40F]/30 blur-2xl" />
             <img src="/logo.svg" alt="HB" className="relative w-14 h-14 sm:w-20 sm:h-20 drop-shadow-[0_0_28px_rgba(255,105,180,0.45)]" />
           </Link>
