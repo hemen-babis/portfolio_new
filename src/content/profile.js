@@ -19,6 +19,11 @@ export const projects = [
     image: '/images/aipm.png',
     tagline: 'Automate, prioritize, and plan with GenAI.',
     top: true,
+    caseStudy: {
+      problem: 'Manual task intake and prioritization slowed execution for fast-moving teams.',
+      process: 'Built a Gemini-powered pipeline to extract tasks, rank urgency, and generate action plans inside a Flask app.',
+      result: 'Improved team productivity with clearer priorities and faster planning cycles.',
+    },
   },
   {
     title: 'Research Assistant',
@@ -29,6 +34,11 @@ export const projects = [
     image: '/images/image copy 2.png',
     tagline: 'Ask papers anything.',
     top: true,
+    caseStudy: {
+      problem: 'Researchers lose time searching long PDFs for precise references.',
+      process: 'Implemented retrieval + citation grounding with chunking, embeddings, and a Q&A interface.',
+      result: 'Faster literature review with transparent, source-linked answers.',
+    },
   },
   {
     title: 'To‑Do Manager',
@@ -58,6 +68,11 @@ export const projects = [
     image: '/images/temarlije.png',
     tagline: 'Learn smarter from any content.',
     top: true,
+    caseStudy: {
+      problem: 'Students need quick, structured study materials from messy sources.',
+      process: 'Built a React + FastAPI workflow that parses inputs and generates structured study assets.',
+      result: 'Condensed dense content into usable study packs in minutes.',
+    },
   },
   {
     title: 'Quantum Superposition & Entanglement',
@@ -237,7 +252,7 @@ export const organizations = [
 // Condensed skills map for the Skills section
 export const skills = {
   languages: ['JavaScript', 'TypeScript', 'Python', 'C++', 'Java'],
-  frameworks: ['React', 'Node.js', 'Next.js', 'PyTorch', 'TensorFlow', 'LangChain'],
+  frameworks: ['React', 'Node.js', 'Next.js', 'Flutter', 'PyTorch', 'TensorFlow', 'LangChain'],
   tools: ['GitHub', 'Docker', 'Figma', 'Vercel'],
   subjects: ['AI/ML', 'NLP', 'Computer Vision', 'RAG', 'Bioinformatics', 'Genomics']
 }

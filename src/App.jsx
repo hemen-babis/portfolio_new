@@ -4,7 +4,7 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 // drei helpers not needed for 2D overlay
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
-import { Brain, Atom, Dna, FunctionSquare, Cpu, LineChart, FlaskConical, Github, Linkedin, Mail, Share2, Code2, Boxes, Wrench, Sparkles, Laptop, Megaphone, GraduationCap, School, Medal, Trophy, BadgeCheck, Star, FileText, CheckSquare, Lightbulb, User } from "lucide-react";
+import { Brain, Atom, Dna, FunctionSquare, Cpu, LineChart, FlaskConical, Github, Linkedin, Mail, Send, Share2, Code2, Boxes, Wrench, Sparkles, Laptop, Megaphone, GraduationCap, School, Medal, Trophy, BadgeCheck, Star, FileText, CheckSquare, Lightbulb, User } from "lucide-react";
 // shadcn/ui primitives
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -746,6 +746,157 @@ function translate(dna) {
   return out;
 }
 
+// ===== Impact Strip =====
+export function ImpactStrip() {
+  const metrics = [
+    { label: 'Productivity increase', value: '30%', detail: 'AI-driven workflow automation' },
+    { label: 'Load time reduction', value: '40%', detail: 'Backend refactors + asset optimization' },
+    { label: 'Engagement lift', value: '25–40%', detail: 'Social + web UX improvements' },
+    { label: 'Websites shipped', value: '10+', detail: 'Nonprofits, churches, small orgs' },
+    { label: 'Designs delivered', value: '50+', detail: 'Original social graphics' },
+  ];
+  return (
+    <section id="impact" className="relative py-16">
+      <div className="mx-auto w-full px-4 sm:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {metrics.map((m, i) => (
+            React.createElement(motion.div, {
+              key: m.label,
+              initial: { opacity: 0, y: 12 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.35, delay: i * 0.05 },
+              className: 'glass-card p-5 text-center'
+            }, (
+              <>
+                <div className="text-3xl font-extrabold title-gradient">{m.value}</div>
+                <div className="mt-1 text-sm font-semibold text-foreground">{m.label}</div>
+                <div className="mt-2 text-xs text-foreground/70">{m.detail}</div>
+              </>
+            ))
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===== Focus + Open To =====
+export function FocusAndOpenTo() {
+  const focus = [
+    { title: 'Vision-Language Models', desc: 'Domain evaluation, metrics, and fine-tuning for scientific imaging.', icon: Brain },
+    { title: 'RAG + Knowledge Tools', desc: 'Retrieval, citation, and grounding for research workflows.', icon: FileText },
+    { title: 'Bioinformatics', desc: 'Applied ML for lab data, genomics, and microscopy contexts.', icon: Dna },
+  ];
+  const openTo = [
+    'SWE / AI / Data full-time roles',
+    'Remote, hybrid, or on-site',
+    'San Francisco ↔ Portland',
+    'Open to research-focused roles',
+  ];
+  return (
+    <section id="focus" className="relative py-16">
+      <div className="mx-auto w-full px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="glass-card p-6 lg:col-span-1">
+          <div className="flex items-center gap-3 mb-3">
+            <Sparkles className="w-6 h-6 neon-icon" />
+            <h3 className="text-2xl font-extrabold title-gradient">Open To</h3>
+          </div>
+          <ul className="space-y-2 text-foreground">
+            {openTo.map(item => <li key={item} className="flex items-center gap-2"><span className="chip">•</span>{item}</li>)}
+          </ul>
+          <div className="mt-5 grid grid-cols-3 gap-3">
+            <a href="mailto:hemenbabis@gmail.com" className="btn-outline-purple flex items-center justify-center gap-2">
+              <Mail className="w-4 h-4" />
+              <span className="text-sm font-semibold">Email</span>
+            </a>
+            <a href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer" className="btn-outline-purple flex items-center justify-center gap-2">
+              <Linkedin className="w-4 h-4" />
+              <span className="text-sm font-semibold">LinkedIn</span>
+            </a>
+            <a href="https://t.me/hemenly" target="_blank" rel="noreferrer" className="btn-outline-purple flex items-center justify-center gap-2">
+              <Send className="w-4 h-4" />
+              <span className="text-sm font-semibold">Telegram</span>
+            </a>
+          </div>
+        </div>
+        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {focus.map((f, i) => (
+            React.createElement(motion.div, {
+              key: f.title,
+              initial: { opacity: 0, y: 12 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.35, delay: i * 0.06 },
+              className: 'glass-card p-5'
+            }, (
+              <>
+                {React.createElement(f.icon, { className: 'w-6 h-6 neon-icon' })}
+                <h4 className="mt-3 text-lg font-extrabold title-gradient">{f.title}</h4>
+                <p className="mt-2 text-sm text-foreground/80">{f.desc}</p>
+              </>
+            ))
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===== Case Studies =====
+export function CaseStudies() {
+  const items = projData.filter(p => p.caseStudy).slice(0, 3);
+  if (!items.length) return null;
+  return (
+    <section id="case-studies" className="relative py-20">
+      <div className="mx-auto w-full px-4 sm:px-6">
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <h2 className={`title-bounce-anchor font-hand text-3xl sm:text-4xl md:text-5xl ${neonText}`}>Case Studies</h2>
+          <Link to="/projects"><Button className="btn-outline-purple">View All</Button></Link>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {items.map((p, i) => (
+            React.createElement(motion.article, {
+              key: p.title,
+              initial: { opacity: 0, y: 12 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.35, delay: i * 0.05 },
+              className: 'glass-card p-6 flex flex-col'
+            }, (
+              <>
+                <h3 className="text-xl font-extrabold title-gradient">{p.title}</h3>
+                <p className="text-sm text-foreground/80 mt-1">{p.summary}</p>
+                <div className="mt-4 space-y-3 text-sm text-foreground/90">
+                  <div>
+                    <span className="font-semibold title-gradient">Problem:</span> {p.caseStudy.problem}
+                  </div>
+                  <div>
+                    <span className="font-semibold title-gradient">Approach:</span> {p.caseStudy.process}
+                  </div>
+                  <div>
+                    <span className="font-semibold title-gradient">Impact:</span> {p.caseStudy.result}
+                  </div>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {(p.tech || []).map(t => <span key={t} className="chip">{t}</span>)}
+                </div>
+                <div className="mt-5">
+                  <Link to={`/projects/${encodeURIComponent(p.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''))}`}>
+                    <Button className="btn-outline-purple inline-flex items-center gap-2"><FileText className="w-4 h-4"/> Full Case Study</Button>
+                  </Link>
+                </div>
+              </>
+            ))
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===== Design Gallery =====
+// ===== Community =====
 // ===== Projects & Contact =====
 export function Projects() {
   const top = projData.filter(p => p.top).slice(0, 4)
@@ -879,7 +1030,7 @@ export function Education() {
       title: "Bachelor's Degree",
       subtitle: 'Mathematics & Computer Science',
       org: 'Portland State University Honors College',
-      year: 'Expected Graduation: Dec 2025',
+      year: 'Aug 2023 - Mar 2026',
       details:
         'I am pursuing a double major in Mathematics and Computer Science at the prestigious Portland State University.',
       icon: GraduationCap,
@@ -888,7 +1039,7 @@ export function Education() {
       title: "Associate's Degree",
       subtitle: 'Computer Science',
       org: 'Portland Community College',
-      year: '2022 – 2023',
+      year: 'Jan 2022 - Jun 2023',
       details:
         'Through the Early College High School Program at PCC, I’ve achieved sophomore standing at university level while still in high school.',
       icon: School,
@@ -897,7 +1048,7 @@ export function Education() {
       title: 'High School Diploma',
       subtitle: 'Southridge High School',
       org: 'Southridge High School',
-      year: '2021 – 2023',
+      year: 'Sep 2021 - Jun 2023',
       details:
         'Graduated with honors, completing a rigorous academic program that prepared me for advanced studies in mathematics and computer science.',
       icon: School,
@@ -918,6 +1069,7 @@ export function Education() {
                     <h3 className="text-lg font-semibold title-gradient">{it.title}</h3>
                     <p className="text-base text-foreground">{it.subtitle}</p>
                     {it.org && <p className="text-sm text-foreground/80">{it.org}</p>}
+                    {it.year && <p className="text-sm text-foreground/70">{it.year}</p>}
                   </div>
                 </div>
                 {/* Back face — details only */}
@@ -1560,6 +1712,11 @@ export default function App() {
 
       {/* Skills */}
       <Skills />
+
+      {/* Impact + Focus */}
+      <ImpactStrip />
+      <FocusAndOpenTo />
+      <CaseStudies />
 
       {/* Projects (scroll-triggered animation) */}
       <Projects />

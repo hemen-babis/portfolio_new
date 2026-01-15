@@ -12,12 +12,17 @@ export const WORK_CATEGORIES = [
   'Websites',
   'Social',
   'Posters & Ads',
+  'Merch & Apparel',
 ]
 
 // Posters/Ads — just drop files in public/posters/ with these names
 export const posters = [
   // Keep only files that actually exist in public/posters/
   { id: 'poster-01', title: 'Poster 01', filename: 'poster-01.jpg', caption: 'Logo', tools: ['Illustrator'] },
+]
+
+export const merch = [
+  { id: 'mhss-tshirt', title: 'Sunday School T-Shirt', caption: 'Custom tee design for Sunday school team', tools: ['Canva','Print Prep'], image: '/images/work/mhss-tshirt.jpeg' },
 ]
 
 // Websites — fill your real links here
@@ -75,5 +80,16 @@ export const workItems = [
     caption: s.caption,
     tools: s.tools,
     links: s.url ? [{ label: 'View', href: s.url }] : [],
+  })),
+
+  // Merch & Apparel
+  ...merch.map(m => ({
+    id: m.id,
+    title: m.title,
+    category: 'Merch & Apparel',
+    image: normalize(m.image || ''),
+    caption: m.caption,
+    tools: m.tools,
+    links: m.url ? [{ label: 'View', href: m.url }] : [],
   })),
 ]

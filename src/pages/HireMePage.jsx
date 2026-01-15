@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 import { usePageMeta } from '@/lib/usePageMeta'
 
 // Brand + Contact (update these with your info)
@@ -22,7 +23,8 @@ const BUSINESS = {
 // 1) Create a form at https://formspree.io (New Project → Create Form).
 // 2) Copy your endpoint like "https://formspree.io/f/abcdwxyz" and paste below.
 // When set, submissions POST here; you’ll see them in your Formspree inbox.
-const FORMSPREE_ENDPOINT = '' // e.g., 'https://formspree.io/f/abcdwxyz'
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mpqqwbba' // e.g., 'https://formspree.io/f/abcdwxyz'
+const GOOGLE_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzErr_7SL3VLlk8PjCRAYhHYcB34B5KQpUetlUELO4kUbNnBx_xDs16Z1_CgPfBHxAd/exec'
 
 const SERVICES = [
   { id: 'social', label: 'Social Media Content Management', desc: 'Strategy, content creation, scheduling and monthly reporting.' },
@@ -124,6 +126,7 @@ function CornerProgress({ step, total, service }) {
 
 export default function HireMePage() {
   usePageMeta({ title: 'Hemenly Tech — Work With Me', description: 'Website, app and social media services. Get a quick tailored quote.' })
+  const navigate = useNavigate()
   const [step, setStep] = React.useState(1)
   const total = 3
   const [service, setService] = React.useState(null)
@@ -240,42 +243,65 @@ export default function HireMePage() {
     if (!validate('submit')) return
     const to = BUSINESS.email
     const subject = service === 'job' ? 'Job Opportunity Inquiry' : 'Project Quote Request'
-    const body = encodeURIComponent(buildRequestText())
+    const requestText = buildRequestText()
+    const body = encodeURIComponent(requestText)
+    const postWithTimeout = (url, data, timeoutMs = 6000) => {
+      const controller = new AbortController()
+      const timer = setTimeout(() => controller.abort(), timeoutMs)
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        signal: controller.signal,
+      }).finally(() => clearTimeout(timer))
+    }
     try {
+      const payload = {
+        subject,
+        service: summary.service,
+        websitePkg: summary.websitePkg,
+        timeline: summary.timeline,
+        budget: summary.budget,
+        extras: summary.extras,
+        jobRole: summary.jobRole,
+        jobType: summary.jobType,
+        jobLink: summary.jobLink,
+        description: summary.desc,
+        name: summary.name,
+        email: summary.email,
+        phone: summary.phone,
+        company: summary.company,
+      }
+      const requests = []
       if (FORMSPREE_ENDPOINT) {
-        const payload = {
-          subject,
-          service: summary.service,
-          websitePkg: summary.websitePkg,
-          timeline: summary.timeline,
-          budget: summary.budget,
-          extras: summary.extras,
-          jobRole: summary.jobRole,
-          jobType: summary.jobType,
-          jobLink: summary.jobLink,
-          description: summary.desc,
-          name: summary.name,
-          email: summary.email,
-          phone: summary.phone,
-          company: summary.company,
-        }
-        const r = await fetch(FORMSPREE_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-        if (r.ok) {
+        requests.push(postWithTimeout(FORMSPREE_ENDPOINT, payload))
+      }
+      if (GOOGLE_SCRIPT_ENDPOINT) {
+        requests.push(postWithTimeout(GOOGLE_SCRIPT_ENDPOINT, payload))
+      }
+      if (requests.length) {
+        const results = await Promise.allSettled(requests)
+        const ok = results.some((r) => r.status === 'fulfilled' && r.value && r.value.ok)
+        if (ok) {
           toast.success('Thanks! Your request has been sent.')
           try { localStorage.removeItem('hire-quote') } catch {}
+          navigate('/success')
           return
         }
-        // If Formspree errors, fall back gracefully
+        // If submission errors, fall back gracefully
+      }
+      if (!to && BUSINESS.website) {
+        const base = BUSINESS.website.replace(/\/+$/,'')
+        const telegramLink = /t\.me|telegram\.me/.test(base) ? `${base}?text=${encodeURIComponent(requestText)}` : base
+        window.location.href = telegramLink
+        toast.success('Opening Telegram with your request.')
+        return
       }
       if (to) {
         window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`
         toast.success('Thanks! Your email client is opening with the details.')
       } else {
-        await navigator.clipboard.writeText(buildRequestText())
+        await navigator.clipboard.writeText(requestText)
         toast.success('Copied request to clipboard. Paste it into your email.')
       }
     } catch (e) {

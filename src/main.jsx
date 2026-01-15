@@ -10,6 +10,7 @@ const ArticlesPage = lazy(() => import('./pages/ArticlesPage.jsx'))
 const AboutMePage = lazy(() => import('./pages/AboutMePage.jsx'))
 const WorkPage = lazy(() => import('./pages/WorkPage.jsx'))
 const HireMePage = lazy(() => import('./pages/HireMePage.jsx'))
+const SuccessPage = lazy(() => import('./pages/SuccessPage.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 
 createRoot(document.getElementById('root')).render(
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/work" element={<Navigate to="/projects" replace />} />
           <Route path="/hire" element={<HireMePage />} />
           <Route path="/hemenly-tech" element={<HireMePage />} />
+          <Route path="/success" element={<SuccessPage />} />
           <Route path="/contact" element={<Navigate to="/hemenly-tech" replace />} />
           <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/about-me" element={<AboutMePage />} />
