@@ -1,12 +1,12 @@
-export const about = `As a little girl, I used to sit beside my mom with a notebook full of questions — “Why does the computer hum?”, “What’s inside a lightbulb?”, “Can I build something like this one day?” I didn’t just want to use technology — I wanted to understand it, shape it, and make it beautiful.
+export const about = `As a little girl, I used to sit beside my mom with a notebook full of questions - “Why does the computer hum?”, “What’s inside a lightbulb?”, “Can I build something like this one day?” I didn’t just want to use technology - I wanted to understand it, shape it, and make it beautiful.
 
 That same wonder has stayed with me. Today, I’m majoring in Computer Science and Mathematics at PSU Honors College, designing AI‑powered tools, building elegant web apps, and using code as both a language and an act of care. Whether I’m creating a generative AI tutor, optimizing backend APIs, or hand‑crafting social media designs from scratch, I always ask: How can this help someone?
 
-I’ve worked with startups, churches, nonprofits, and research teams — writing clean code with Flask, React, and Python; deploying intelligent systems using TensorFlow, LangChain, and Gemini API; and designing visual content that’s not just useful, but truly felt.
+I’ve worked with startups, churches, nonprofits, and research teams - writing clean code with Flask, React, and Python; deploying intelligent systems using TensorFlow, LangChain, and Gemini API; and designing visual content that’s not just useful, but truly felt.
 
-I love building things that are functional and thoughtful — tech that serves people, especially those who aren’t always seen in the design process. I’m currently seeking an internship where I can keep learning, creating, and contributing to something meaningful — with heart, humility, and lots of joyful curiosity.
+I love building things that are functional and thoughtful - tech that serves people, especially those who aren’t always seen in the design process. I’m currently seeking an internship where I can keep learning, creating, and contributing to something meaningful - with heart, humility, and lots of joyful curiosity.
 
-Let’s connect — I’m always excited to learn, build, and bring a little light to tech. ✨`
+Let’s connect - I’m always excited to learn, build, and bring a little light to tech. ✨`
 
 export const projects = [
   // AI/ML
@@ -206,8 +206,8 @@ export const experience = [
 ]
 
 export const achievements = [
-  'Honors Laurels Scholarship — PSU Honors College (Aug 2023)',
-  'Tuition‑Free Degree Award — PSU Honors College (Aug 2023)',
+  'Honors Laurels Scholarship - PSU Honors College (Aug 2023)',
+  'Tuition‑Free Degree Award - PSU Honors College (Aug 2023)',
   "President's List",
   "Dean's List",
   'Vision Academy Excellence Award',
@@ -215,8 +215,8 @@ export const achievements = [
 ]
 
 export const volunteering = [
-  'American Red Cross — Supervisor (Mar 2022 – Jul 2024)',
-  "John’s Repentance — Social Media Manager (Dec 2023 – Present)",
+  'American Red Cross - Supervisor (Mar 2022 – Jul 2024)',
+  "John’s Repentance - Social Media Manager (Dec 2023 – Present)",
 ]
 
 export const topSkills = [
@@ -229,7 +229,7 @@ export const languagesList = [
 ]
 
 export const certifications = [
-  'BCLP — Interview Preparation: Own Your Story Job Simulation (Forage) · ID: iXG4pFrYZLhtY4kTj'
+  'BCLP - Interview Preparation: Own Your Story Job Simulation (Forage) · ID: iXG4pFrYZLhtY4kTj'
 ]
 
 export const memberships = [

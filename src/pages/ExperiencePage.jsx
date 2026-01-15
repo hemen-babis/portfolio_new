@@ -7,7 +7,7 @@ import { usePageMeta } from '@/lib/usePageMeta'
 import { GraduationCap, Briefcase, Heart, Award } from 'lucide-react'
 
 export default function ExperiencePage() {
-  usePageMeta({ title: 'Experience — Hemen Babis', description: 'Professional experience, achievements, volunteering and memberships.' })
+  usePageMeta({ title: 'Experience - Hemen Babis', description: 'Professional experience, achievements, volunteering and memberships.' })
   return (
     <>
       <Nav />

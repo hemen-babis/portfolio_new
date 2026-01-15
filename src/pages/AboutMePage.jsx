@@ -6,7 +6,7 @@ import { usePageMeta } from '@/lib/usePageMeta'
 import FunFacts from '@/components/about/FunFacts'
 
 export default function AboutMePage(){
-  usePageMeta({ title: 'About — Hemen Babis', description: 'About Hemen Babis: background, fun facts and interests across AI/ML, CS, Math and Bioinformatics.' })
+  usePageMeta({ title: 'About - Hemen Babis', description: 'About Hemen Babis: background, fun facts and interests across AI/ML, CS, Math and Bioinformatics.' })
   return (
     <>
       <Nav />

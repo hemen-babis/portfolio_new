@@ -15,7 +15,7 @@ const CAT_COLORS = {
 }
 
 export default function WorkPage() {
-  usePageMeta({ title: 'Client Work — Hemen Babis', description: 'Client sites, social and visual work.' })
+  usePageMeta({ title: 'Client Work - Hemen Babis', description: 'Client sites, social and visual work.' })
   const [tab, setTab] = React.useState('Posters & Ads')
   const [open, setOpen] = React.useState(null)
 

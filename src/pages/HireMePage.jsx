@@ -125,7 +125,7 @@ function CornerProgress({ step, total, service }) {
 }
 
 export default function HireMePage() {
-  usePageMeta({ title: 'Hemenly Tech — Work With Me', description: 'Website, app and social media services. Get a quick tailored quote.' })
+  usePageMeta({ title: 'Hemenly Tech - Work With Me', description: 'Website, app and social media services. Get a quick tailored quote.' })
   const navigate = useNavigate()
   const [step, setStep] = React.useState(1)
   const total = 3

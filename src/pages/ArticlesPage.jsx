@@ -5,7 +5,7 @@ import { usePageMeta } from '@/lib/usePageMeta'
 import { articles } from '@/content/articles'
 
 export default function ArticlesPage() {
-  usePageMeta({ title: 'Articles — Hemen Babis', description: 'Essays, notes and articles by Hemen Babis.' })
+  usePageMeta({ title: 'Articles - Hemen Babis', description: 'Essays, notes and articles by Hemen Babis.' })
   const [q, setQ] = React.useState('')
   const [tag, setTag] = React.useState('All')
   const tags = React.useMemo(() => ['All', ...Array.from(new Set(articles.flatMap(a => a.tags)))], [])

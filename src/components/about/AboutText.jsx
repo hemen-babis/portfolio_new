@@ -16,7 +16,7 @@ export default function AboutText() {
           <img src="/hemu-dark.jpg" alt="Hemen Babis portrait" className="w-full max-w-xs md:max-w-sm h-auto rounded-2xl object-cover hidden dark:block" loading="lazy" decoding="async" />
         </div>
         <p className="text-foreground leading-relaxed">
-          Hi, I’m Hemen Babis — born and raised in Ethiopia, now a Computer Science + Math student at PSU Honors College focusing on AI/ML, bioinformatics, and creative coding.
+          Hi, I’m Hemen Babis - born and raised in Ethiopia, now a Computer Science + Math student at PSU Honors College focusing on AI/ML, bioinformatics, and creative coding.
         </p>
       </div>
 

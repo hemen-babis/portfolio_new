@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { usePageMeta } from '@/lib/usePageMeta'
 
 export default function SuccessPage() {
-  usePageMeta({ title: 'Success — Hemenly Tech', description: 'Your request has been sent.' })
+  usePageMeta({ title: 'Success - Hemenly Tech', description: 'Your request has been sent.' })
   return (
     <>
       <Nav />

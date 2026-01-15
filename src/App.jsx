@@ -27,12 +27,12 @@ import FunFactsTicker from "@/components/FunFactsTicker.jsx";
 import { Link } from "react-router-dom";
 
 /**
- * Hemen — Living Narrative Portfolio
+ * Hemen - Living Narrative Portfolio
  * Single-file React app using Tailwind + framer-motion + react-three-fiber.
  * Sections:
  *  - Hero with animated nebula + floating 3D DNA helix
  *  - Skills orbit cards (AI/ML, Math, CS, Bioinformatics, Design)
- *  - AI Studio (chat + embeddings toy) — wire to /api/chat later
+ *  - AI Studio (chat + embeddings toy) - wire to /api/chat later
  *  - Math Lab (interactive plot) 
  *  - Bio Lab (GC%, translation) 
  *  - Projects & Contact
@@ -101,7 +101,7 @@ function DNAHelix({ count = 700, radius = 1.1, length = 12.0 }) {
     return arr;
   }, [length, radius]);
 
-  // Static: no useFrame animation — helix is a stable visual anchor
+  // Static: no useFrame animation - helix is a stable visual anchor
 
   return (
     <group ref={group}>
@@ -611,7 +611,7 @@ function MathLab() {
         <div className="grid lg:grid-cols-3 gap-8">
           <Card className={`${glass} col-span-2`}>
             <CardHeader>
-              <CardTitle className="title-gradient">Math Lab — Signal Builder</CardTitle>
+              <CardTitle className="title-gradient">Math Lab - Signal Builder</CardTitle>
               <CardDescription className="text-muted-foreground">y = a·sin(f·x) + b·cos(0.5x)</CardDescription>
             </CardHeader>
             <CardContent>
@@ -697,7 +697,7 @@ function BioLab() {
       <div className="mx-auto w-full px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
         <Card className={`${glass}`}>
           <CardHeader>
-            <CardTitle className="title-gradient">Bio Lab — Quick Tools</CardTitle>
+            <CardTitle className="title-gradient">Bio Lab - Quick Tools</CardTitle>
             <CardDescription className="text-muted-foreground">Compute GC% and translate DNA → protein.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -1072,7 +1072,7 @@ export function Education() {
                     {it.year && <p className="text-sm text-foreground/70">{it.year}</p>}
                   </div>
                 </div>
-                {/* Back face — details only */}
+                {/* Back face - details only */}
                 <div className="flashcard-back glass-card p-7 text-center overflow-auto">
                   <div className="h-full w-full flex items-center justify-center">
                     <p className="text-base text-foreground leading-relaxed">{it.details}</p>
@@ -1467,7 +1467,7 @@ export function Contact() {
           <div className="pointer-events-none absolute -inset-24 opacity-30 blur-3xl" style={{ background:'radial-gradient(600px 400px at 80% 20%, rgba(231,76,60,0.15), transparent 60%), radial-gradient(500px 300px at 20% 80%, rgba(155,89,182,0.18), transparent 60%)' }} />
           <CardHeader className="relative">
             <CardTitle className="font-hand text-3xl title-gradient">Let’s build together</CardTitle>
-            <CardDescription className="text-muted-foreground">Email, phone, and links — quick and simple.</CardDescription>
+            <CardDescription className="text-muted-foreground">Email, phone, and links - quick and simple.</CardDescription>
           </CardHeader>
           <CardContent className="relative">
             {React.createElement(motion.div, { initial:{opacity:0,y:18}, whileInView:{opacity:1,y:0}, viewport:{once:true}, transition:{duration:0.5}}, (
@@ -1489,7 +1489,7 @@ export function Contact() {
                           await navigator.clipboard.writeText(value)
                           toast.success(`${label} copied to clipboard`)
                         } catch {
-                          toast.error('Copy failed — try again')
+                          toast.error('Copy failed - try again')
                         }
                       }
                     },
@@ -1622,10 +1622,10 @@ export default function App() {
             {(() => {
               const facts = [
                 'She/Her',
-                'Applied AI/ML Intern — VLMs',
+                'Applied AI/ML Intern - VLMs',
                 'Gen AI Engineer',
                 'CS + Math @ PSU Honors (GPA 3.8)',
-                'Freelancer — Web + Visual',
+                'Freelancer - Web + Visual',
                 'San Francisco, CA ↔ Portland, OR',
                 '1,783 followers · 500+ connections',
                 'Open to SWE / AI / Data internships',
@@ -1633,8 +1633,8 @@ export default function App() {
                 'Honors Laurels Scholarship (PSU Honors)',
                 'Tuition‑Free Degree Award (PSU Honors)',
                 'Rewriting the Code member',
-                'American Red Cross — Supervisor (alum)',
-                'Social Media Manager — John’s Repentance',
+                'American Red Cross - Supervisor (alum)',
+                'Social Media Manager - John’s Repentance',
               ]
               const groups = [
                 { label: 'Fun facts', icon: Sparkles, items: facts },
@@ -1655,7 +1655,7 @@ export default function App() {
             {/* Subtle dots background just behind the name area */}
             <div className="absolute inset-0 -z-10 dots-bg opacity-70" />
             <div className="inline-block rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-lg px-4 py-4 sm:px-5 sm:py-5 shadow-[0_6px_24px_rgba(0,0,0,0.15)] border border-white/60 dark:border-white/20">
-              <h1 className={`font-hand font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText} title-stroke shimmer-text`} style={{ textShadow: '0 1px 8px rgba(0,0,0,0.45), 0 0 18px rgba(169,112,255,0.35)' }}>Hemen — AI/ML, CS, Math, Bioinformatics</h1>
+              <h1 className={`font-hand font-extrabold text-4xl sm:text-6xl lg:text-7xl leading-tight ${neonText} title-stroke shimmer-text`} style={{ textShadow: '0 1px 8px rgba(0,0,0,0.45), 0 0 18px rgba(169,112,255,0.35)' }}>Hemen - AI/ML, CS, Math, Bioinformatics</h1>
               <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <a href="#projects"><Button className="btn-primary-purple w-full sm:w-auto hover-ring">See Work</Button></a>
                 <a href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer"><Button className="btn-outline-purple w-full sm:w-auto hover-ring">Hire Me</Button></a>
@@ -1665,7 +1665,7 @@ export default function App() {
                 'Applied AI/ML Intern',
                 'Gen AI Engineer',
                 'CS + Math @ PSU Honors (GPA 3.8)',
-                'Freelancer — Web + Visual',
+                'Freelancer - Web + Visual',
                 'Amharic + English',
                 'Portland ↔ SF',
                 '1,783 followers · 500+ connections',
@@ -2236,7 +2236,7 @@ function HeroSkillsDrops({ groups, maxActive = 10, spawnMs = 650, riseSpeed = 0.
   )
 }
 
-// Clean fade carousel for skills — 1-2 visible, center aligned
+// Clean fade carousel for skills - 1-2 visible, center aligned
 function HeroSkillsFadeCarousel({ groups, concurrent = 2, duration = 3000 }) {
   const pool = useMemo(() => {
     const out = []

@@ -28,7 +28,7 @@ export const merch = [
 // Websites — fill your real links here
 export const websites = [
   { id: 'yohannesneseha', title: 'Yohannes Neseha', url: 'https://yohannesneseha.org/', caption: 'Informational site', tools: ['Webflow','SEO'], image: '/images/work/johns.png' },
-  { id: 'hemenbabis', title: 'Hemen Babis - Portfolio', url: 'https://hemenbabis.com', caption: 'Personal portfolio', tools: ['React','Tailwind'], image: '/images/portfolio.png' },
+  { id: 'hemenbabis', title: 'Hemen Babis', url: 'https://hemenbabis.com', caption: 'Personal portfolio', tools: ['React','Tailwind'], image: '/images/portfolio.png' },
   { id: 'md-tutoring', title: 'Maryland Tutoring Services', url: 'https://www.marylandtutoringservices.org/', caption: 'Tutoring business site', tools: ['Google Sites'], image: '/images/work/mts.png' },
   { id: 'stgeorge', title: 'St. George PDX EOTC', url: '', caption: 'Church website (in progress)', tools: ['React, HTML, CSS',], status: 'Not published', image: '/images/work/church.png'},
   { id: 'lukas-art', title: 'Lukas Art', url: '', caption: 'Artist portfolio site', tools: ['React','Tailwind'], status: 'Not published', image: '/images/work/seble.png'},

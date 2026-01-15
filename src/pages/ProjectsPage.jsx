@@ -69,7 +69,7 @@ function ProjectCard({ p, i, onOpen }) {
 
 export default function ProjectsPage() {
   usePageMeta({
-    title: 'Projects — Hemen Babis',
+    title: 'Projects - Hemen Babis',
     description: 'Selected software projects, client work and case studies by Hemen Babis.'
   })
   const [sp, setSp] = useSearchParams()

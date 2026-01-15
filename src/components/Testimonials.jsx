@@ -39,7 +39,7 @@ export default function Testimonials() {
               style={{ transform: `rotate(${i===1?0.2: i===2?-0.2:0.3}deg)` }}
             >
               <div className="text-base text-foreground/90">“{t.quote}”</div>
-              <div className="mt-3 text-sm opacity-80">{t.name} — {t.role}</div>
+              <div className="mt-3 text-sm opacity-80">{t.name} - {t.role}</div>
             </motion.article>
           ))}
         </motion.div>
