@@ -120,44 +120,72 @@ export const projects = [
 ]
 export const experience = [
   {
-    role: 'Applied AI/ML Intern — Vision‑Language Models',
+    role: 'Applied AI/ML Intern - Vision-Language Models',
     company: 'Stealth Startup',
-    period: 'Aug 2025 – Present · San Francisco · Hybrid',
+    period: 'Aug 2025 - Oct 2025 · San Francisco, California, United States · Hybrid',
     bullets: [
-      'Designing evaluation strategies for vision‑language models in scientific domains (bioinformatics / microscopy).',
-      'Defining domain‑specific metrics; benchmarking <100B models for structured comparison.',
-      'Building reproducible fine‑tuning/analysis pipelines and VLM experimentation repos.',
-      'Exploring agentic video understanding tools (e.g., TwelveLabs) for multimodal lab data.',
-      'Supporting agent design with LangGraph + AWS primitives (memory, tools, feedback loops).',
+      'Designed evaluation strategies for vision-language models in scientific domains, with emphasis on bioinformatics and microscopy imagery.',
+      'Defined and implemented domain-specific performance metrics to benchmark model utility.',
+      'Researched and tested <100B-parameter models for structured evaluation and comparison.',
+      'Built reusable pipelines for fine-tuning and analysis of VLMs with custom datasets.',
+      'Explored integration of agentic video understanding tools like TwelveLabs for multimodal lab data.',
+      'Supported agent design with LangGraph and AWS primitives (memory, tool use, feedback loops).',
+      'Maintained organized, documented repos for reproducible experiments.',
     ],
   },
   {
     role: 'AI/ML Engineer Intern',
     company: 'Agents4Hire',
-    period: 'Sep 2024 – Jun 2025 · Remote',
+    period: 'Sep 2024 - Jun 2025 · San Francisco Bay Area · Remote',
     bullets: [
-      'Deployed an AI‑driven project management tool with Gemini API; improved team productivity.',
-      'Optimized automation models (Python/TensorFlow) to reduce manual tasks and overhead.',
-      'Integrated a real‑time task prioritization system (Flask) and improved user engagement.',
+      'Achieved a 30% productivity increase by developing and deploying an AI-driven project management tool using the Gemini API.',
+      'Boosted operational efficiency by optimizing business automation models with Python and TensorFlow, reducing manual tasks.',
+      'Cut operational overhead by designing and integrating a real-time task prioritization system using Flask.',
+      'Enhanced user engagement by 25% through AI-driven solutions and close collaboration with full-stack engineers.',
     ],
   },
   {
     role: 'Web Developer',
     company: 'Freelance',
-    period: 'Mar 2023 – Present · Remote',
+    period: 'Mar 2023 - Present · Portland, Oregon, United States · Remote',
     bullets: [
-      'Designed/developed 10+ websites for nonprofits, churches, and small orgs (marketing, events, donations).',
-      'Full‑stack performance and SEO improvements (‑40% load time, +25% traffic).',
-      'React/Node/Flutter across responsive, accessible, purpose‑driven experiences.',
+      'Designed and developed 10+ custom websites for private organizations, nonprofits, and churches ranging from marketing sites to event and donation platforms.',
+      'Leveraged React, Node.js, and Flutter to create responsive, accessible, and purpose-driven digital experiences.',
+      'Improved site traffic by 25% through full-stack performance optimization and SEO enhancements; reduced load times by 40% via backend refactoring and asset compression.',
+      'Collaborated with community teams to launch meaningful web solutions that increased user engagement by 30%.',
     ],
   },
   {
     role: 'Freelance Visual Content Designer',
     company: 'Freelance',
-    period: 'Jan 2022 – Present · Hybrid',
+    period: 'Jan 2022 - Present · Hybrid',
     bullets: [
-      'Created 50+ original social media graphics (no templates) for 15+ organizations.',
-      'Increased reach/engagement 30–40% with targeted visual storytelling and content calendars.',
+      'Created 50+ original, from-scratch social media graphics (no templates) using Canva for 15+ businesses, nonprofits, and churches.',
+      'Increased post reach and engagement by 30-40% across Instagram, Facebook, and LinkedIn through targeted visual storytelling.',
+      'Collaborated with marketing leads and directors to align content with brand identity, campaign goals, and audience demographics.',
+      'Contributed to sustained follower growth and community engagement for multiple organizations by developing consistent content calendars and compelling visuals.',
+    ],
+  },
+  {
+    role: 'Software Engineer Intern',
+    company: 'Maryland Tutoring Services',
+    period: 'Feb 2023 - Aug 2024 · Maryland, United States · Remote',
+    bullets: [
+      'Improved response time by developing a generative AI-powered tutoring assistant using LangChain.',
+      'Reduced downtime by 15% and increased system performance by refactoring and optimizing backend logic in Flask and FastAPI.',
+      'Boosted query processing speed by 30% by automating data preprocessing pipelines using Python and Pandas.',
+      'Streamlined recruitment cycles and onboarding by leading software engineer hiring efforts.',
+    ],
+  },
+  {
+    role: 'Marketing and Administrative Assistant',
+    company: 'Xpose',
+    period: 'Jun 2022 - Sep 2022 · Portland, Oregon, United States · Remote',
+    bullets: [
+      'Coordinated and led volunteer teams of up to 15 members for events and outreach, improving project efficiency and increasing community engagement by 20%.',
+      'Designed and created social media content using Canva, increasing online engagement by 35% within three months through targeted posts that improved brand visibility.',
+      'Researched and identified potential donors and grant opportunities, contributing to securing $4000 in funding by identifying five viable sources for grants and donations.',
+      'Managed website updates and supported recruitment processes, improving website user experience and increasing web traffic by 25%.',
     ],
   },
 ]
@@ -195,6 +223,15 @@ export const memberships = [
   'ColorStack',
   'Rewriting the Code',
   'AI4ALL',
+]
+
+export const organizations = [
+  { name: 'AI4ALL', logo: '/images/orgs/ai4all.png' },
+  { name: 'Rewriting the Code', logo: '/images/orgs/rewriting-the-code.png' },
+  { name: 'MLT', logo: '/images/orgs/mlt.png' },
+  { name: 'ColorStack', logo: '/images/orgs/colorstack.png' },
+  { name: 'NSBE', logo: '/images/orgs/nsbe.png' },
+  { name: 'NHS', logo: '/images/orgs/nhs.png' },
 ]
 
 // Condensed skills map for the Skills section
