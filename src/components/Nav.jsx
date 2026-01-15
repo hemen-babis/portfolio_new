@@ -108,19 +108,21 @@ export default function Nav() {
 
           {/* Right: theme + nav (md+) */}
           <div className="hidden md:flex ml-auto items-center gap-4 text-lg font-bold tracking-tight">
-            <div role="radiogroup" aria-label="Theme" className="inline-flex items-center rounded-lg bg-white/80 dark:bg-white/10 border border-[#a970ff33] dark:border-white/20 p-1">
-              <button role="radio" aria-checked={!dark} onClick={() => applyTheme(false)} aria-label="Light mode" className={`grid place-items-center w-10 h-10 rounded-md transition ${!dark ? 'bg-white border border-[#a970ff33] text-[#6a40c8] shadow-[0_0_10px_rgba(169,112,255,0.35)]' : 'opacity-70 hover:opacity-100'}`}>
+            <div role="radiogroup" aria-label="Theme" className="inline-flex items-center rounded-full bg-white/90 dark:bg-white/10 border border-black/10 dark:border-white/20 p-1">
+              <button role="radio" aria-checked={!dark} onClick={() => applyTheme(false)} aria-label="Light mode" className={`grid place-items-center w-10 h-10 rounded-full transition ${!dark ? 'bg-gradient-to-r from-[#9B59B6]/15 to-[#FF6EC7]/15 text-[#6a40c8] border border-[#a970ff33] shadow-[0_0_10px_rgba(169,112,255,0.25)]' : 'text-slate-600 hover:text-slate-900'}`}>
                 <Sun className="w-5 h-5" />
               </button>
-              <button role="radio" aria-checked={dark} onClick={() => applyTheme(true)} aria-label="Dark mode" className={`grid place-items-center w-10 h-10 rounded-md transition ${dark ? 'dark:bg-white/25 text-white shadow-[0_0_10px_rgba(169,112,255,0.35)]' : 'opacity-70 hover:opacity-100'}`}>
+              <button role="radio" aria-checked={dark} onClick={() => applyTheme(true)} aria-label="Dark mode" className={`grid place-items-center w-10 h-10 rounded-full transition ${dark ? 'dark:bg-white/25 text-white shadow-[0_0_10px_rgba(169,112,255,0.35)]' : 'text-slate-600 hover:text-slate-900'}`}>
                 <Moon className="w-5 h-5" />
               </button>
             </div>
-            {[{ to: '/about-me', label: 'About' }, { to: '/projects', label: 'Projects' }, { to: '/articles', label: 'Articles' }].map(({ to, label }) => (
-              <Link key={to} to={to} className={`nav-link ${isActive(to)}`} aria-current={pathname === to ? 'page' : undefined}>
-                {label}
-              </Link>
-            ))}
+            <div className="nav-group">
+              {[{ to: '/about-me', label: 'About' }, { to: '/projects', label: 'Projects' }, { to: '/articles', label: 'Articles' }].map(({ to, label }) => (
+                <Link key={to} to={to} className={`nav-link ${isActive(to)}`} aria-current={pathname === to ? 'page' : undefined}>
+                  {label}
+                </Link>
+              ))}
+            </div>
             <a href="https://www.linkedin.com/in/hemen-babis" target="_blank" rel="noreferrer" className={`btn-primary-purple px-4 py-2 rounded-lg`}>
               Hire Me
             </a>
@@ -163,9 +165,9 @@ export default function Nav() {
                 <motion.div className="px-5 pb-8 flex flex-col items-center text-center text-base gap-2" initial="hidden" animate="show" variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}>
                   <div className="flex items-center justify-center gap-3 mb-3">
                     <span className="nav-link">Theme</span>
-                    <div role="radiogroup" aria-label="Theme" className="inline-flex rounded-lg bg-white/80 dark:bg-white/10 border border-[#a970ff33] dark:border-white/20 p-1">
+                    <div role="radiogroup" aria-label="Theme" className="inline-flex rounded-full bg-white/90 dark:bg-white/10 border border-black/10 dark:border-white/20 p-1">
                       {[{ on: () => applyTheme(false), checked: !dark, Icon: Sun, label: 'Light mode' }, { on: () => applyTheme(true), checked: dark, Icon: Moon, label: 'Dark mode' }].map(({ on, checked, Icon, label }, i) => (
-                        <button key={i} role="radio" aria-checked={checked} onClick={on} aria-label={label} className={`grid place-items-center w-9 h-9 rounded-md transition ${checked ? 'bg-white dark:bg-white/25 text-[#6a40c8] dark:text-white shadow-[0_0_10px_rgba(169,112,255,0.35)]' : 'opacity-70 hover:opacity-100'}`}>
+                        <button key={i} role="radio" aria-checked={checked} onClick={on} aria-label={label} className={`grid place-items-center w-9 h-9 rounded-full transition ${checked ? 'bg-gradient-to-r from-[#9B59B6]/15 to-[#FF6EC7]/15 text-[#6a40c8] dark:bg-white/25 dark:text-white shadow-[0_0_10px_rgba(169,112,255,0.25)]' : 'text-slate-600 hover:text-slate-900'}`}>
                           <Icon className="w-5 h-5" />
                         </button>
                       ))}

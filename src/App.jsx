@@ -1322,7 +1322,7 @@ export function Contact() {
                 {[
                   {label:'Email', value:'hemenly@gmail.com', href:'mailto:hemenly@gmail.com', copy:true, icon:Mail, glow:'rgba(231,76,60,0.6)'},
                   {label:'LinkedIn', value:'linkedin.com/in/hemen-babis', href:'https://www.linkedin.com/in/hemen-babis', copy:false, icon:Linkedin, glow:'rgba(10,102,194,0.7)'},
-                  {label:'Personal', value:'hemen-babis.github.io/hemenportfolio/', href:'https://hemen-babis.github.io/hemenportfolio/', copy:false, icon:Github, glow:'rgba(155,89,182,0.6)'},
+                  {label:'Github', value:'github.com/hemen-babis', href:'https://github.com/hemen-babis', copy:false, icon:Github, glow:'rgba(155,89,182,0.6)'},
                 ].map(({label,value,href,copy,icon:Icon,glow}, idx) => (
                   React.createElement(motion.a, {
                     key: label,

@@ -18,6 +18,12 @@ const BUSINESS = {
   website: 'https://t.me/hemenly', // Telegram contact until email is set
 }
 
+// Optional: plug-and-play submissions with Formspree (simple, no backend).
+// 1) Create a form at https://formspree.io (New Project → Create Form).
+// 2) Copy your endpoint like "https://formspree.io/f/abcdwxyz" and paste below.
+// When set, submissions POST here; you’ll see them in your Formspree inbox.
+const FORMSPREE_ENDPOINT = '' // e.g., 'https://formspree.io/f/abcdwxyz'
+
 const SERVICES = [
   { id: 'social', label: 'Social Media Content Management', desc: 'Strategy, content creation, scheduling and monthly reporting.' },
   { id: 'web', label: 'Website Design & Development', desc: 'Design and build with a modern stack; domain/hosting support.' },
@@ -230,18 +236,50 @@ export default function HireMePage() {
     `Contact:\n${summary.name}\n${summary.email}\n${summary.phone}\n${summary.company}`
   )
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validate('submit')) return
     const to = BUSINESS.email
     const subject = service === 'job' ? 'Job Opportunity Inquiry' : 'Project Quote Request'
     const body = encodeURIComponent(buildRequestText())
-    if (to) {
-      window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`
-      toast.success('Thanks! Your email client is opening with the details.')
-    } else {
-      navigator.clipboard.writeText(buildRequestText())
-        .then(()=> toast.success('No email set. Copied request to clipboard.'))
-        .catch(()=> toast.error('No email set. Please copy your request manually.'))
+    try {
+      if (FORMSPREE_ENDPOINT) {
+        const payload = {
+          subject,
+          service: summary.service,
+          websitePkg: summary.websitePkg,
+          timeline: summary.timeline,
+          budget: summary.budget,
+          extras: summary.extras,
+          jobRole: summary.jobRole,
+          jobType: summary.jobType,
+          jobLink: summary.jobLink,
+          description: summary.desc,
+          name: summary.name,
+          email: summary.email,
+          phone: summary.phone,
+          company: summary.company,
+        }
+        const r = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+        if (r.ok) {
+          toast.success('Thanks! Your request has been sent.')
+          try { localStorage.removeItem('hire-quote') } catch {}
+          return
+        }
+        // If Formspree errors, fall back gracefully
+      }
+      if (to) {
+        window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`
+        toast.success('Thanks! Your email client is opening with the details.')
+      } else {
+        await navigator.clipboard.writeText(buildRequestText())
+        toast.success('Copied request to clipboard. Paste it into your email.')
+      }
+    } catch (e) {
+      toast.error('Unable to submit automatically. Please try email or copy the request.')
     }
   }
 

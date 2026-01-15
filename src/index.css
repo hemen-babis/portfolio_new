@@ -25,30 +25,30 @@
   --heading-color: #0b1220;
   /* Light glass background — subtle white with very soft shadow */
   --glass-bg: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
-  --glass-border: rgba(15,23,42,0.08);
-  --glass-shadow: 0 8px 26px rgba(2,6,23,0.06);
+  --glass-border: rgba(2,6,23,0.12);
+  --glass-shadow: 0 10px 26px rgba(2,6,23,0.08);
   /* Hover accents kept gentle in light */
-  --glass-hover-shadow: 0 8px 22px rgba(2,6,23,0.10), 0 0 16px rgba(169,112,255,0.20);
+  --glass-hover-shadow: 0 10px 22px rgba(2,6,23,0.14), 0 0 22px rgba(169,112,255,0.22);
   /* Tag/badge (light) */
   --tag-bg: rgba(2,6,23,0.04);
   --tag-border: rgba(2,6,23,0.10);
   --tag-fg: #0f172a;
   --nav-glass-bg: rgba(255,255,255,0.92);
   --nav-border: rgba(2,6,23,0.08);
-  --nav-link: #1f2350;
-  --nav-link-hover: #6a40c8;
+  --nav-link: #2a235b;
+  --nav-link-hover: #7a40ff;
   --btn-outline-fg: #0f172a;
   /* Subtle dotfield color (light) */
-  --dot-color: rgba(20, 22, 35, 0.06);
+  --dot-color: rgba(20, 22, 35, 0.08);
   /* Floating symbol color/glow (light) */
   --symbol-color: rgba(2,6,23,0.56);
   --symbol-glow: 0 0 0 transparent;
   /* Light background — very faint corner tints */
   --bg-gradient:
-    radial-gradient(1200px 800px at 10% -10%, rgba(239, 231, 255, 0.70), transparent 60%),
-    radial-gradient(1000px 700px at 100% 120%, rgba(255, 235, 249, 0.60), transparent 60%),
-    radial-gradient(900px 600px at 0% 100%, rgba(218, 246, 255, 0.55), transparent 60%),
-    linear-gradient(180deg, #f8f6ff 0%, #f5fbff 100%);
+    radial-gradient(1200px 800px at 10% -10%, rgba(239, 231, 255, 0.80), transparent 62%),
+    radial-gradient(1000px 700px at 100% 120%, rgba(255, 235, 249, 0.70), transparent 62%),
+    radial-gradient(900px 600px at 0% 100%, rgba(218, 246, 255, 0.65), transparent 62%),
+    linear-gradient(180deg, #ffffff 0%, #f6fbff 100%);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -454,10 +454,50 @@ code, pre, kbd, samp { font-family: 'Roboto Mono', ui-monospace, SFMono-Regular,
 }
 
 /* Navbar glass */
-.navbar-glass { background: var(--nav-glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--nav-border); }
-.nav-link { color: var(--nav-link); transition: color .2s ease; }
+.navbar-glass {
+  background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.86));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(2,6,23,0.06);
+  box-shadow: 0 8px 22px rgba(2,6,23,0.06);
+  position: relative;
+}
+.dark .navbar-glass {
+  background: var(--nav-glass-bg);
+  border-bottom-color: var(--nav-border);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+/* Subtle brand gradient line under navbar in light mode */
+.navbar-glass::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background-image: linear-gradient(90deg, #9B59B6, #FF6EC7, #E0AA3E);
+  opacity: 0.28;
+}
+.dark .navbar-glass::after { opacity: 0.18; }
+
+.nav-link { position: relative; color: var(--nav-link); transition: color .2s ease; }
+.nav-link::after {
+  content: "";
+  position: absolute; left: 0; bottom: -6px; height: 2px; width: 0%;
+  background-image: linear-gradient(90deg, #9B59B6, #FF6EC7);
+  transition: width .25s ease;
+}
 .nav-link:hover { color: var(--nav-link-hover); }
+.nav-link:hover::after { width: 100%; }
 .nav-link-active { color: var(--nav-link-hover); }
+.nav-link-active::after { width: 100%; }
+
+/* Light-mode pill group for nav links */
+.nav-group {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 8px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(2,6,23,0.10);
+  box-shadow: 0 8px 18px rgba(2,6,23,0.06);
+}
+.dark .nav-group { background: transparent; border-color: transparent; box-shadow: none; }
 
 /* Buttons */
 .btn-primary-purple {
@@ -466,18 +506,18 @@ code, pre, kbd, samp { font-family: 'Roboto Mono', ui-monospace, SFMono-Regular,
   color: #fff;
   font-weight: 700;
   border-radius: 12px;
-  box-shadow: 0 0 0 rgba(169,112,255,0.0);
-  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+  box-shadow: 0 6px 18px rgba(155,89,182,0.18), 0 2px 10px rgba(255,110,199,0.20);
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, background 180ms ease;
 }
-.btn-primary-purple:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 0 16px rgba(255,110,199,0.6); filter: brightness(1.05); }
+.btn-primary-purple:hover { transform: translateY(-1px) scale(1.02); box-shadow: 0 10px 22px rgba(155,89,182,0.25), 0 4px 14px rgba(255,110,199,0.28); filter: brightness(1.06); }
 .btn-outline-purple {
-  border: 1px solid #a970ff;
-  color: var(--btn-outline-fg);
+  border: 1.5px solid #a970ff;
+  color: #3a2e66;
   border-radius: 12px;
-  background: transparent;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  background: rgba(169,112,255,0.06);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
 }
-.btn-outline-purple:hover { background: #a970ff; color: white; box-shadow: 0 0 15px #a970ff; transform: translateY(-1px) scale(1.02); }
+.btn-outline-purple:hover { background: #a970ff; color: white; box-shadow: 0 10px 20px rgba(169,112,255,0.35); transform: translateY(-1px) scale(1.02); }
 
 /* Neon accents */
 .neon-icon { filter: drop-shadow(0 0 10px rgba(169,112,255,0.6)); }

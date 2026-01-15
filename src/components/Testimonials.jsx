@@ -3,19 +3,19 @@ import { motion } from 'framer-motion'
 
 const ITEMS = [
   {
-    name: 'A. Client',
+    name: 'Client',
     role: 'Founder, Local Services',
     quote: 'Hemen delivered fast, communicated clearly, and exceeded expectations. The site feels premium and performs well.',
   },
   {
-    name: 'B. Partner',
+    name: 'Client',
     role: 'Product Lead, EdTech',
-    quote: 'Strong engineering instincts with a great eye for design. He turned rough ideas into a polished experience.',
+    quote: 'Strong engineering instincts with a great eye for design. She turned rough ideas into a polished, accessible experience.',
   },
   {
-    name: 'C. Collaborator',
+    name: 'Client',
     role: 'Engineer, Open Source',
-    quote: 'Hemen is thoughtful and detail-oriented. The small touches—the microinteractions—really elevated the project.',
+    quote: 'Hemen is thoughtful and detail‑oriented. Her small touches and micro‑interactions really elevated the project for users.',
   },
 ]
 
@@ -47,4 +47,3 @@ export default function Testimonials() {
     </section>
   )
 }
-
