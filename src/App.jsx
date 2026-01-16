@@ -2008,6 +2008,7 @@ function OrganizationsCarousel() {
 
 function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
   const dims = useRef({ w: typeof window !== 'undefined' ? window.innerWidth : 1200, h: typeof window !== 'undefined' ? window.innerHeight : 800 })
+  const dragRef = useRef({ active: false, x: 0 })
   useEffect(() => {
     const onR = () => (dims.current = { w: window.innerWidth, h: window.innerHeight })
     window.addEventListener('resize', onR)
@@ -2090,6 +2091,14 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
     return () => cancelAnimationFrame(raf)
   }, [pool])
 
+  const nudgeAll = (delta) => {
+    lanesRef.current.forEach((lane) => {
+      lane.items.forEach((it) => {
+        it.t += delta * it.dir
+      })
+    })
+  }
+
   const renderItem = (li, it) => {
     const W = Math.max(800, dims.current.w)
     const sep = dims.current.w < 1024 ? 170 : 140
@@ -2125,7 +2134,26 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
   }
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-30">
+    <div
+      className="absolute inset-0 z-30 pointer-events-auto"
+      onWheel={(e) => {
+        const W = Math.max(800, dims.current.w)
+        const delta = (e.deltaY + e.deltaX) / W
+        nudgeAll(delta * 0.35)
+      }}
+      onPointerDown={(e) => {
+        dragRef.current = { active: true, x: e.clientX }
+      }}
+      onPointerMove={(e) => {
+        if (!dragRef.current.active) return
+        const W = Math.max(800, dims.current.w)
+        const dx = e.clientX - dragRef.current.x
+        dragRef.current.x = e.clientX
+        nudgeAll((dx / W) * 0.8)
+      }}
+      onPointerUp={() => { dragRef.current.active = false }}
+      onPointerLeave={() => { dragRef.current.active = false }}
+    >
       {lanesRef.current.map((lane) => lane.items.map(it => renderItem(lane.li, it)))}
     </div>
   )
