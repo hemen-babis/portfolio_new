@@ -2157,7 +2157,7 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
           type="button"
           onPointerDown={(e) => {
             e.stopPropagation()
-            if (dragRef.current.moved) return
+            dragRef.current.moved = false
             setActiveFact(it.item)
           }}
           onClick={(e) => {
