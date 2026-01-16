@@ -1621,25 +1621,39 @@ export default function App() {
           <div className="absolute inset-0 z-30">
             {(() => {
               const facts = [
-                'She/Her',
-                'Applied AI/ML Intern - VLMs',
-                'Gen AI Engineer',
-                'CS + Math @ PSU Honors (GPA 3.8)',
-                'Freelancer - Web + Visual',
-                'San Francisco, CA ↔ Portland, OR',
-                '1,783 followers · 500+ connections',
-                'Open to SWE / AI / Data internships',
-                'Amharic & English',
-                'Honors Laurels Scholarship (PSU Honors)',
-                'Tuition‑Free Degree Award (PSU Honors)',
-                'Rewriting the Code member',
-                'American Red Cross - Supervisor (alum)',
-                'Social Media Manager - John’s Repentance',
+                { title: 'She/Her', detail: 'Pronouns: she/her.' },
+                { title: 'Applied AI/ML Intern - VLMs', detail: 'Focused on evaluation and benchmarking for vision-language models in scientific domains.' },
+                { title: 'Gen AI Engineer', detail: 'Builds AI-powered tools for workflow automation, tutoring, and research assistance.' },
+                { title: 'CS + Math @ PSU Honors (GPA 3.8)', detail: 'Studying Computer Science and Mathematics at Portland State University Honors College.' },
+                { title: 'Freelancer - Web + Visual', detail: 'Designs and ships custom websites and visual content for nonprofits and small orgs.' },
+                { title: 'San Francisco, CA ↔ Portland, OR', detail: 'Based between the Bay Area and Portland.' },
+                { title: '1,783 followers · 500+ connections', detail: 'Active professional network with steady growth.' },
+                { title: 'Open to SWE / AI / Data full-time', detail: 'Looking for full-time roles in software engineering, AI/ML, or data.' },
+                { title: 'Amharic & English', detail: 'Bilingual communication.' },
+                { title: 'Honors Laurels Scholarship (PSU Honors)', detail: 'Awarded for academic excellence and leadership potential.' },
+                { title: 'Tuition‑Free Degree Award (PSU Honors)', detail: 'Merit-based scholarship covering tuition at PSU Honors College.' },
+                { title: 'Rewriting the Code member', detail: 'Member of RTC supporting women in tech.' },
+                { title: 'American Red Cross - Supervisor (alum)', detail: 'Former supervisor supporting operations and community service.' },
+                { title: 'Social Media Manager - John’s Repentance', detail: 'Led social media strategy and content creation.' },
+                { title: 'AI4ALL member', detail: 'Part of the AI4ALL community focused on inclusion in AI.' },
+                { title: 'ColorStack member', detail: 'Member of ColorStack, a community for Black and Latinx CS students.' },
+                { title: 'NSBE member', detail: 'National Society of Black Engineers community member.' },
+                { title: 'NHS alumni', detail: 'National Honor Society alum with a focus on service.' },
+                { title: '10+ websites shipped', detail: 'Built and launched websites for nonprofits, churches, and small orgs.' },
+                { title: '50+ visual designs delivered', detail: 'Created original social graphics for multiple clients.' },
+                { title: 'AI-driven productivity +30%', detail: 'Improved team productivity with automation and planning tools.' },
+                { title: 'Load time -40%', detail: 'Cut load times through backend refactors and asset optimization.' },
+                { title: 'Engagement +25%', detail: 'Boosted engagement through UX improvements and AI features.' },
+                { title: '10+ websites shipped', detail: 'Delivered websites for nonprofits, churches, and small orgs.' },
+                { title: 'Remote, hybrid, or on-site', detail: 'Open to roles across remote, hybrid, or in-person setups.' },
+                { title: 'Open to research-focused roles', detail: 'Interested in applied research and experimental work.' },
+                { title: 'Hemen - AI/ML, CS, Math, Bioinformatics', detail: 'Interdisciplinary focus across AI/ML, CS, math, and bioinformatics.' },
+                { title: 'Hemenly Tech', detail: 'Personal brand for web, AI, and visual work.' },
               ]
               const groups = [
                 { label: 'Fun facts', icon: Sparkles, items: facts },
               ];
-              return <HeroSkillsFlowLanes groups={groups} lanes={3} perLane={3} speed={0.09} />;
+              return <HeroSkillsFlowLanes groups={groups} lanes={3} perLane={4} speed={0.09} />;
             })()}
           </div>
 
@@ -1669,7 +1683,7 @@ export default function App() {
                 'Amharic + English',
                 'Portland ↔ SF',
                 '1,783 followers · 500+ connections',
-                'Open to SWE/AI/Data internships',
+                'Open to SWE/AI/Data full-time',
               ]} />
             </div>
             {/* removed floating keywords per revert */}
@@ -2008,7 +2022,10 @@ function OrganizationsCarousel() {
 
 function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
   const dims = useRef({ w: typeof window !== 'undefined' ? window.innerWidth : 1200, h: typeof window !== 'undefined' ? window.innerHeight : 800 })
-  const dragRef = useRef({ active: false, x: 0 })
+  const dragRef = useRef({ active: false, x: 0, moved: false })
+  const [activeFact, setActiveFact] = useState(null)
+  const laneRange = useRef({ start: -0.35, end: 1.35 })
+  const tRef = useRef(0)
   useEffect(() => {
     const onR = () => (dims.current = { w: window.innerWidth, h: window.innerHeight })
     window.addEventListener('resize', onR)
@@ -2017,7 +2034,13 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
 
   const pool = useMemo(() => {
     const arr = []
-    groups.forEach(g => (g.items || []).forEach(t => arr.push({ title: t, icon: g.icon, cat: g.label })))
+    groups.forEach(g => (g.items || []).forEach(t => {
+      if (typeof t === 'string') {
+        arr.push({ title: t, icon: g.icon, cat: g.label })
+      } else {
+        arr.push({ title: t.title, detail: t.detail, icon: g.icon, cat: g.label })
+      }
+    }))
     return arr
   }, [groups])
 
@@ -2038,11 +2061,12 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
         }
         if (!pick) pick = pool[Math.floor(Math.random() * pool.length)]
         // t in [0,1], spread across lane
+        const span = laneRange.current.end - laneRange.current.start
         items.push({
           key: `${now}-${li}-${k}-${Math.random().toString(36).slice(2)}`,
           item: pick,
-          t: (k / perLane) * 0.9, // stagger along the path
-          dir: li % 2 === 0 ? 1 : -1, // alternate directions per lane
+          t: laneRange.current.start + (k / Math.max(1, perLane - 1)) * span, // stagger with offscreen buffer
+          dir: 1, // keep all lanes moving in the same direction
           s: speed, // consistent timing across items
         })
       }
@@ -2053,24 +2077,30 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
   useEffect(() => {
     let raf
     const loop = () => {
+      tRef.current += 0.016
       const W = Math.max(800, dims.current.w)
+      const laneStart = laneRange.current.start
+      const laneEnd = laneRange.current.end
       // advance items along lanes with consistent timing
       lanesRef.current.forEach((lane, li) => {
-        const minGap = dims.current.w < 1024 ? 0.32 : 0.22 // wider spacing on small/tablet screens
+        const laneDelay = li * 5
+        const minGap = dims.current.w < 1024 ? 0.42 : 0.30 // enforce wider spacing to prevent horizontal overlap
         lane.items.sort((a,b)=>a.t-b.t)
         for (let i=0;i<lane.items.length;i++){
           const it = lane.items[i]
-          // constant step for smooth, consistent flow
-          const dt = it.s * 0.0055
-          it.t += dt * it.dir
+          // constant step for smooth, consistent flow (staggered by lane delay)
+          if (tRef.current >= laneDelay) {
+            const dt = it.s * 0.0055
+            it.t += dt * it.dir
+          }
           // spacing (repel) within lane
           if (i>0){
             const prev = lane.items[i-1]
             if (it.t - prev.t < minGap) it.t = prev.t + minGap
           }
           // recycle at ends with unique pick
-          if (it.t > 1.05 || it.t < -0.05){
-            it.t = it.dir>0 ? -0.02 : 1.02
+          if (it.t > laneEnd + 0.1 || it.t < laneStart - 0.1){
+            it.t = it.dir>0 ? laneStart - 0.02 : laneEnd + 0.02
             // choose unique across all lanes
             const shown = new Set()
             lanesRef.current.forEach(L=>L.items.forEach(p=>shown.add(p.item.title)))
@@ -2094,7 +2124,7 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
   const nudgeAll = (delta) => {
     lanesRef.current.forEach((lane) => {
       lane.items.forEach((it) => {
-        it.t += delta * it.dir
+        it.t += delta
       })
     })
   }
@@ -2108,7 +2138,8 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
     const x = (it.t - 0.5) * (W * 0.9)
     const arc = Math.sin(it.t * Math.PI) * 28 + Math.sin(it.t * 6.28 + li * 0.6) * 8
     const y = laneY + arc
-    const phase = it.dir>0 ? it.t : 1 - it.t
+    const tNorm = Math.min(1, Math.max(0, (it.t - laneRange.current.start) / (laneRange.current.end - laneRange.current.start)))
+    const phase = it.dir>0 ? tNorm : 1 - tNorm
     const clarity = phase < 0.15 ? (phase/0.15) : phase > 0.85 ? (1 - (phase-0.85)/0.15) : 1
     const scale = dims.current.w < 1024 ? 1 : 1.05 + Math.sin(it.t * Math.PI) * 0.08
     const Icon = it.item.icon
@@ -2122,13 +2153,27 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
     return (
       <div key={it.key} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
            style={{ transform:`translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale.toFixed(3)})`, opacity: clarity }}>
-        <div className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3 py-2 lg:px-4 lg:py-3 rounded-2xl w-[230px] lg:w-[280px] border border-white/10 shadow-[0_0_24px_rgba(169,112,255,0.3)] text-slate-900 dark:text-white neon-breath hue-cycle`}
-             title={it.item.cat}>
+        <button
+          type="button"
+          onPointerDown={(e) => {
+            e.stopPropagation()
+            if (dragRef.current.moved) return
+            setActiveFact(it.item)
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
+            if (dragRef.current.moved) return
+            setActiveFact(it.item)
+          }}
+          className={`transition-all duration-300 backdrop-blur-xl bg-gradient-to-r ${pc} ring-1 px-3 py-2 lg:px-4 lg:py-3 rounded-2xl w-[230px] lg:w-[280px] border border-white/10 shadow-[0_0_24px_rgba(169,112,255,0.3)] text-slate-900 dark:text-white neon-breath hue-cycle`}
+          title={it.item.cat}
+          aria-label={`Open details for ${it.item.title}`}
+        >
           <div className="flex items-center gap-2 lg:gap-3" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.35)' }}>
             {Icon ? React.createElement(Icon, { className: 'w-5 h-5 lg:w-6 lg:h-6 text-slate-800 dark:text-white/90' }) : null}
             <span className="text-[14px] lg:text-[16px] font-extrabold truncate tracking-tight">{it.item.title}</span>
           </div>
-        </div>
+        </button>
       </div>
     )
   }
@@ -2138,23 +2183,46 @@ function HeroSkillsFlowLanes({ groups, lanes = 3, perLane = 2, speed = 0.08 }) {
       className="absolute inset-0 z-30 pointer-events-auto"
       onWheel={(e) => {
         const W = Math.max(800, dims.current.w)
-        const delta = (e.deltaY + e.deltaX) / W
-        nudgeAll(delta * 0.35)
+        const raw = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY
+        nudgeAll((raw / W) * 0.45)
       }}
       onPointerDown={(e) => {
-        dragRef.current = { active: true, x: e.clientX }
+        dragRef.current = { active: true, x: e.clientX, moved: false }
       }}
       onPointerMove={(e) => {
         if (!dragRef.current.active) return
         const W = Math.max(800, dims.current.w)
         const dx = e.clientX - dragRef.current.x
         dragRef.current.x = e.clientX
+        if (Math.abs(dx) > 4) dragRef.current.moved = true
         nudgeAll((dx / W) * 0.8)
       }}
       onPointerUp={() => { dragRef.current.active = false }}
       onPointerLeave={() => { dragRef.current.active = false }}
     >
       {lanesRef.current.map((lane) => lane.items.map(it => renderItem(lane.li, it)))}
+      {activeFact && (
+        <div className="absolute inset-0 z-40 grid place-items-center bg-black/30 backdrop-blur-sm">
+          <div className="w-[92%] max-w-xl rounded-2xl border border-white/20 bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white p-5 shadow-[0_0_28px_rgba(0,0,0,0.3)]">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-sm uppercase tracking-wide text-slate-500 dark:text-slate-300">{activeFact.cat}</div>
+                <div className="text-xl font-extrabold mt-1">{activeFact.title}</div>
+              </div>
+              <button
+                type="button"
+                className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-black/10 dark:bg-white/10"
+                onClick={() => setActiveFact(null)}
+              >
+                Close
+              </button>
+            </div>
+            <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-700 dark:text-slate-200">
+              {activeFact.detail || 'More details coming soon.'}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
