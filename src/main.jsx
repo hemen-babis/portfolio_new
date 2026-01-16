@@ -1,6 +1,6 @@
-import { StrictMode, lazy, Suspense } from 'react'
+import { StrictMode, lazy, Suspense, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import './index.css'
 const Home = lazy(() => import('./pages/Home.jsx'))
 const ExperiencePage = lazy(() => import('./pages/ExperiencePage.jsx'))
@@ -13,9 +13,18 @@ const HireMePage = lazy(() => import('./pages/HireMePage.jsx'))
 const SuccessPage = lazy(() => import('./pages/SuccessPage.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
+      <ScrollToTop />
       <Suspense fallback={<div style={{padding:'2rem', textAlign:'center'}}>Loading…</div>}>
         <Routes>
           <Route path="/" element={<Home />} />
